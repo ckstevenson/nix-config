@@ -18,22 +18,44 @@
     };
   };
 
-  sops.defaultSopsFile = ../../secrets/secrets.yaml;
-  sops.defaultSopsFormat = "yaml";
-  sops.age.keyFile = "/home/cameron/.config/sops/age/keys.txt";
-  sops.secrets."mosquitto/password" = {
-    owner = "mosquitto";
-    path = "/var/lib/mosquitto/ha-passwd";
+  sops = {
+    defaultSopsFile = ../../secrets/secrets.yaml;
+    defaultSopsFormat = "yaml";
+    age.keyFile = "/home/cameron/.config/sops/age/keys.txt";
+    secrets."mosquitto/password" = {
+      owner = "mosquitto";
+      path = "/var/lib/mosquitto/ha-passwd";
+    };
   };
 
   # Bootloader.
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
 
-  networking.hostName = "nix-server"; # Define your hostname.
+  services.tailscale.enable = true;
+
+  # https://github.com/NixOS/nixpkgs/issues/180175
+  networking = {
+    enableIPv6 = false;
+    firewall.enable = false;
+    hostId = "b3a2c54b";
+    hostName = "nix-server";
+
+    networkmanager = {
+      enable = true;
+      unmanaged = [ "tailscale0" ];
+    };
+
+    bridges = {
+      br0 = {
+        interfaces = [
+          "enp4s0f1"
+        ];
+      };
+    };
+  };
 
   # Enable ZFS support
   boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
-  networking.hostId = "b3a2c54b";
   boot.supportedFilesystems = [ "zfs" ];
   boot.zfs.extraPools = [
     "apps"
@@ -76,17 +98,6 @@
     };
   };
 
-  # Enable networking
-  networking.networkmanager.enable = true;
-  networking.enableIPv6 = false;
-  networking.bridges = {
-    br0 = {
-      interfaces = [
-        "enp4s0f1"
-      ];
-    };
-  };
-
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
 
@@ -119,26 +130,12 @@
         group = "docker";
         extraGroups = [ "video" "media" "pictures" ];
         createHome = true;
-        packages = with pkgs; [];
         openssh.authorizedKeys.keys = [
           "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDjDDJYkUuWrZJFcDhXpo7/qky3d6Y5XOGQS5YicRN1pQXd96uTzDSjap4smjOOlx6WJIGcQYZsVXA0bsOXIaBRKcp90e14YB1L3LvqItPYDvuA/7URgkmvJ1YNloAkXWS2JyYUPX+ZzNlDXcfoJ3wc8+7moZSCEZvSB2FnEEiKaBjlUzOEdP+NQBXT+Piwy6Uf2VxGnPCCuoCytAtVzEFqWS/f4jkl/cUuwCZbL+hYrepOHMk8h4645q3Fu6NGWjvGt5f+TYhFI9P9Wgu1LKa1zHhywGWpmWW3HF3lOnDd8vTQlFPm8nLi4rVuQ4T1Q9i+w520+nqE4JVb5pC5v0tm1h2SWG0svQ3wmEyRuW29o9RTyrTlY2M9CwDX7VzUqbn1jix8e44EUeoEm9FJ/uC5pp75kugCNfyDDwHcDdDF5VzU4exjQ6bDVdN3uVYxlpOpyLAV4/gQiy/eTwfJHltX6JiPhJaWRKatJ6s3OJkVDUqmbmyyTFxuFJOcD82S/8qmCzrBCVsRUcBhrvVbd9LFY/hdXHxope6ts9IUSZ66Wkuc2mdOtfxGCpKJlmWFXCZP8v4p5CT89UluQS0CerSEK/8ID6ybEJDRZkwYGv22iYkjcssH5+ZBYpGZwNdr6o1lbigWkHzJviCeBe0N0Ccs8COdvWJykURp/+vtyLnBIQ== cameron@workstation"
         ];
       };
     };
   };
-
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    restic
-    usbutils
-    git
-    intel-gpu-tools
-    pciutils
-    tailscale
-    smartmontools
-    mosquitto
-  ];
 
   # List services that you want to enable:
   virtualisation = {
@@ -194,8 +191,6 @@
     port = 8081;
   };
 
-  services.tailscale.enable = true;
-
   systemd.services = {
     backup = {
       serviceConfig.Type = "oneshot";
@@ -219,6 +214,7 @@
       	restic backup /var/lib/mosquitto
       	restic backup /var/lib/hass
       	restic backup /etc/nixos
+        restic backup /srv/docker
 
         ## Destroy the snapshot
         zfs destroy tank/pictures@backup
@@ -285,54 +281,5 @@
     };
   };
 
-#  fileSystems."/export/videos" = {
-#    device = "/mnt/videos";
-#    options = [ "bind" ];
-#  };
-#
-#  fileSystems."/export/picutres" = {
-#    device = "/mnt/pictures";
-#    options = [ "bind" ];
-#  };
-#
-#  fileSystems."/export/music" = {
-#    device = "/mnt/music";
-#    options = [ "bind" ];
-#  };
-#
-#  fileSystems."/export/games" = {
-#    device = "/mnt/games";
-#    options = [ "bind" ];
-#  };
-#
-#  services.nfs.server.enable = true;
-#  services.nfs.server.exports = ''
-#    /export           10.10.10.118(rw,fsid=0,no_subtree_check)
-#    /export/videos    10.10.10.118(rw,nohide,insecure,no_subtree_check)
-#    /export/pictures  10.10.10.118(rw,nohide,insecure,no_subtree_check)
-#    /export/games     10.10.10.118(rw,nohide,insecure,no_subtree_check)
-#    /export/music     10.10.10.118(rw,nohide,insecure,no_subtree_check)
-#  '';
-
-  # https://github.com/NixOS/nixpkgs/issues/180175
-  networking.networkmanager.unmanaged = [ "tailscale0" ];
-#  systemd.services.NetworkManager-wait-online = {
-#    serviceConfig = {
-#      ExecStart = [ "" "${pkgs.networkmanager}/bin/nm-online -q" ];
-#    };
-#  };
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  networking.firewall.enable = false;
-
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "22.11"; # Did you read the comment?
 }

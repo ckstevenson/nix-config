@@ -1,4 +1,4 @@
-{ inputs, ... }:
+{ inputs, pkgs, ... }:
 {
   imports = [
     ./cli
@@ -10,6 +10,20 @@
   ];
 
   home = {
+    packages = with pkgs; [
+      fd
+      git
+      nix-index
+      ripgrep
+      sshfs
+      tree
+      restic
+      tailscale
+      smartmontools
+      usbutils
+      pciutils
+    ];
+
     shellAliases = {
       e = "nvim";
       gs = "git status";
@@ -51,5 +65,11 @@
       base0E = "#be95ff";
       base0F = "#82cfff";
     };
+  };
+
+  programs.git = {
+    enable = true;
+    userName  = "Cameron Stevenson";
+    userEmail = "cksteve@protonmail.com";
   };
 }

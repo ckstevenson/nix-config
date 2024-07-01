@@ -6,12 +6,7 @@
   ];
 
   home.packages = with pkgs; [
-    fd
-    git
-    nix-index
-    ripgrep
-    tree
-    xdg-utils
+    intel-gpu-tools
     sops
   ];
 

@@ -13,23 +13,17 @@
     bambu-studio
     brightnessctl
     dconf
-    fd
     ferdium
-    git
     mpv
-    nix-index
     pcmanfm
     playerctl
     pulseaudio
     pulsemixer
-    ripgrep
     signal-desktop
     slack
     slack-term
-    sshfs
     sxiv
     teams-for-linux
-    tree
     xdg-utils
   ];
 
