@@ -121,7 +121,7 @@
     };
     users = {
       cameron = {
-        extraGroups = [ "networkmanager" "wheel" "libvirtd" "docker" "pictures" "media" ];
+        extraGroups = [ "networkmanager" "wheel" "docker" "pictures" "media" ];
       };
       docker = {
         isNormalUser = true;
@@ -139,7 +139,6 @@
 
   # List services that you want to enable:
   virtualisation = {
-    libvirtd.enable = true;
     docker = {
       enable = true;
       autoPrune.enable = true;
@@ -159,7 +158,7 @@
   nixpkgs.config.packageOverrides = pkgs: {
     vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
   };
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
     extraPackages = with pkgs; [
       intel-media-driver
@@ -194,7 +193,7 @@
   systemd.services = {
     backup = {
       serviceConfig.Type = "oneshot";
-      path = with pkgs; [ zfs libvirt restic ];
+      path = with pkgs; [ zfs restic ];
       script = ''
         . /root/.config/restic/vars
 
