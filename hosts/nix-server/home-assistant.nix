@@ -102,6 +102,68 @@
       ];
       automation = [
         {
+          id = "reset_living_room";
+          alias = "Reset Living Room";
+          trigger = [
+            {
+              device_id = "f54245e6994062d2a57fed0c1ca01da5";
+              domain = "zha";
+              platform = "device";
+              type = "remote_button_short_press";
+              subtype = "remote_button_short_press";
+            }
+          ];
+          condition = [];
+          action = [
+            {
+              service = "light.turn_on";
+              metadata = {};
+              data = {
+                brightness_pct = 100;
+              };
+              target = {
+                entity_id = [
+                  "light.ikea_of_sweden_tradfri_bulb_e27_ws_globe_1055lm_light"
+                  "light.ikea_of_sweden_tradfri_bulb_e27_ws_globe_1055lm_light_2"
+                  "light.ikea_of_sweden_tradfri_bulb_e27_ws_globe_1055lm_light_3"
+                  "light.ikea_of_sweden_tradfri_bulb_e27_ws_globe_1055lm_light_4"
+                ];
+              };
+            }
+          ];
+        }
+        {
+          id = "dim_living_room";
+          alias = "Dim Living Room";
+          trigger = [
+            {
+              device_id = "f54245e6994062d2a57fed0c1ca01da5";
+              domain = "zha";
+              platform = "device";
+              type = "remote_button_double_press";
+              subtype = "remote_button_double_press";
+            }
+          ];
+          condition = [];
+          action = [
+            {
+              service = "light.turn_on";
+              metadata = {};
+              data = {
+                brightness_pct = 10;
+              };
+              target = {
+                entity_id = [
+                  "light.ikea_of_sweden_tradfri_bulb_e27_ws_globe_1055lm_light"
+                  "light.ikea_of_sweden_tradfri_bulb_e27_ws_globe_1055lm_light_2"
+                  "light.ikea_of_sweden_tradfri_bulb_e27_ws_globe_1055lm_light_3"
+                  "light.ikea_of_sweden_tradfri_bulb_e27_ws_globe_1055lm_light_4"
+                ];
+              };
+            }
+          ];
+        }
+        {
           id = "gasoline_alert";
           alias = "Gasoline Alert";
           trigger = [
