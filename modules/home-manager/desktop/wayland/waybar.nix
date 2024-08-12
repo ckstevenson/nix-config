@@ -3,6 +3,7 @@
   options = {
     waybarFontSize = lib.mkOption {
       type = lib.types.str;
+      default = "16";
     };
 
     waybarStyle = lib.mkOption {

@@ -3,6 +3,7 @@
   options = {
     firefoxFontSize = lib.mkOption {
       type = lib.types.int;
+      default = 16;
     };
   };
 
