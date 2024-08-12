@@ -13,9 +13,16 @@
     };
   };
 
+  users.users = {
+    cameron = {
+      extraGroups = [ "wheel" ];
+    };
+  };
+
   networking.hostName = "ideapad";
 
   laptop.enable = true;
+  desktop.enable = true;
 
   system.stateVersion = "23.11";
 }

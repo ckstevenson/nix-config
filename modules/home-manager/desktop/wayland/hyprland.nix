@@ -77,10 +77,10 @@
         #    ];
         #};
 
-        master = {
-            # See https://wiki.hyprland.org/Configuring/Master-Layout/ for more
-            new_is_master = false;
-        };
+        #master = {
+        #    # See https://wiki.hyprland.org/Configuring/Master-Layout/ for more
+        #    new_is_master = false;
+        #};
 
         gestures = {
             # See https://wiki.hyprland.org/Configuring/Variables/ for more

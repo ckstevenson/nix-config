@@ -3,6 +3,7 @@
   options = {
     alacrittyFontSize = lib.mkOption {
       type = lib.types.int;
+      default = 14;
     };
   };
 

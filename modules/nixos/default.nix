@@ -11,8 +11,8 @@
   ];
   
   config = {
-    desktop.enable = false;
-    laptop.enable = false;
+    desktop.enable = lib.mkDefault false;
+    laptop.enable = lib.mkDefault false;
 
     # Use the systemd-boot EFI boot loader.
     boot.loader.systemd-boot.enable = true;
