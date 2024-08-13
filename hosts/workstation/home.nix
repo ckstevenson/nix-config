@@ -27,6 +27,7 @@
     teams-for-linux
     tree
     xdg-utils
+    zoom-us
   ];
 
   home.sessionVariables = {

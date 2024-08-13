@@ -1,10 +1,18 @@
-{ inputs, ... }:
+{ inputs, pkgs, ... }:
 {
   imports = [ 
     ./hardware-configuration.nix
     ../../modules/nixos
     inputs.home-manager.nixosModules.default
   ];
+
+  environment.systemPackages = with pkgs; [
+    globalprotect-openconnect
+    networkmanager-openconnect
+    networkmanagerapplet
+  ];
+
+  networking.networkmanager.enable = true;
 
   boot.initrd.kernelModules = [ "amdgpu" ];
 
@@ -17,7 +25,7 @@
 
   users.users = {
     cameron = {
-      extraGroups = [ "wheel" ];
+      extraGroups = [ "wheel" "networkmanager" ];
     };
   };
 
