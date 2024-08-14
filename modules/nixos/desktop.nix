@@ -57,7 +57,6 @@
 
     services.resolved = {
       enable = true;
-      dnssec = "true";
     };
 
     programs.hyprland.enable = true;

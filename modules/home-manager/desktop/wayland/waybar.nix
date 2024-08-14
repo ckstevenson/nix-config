@@ -86,7 +86,7 @@
           "pulseaudio" = {
             "format" = "{icon} {volume}%";
             "format-bluetooth" = "{volume}% {icon}";
-            "format-muted" = "";
+            "format-muted" = "";
             "format-icons" = {
               "headphone" = "";
               "hands-free" = "hands-free";
@@ -95,6 +95,7 @@
               "portable" = "";
               "car" = "";
               "default" = [
+                ""
                 ""
                 ""
               ];

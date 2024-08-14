@@ -10,8 +10,9 @@
     bambu-studio
     dconf
     fd
-    ferdium
+    gimp
     git
+    globalprotect-openconnect
     mpv
     nix-index
     pcmanfm
@@ -27,6 +28,7 @@
     teams-for-linux
     tree
     xdg-utils
+    zoom-us
   ];
 
   home.sessionVariables = {
