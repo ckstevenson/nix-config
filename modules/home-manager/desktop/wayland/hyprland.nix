@@ -41,7 +41,7 @@
         general = {
             # See https://wiki.hyprland.org/Configuring/Variables/ for more
             gaps_in = 5;
-            gaps_out = 20;
+            gaps_out = 5;
             border_size = 1;
             "col.active_border" = "rgba(${config.colorScheme.palette.base0E}ff) rgba(${config.colorScheme.palette.base09}ff) 60deg";
             "col.inactive_border" = "rgba(${config.colorScheme.palette.base00}ff)";
@@ -90,6 +90,8 @@
         misc = {
           # See https://wiki.hyprland.org/Configuring/Variables/ for more
           focus_on_activate = true;
+          disable_hyprland_logo = true;
+          disable_splash_rendering = true;
         };
 
         # Example per-device config

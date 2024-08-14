@@ -10,7 +10,7 @@
     bambu-studio
     dconf
     fd
-    ferdium
+    gimp
     git
     globalprotect-openconnect
     mpv
