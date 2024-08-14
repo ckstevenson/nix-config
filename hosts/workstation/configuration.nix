@@ -1,4 +1,4 @@
-{ inputs, pkgs, ... }:
+{ inputs, ... }:
 {
   imports = [ 
     ./hardware-configuration.nix
@@ -6,11 +6,7 @@
     inputs.home-manager.nixosModules.default
   ];
 
-  environment.systemPackages = with pkgs; [
-    globalprotect-openconnect
-    networkmanager-openconnect
-    networkmanagerapplet
-  ];
+  services.globalprotect.enable = true;
 
   networking.networkmanager.enable = true;
 

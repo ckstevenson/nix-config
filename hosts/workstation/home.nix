@@ -12,6 +12,7 @@
     fd
     ferdium
     git
+    globalprotect-openconnect
     mpv
     nix-index
     pcmanfm

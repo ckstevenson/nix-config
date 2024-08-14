@@ -95,7 +95,7 @@
           "browser.shell.checkDefaultBrowser" = false;
           "browser.shell.defaultBrowserCheckCount" = 1;
           "browser.startup.homepage" = "https://dashboard.germerica.us";
-          "browser.toolbars.bookmarks.visibility" = "never";
+          "browser.toolbars.bookmarks.visibility" = "always";
           "dom.security.https_only_mode" = true;
           "identity.fxaccounts.enabled" = false;
           #"layout.css.prefers-color-scheme.content-override" = 1;
