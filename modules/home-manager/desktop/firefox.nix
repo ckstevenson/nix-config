@@ -98,7 +98,6 @@
           "browser.toolbars.bookmarks.visibility" = "always";
           "dom.security.https_only_mode" = true;
           "identity.fxaccounts.enabled" = false;
-          #"layout.css.prefers-color-scheme.content-override" = 1;
           "privacy.trackingprotection.enabled" = true;
           "signon.rememberSignons" = false;
           "font.size.variable.x-western" = config.firefoxFontSize;

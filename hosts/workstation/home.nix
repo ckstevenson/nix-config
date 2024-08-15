@@ -12,7 +12,6 @@
     fd
     gimp
     git
-    globalprotect-openconnect
     mpv
     nix-index
     pcmanfm
