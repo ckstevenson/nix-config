@@ -8,6 +8,7 @@
     ./desktop.nix
     ./laptop.nix
     ./ssh.nix
+    ./global-protect.nix
   ];
   
   config = {

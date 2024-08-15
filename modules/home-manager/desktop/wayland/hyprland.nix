@@ -8,6 +8,7 @@
       systemd.enable = true;
 
       settings = {
+        monitor = " , preferred, auto, 1";
         env = [
           "XCURSOR_SIZE,24"
           "XCURSOR_THEME,Adwaita"

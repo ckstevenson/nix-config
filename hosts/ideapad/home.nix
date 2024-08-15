@@ -1,13 +1,9 @@
 { config, pkgs, ... }:
 {
-
-  firefoxFontSize = 20;
-  alacrittyFontSize = 12;
-  gtkFontSize = 14;
   backupService.enable = false;
   waybarStyle = ''
     * {
-      font-size: 13px;
+      font-size: ${config.waybarFontSize}px;
       color: #${config.colorScheme.palette.base04};
     }
     window#waybar {
@@ -45,8 +41,11 @@
   home.packages = with pkgs; [
     bambu-studio
     brightnessctl
+    chromium
     dconf
     ferdium
+    htop
+    libreoffice
     mpv
     pcmanfm
     playerctl
@@ -58,6 +57,7 @@
     sxiv
     teams-for-linux
     xdg-utils
+    zoom-us
   ];
 
   home.sessionVariables = {

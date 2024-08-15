@@ -6,8 +6,6 @@
     inputs.home-manager.nixosModules.default
   ];
 
-  services.globalprotect.enable = true;
-
   networking.networkmanager.enable = true;
 
   boot.initrd.kernelModules = [ "amdgpu" ];

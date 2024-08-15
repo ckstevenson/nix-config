@@ -23,6 +23,7 @@
 
   laptop.enable = true;
   desktop.enable = true;
+  globalProtect.enable = true;
 
   system.stateVersion = "23.11";
 }
