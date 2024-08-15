@@ -6,8 +6,6 @@
     inputs.home-manager.nixosModules.default
   ];
 
-  networking.networkmanager.enable = true;
-
   boot.initrd.kernelModules = [ "amdgpu" ];
 
   home-manager = {
@@ -19,7 +17,7 @@
 
   users.users = {
     cameron = {
-      extraGroups = [ "wheel" "networkmanager" ];
+      extraGroups = [ "wheel" ];
     };
   };
 
@@ -27,6 +25,7 @@
 
   sshd.enable = true;
   desktop.enable = true;
+  globalProtect.enable = true;
 
   system.stateVersion = "23.11";
 }

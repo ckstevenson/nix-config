@@ -11,6 +11,7 @@
     ./gtk.nix
     ./zathura.nix
     ./wayland
+    ./global-protect.nix
   ];
 
   #config = {

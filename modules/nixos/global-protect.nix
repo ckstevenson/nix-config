@@ -1,7 +1,7 @@
 { config, lib, ... }:
 {
   options = {
-    globalProtect.enable = lib.mkEnableOption "enables desktop applications";
+    globalProtect.enable = lib.mkEnableOption "enables globalprotect";
   };
 
   config = lib.mkIf config.globalProtect.enable {
