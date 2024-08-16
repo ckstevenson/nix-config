@@ -1,8 +1,4 @@
-{ config, lib, ... }: {
-#  options = {
-#    # used in imported modules if dektop is enabled
-#    desktop.enable = lib.mkEnableOption "enables desktop applications";
-#  };
+{ ... }: {
 
   imports = [
     ./alacritty.nix
@@ -14,7 +10,4 @@
     ./global-protect.nix
   ];
 
-  #config = {
-  #  desktop.enable = true;
-  #};
 }

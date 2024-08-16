@@ -1,6 +1,8 @@
 { config, pkgs, ... }:
 {
-  backupService.enable = false;
+  alacrittyFontSize = 16;
+  waybarFontSize = "20";
+  firefoxFontSize = 18;
   waybarStyle = ''
     * {
       font-size: ${config.waybarFontSize}px;
@@ -30,6 +32,8 @@
     }
   '';
 
+  nextcloudSyncService.enable = true;
+
   nixpkgs = {
     config.allowUnfree = true;
   };
@@ -41,12 +45,13 @@
   home.packages = with pkgs; [
     bambu-studio
     brightnessctl
-    chromium
     dconf
+    dnsutils
     ferdium
     htop
     libreoffice
     mpv
+    nextcloud-client
     pcmanfm
     playerctl
     pulseaudio
