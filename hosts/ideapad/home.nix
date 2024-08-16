@@ -1,6 +1,8 @@
 { config, pkgs, ... }:
 {
-  backupService.enable = false;
+  alacrittyFontSize = 16;
+  waybarFontSize = "20";
+  firefoxFontSize = 18;
   waybarStyle = ''
     * {
       font-size: ${config.waybarFontSize}px;
@@ -30,6 +32,9 @@
     }
   '';
 
+  backupService.enable = false;
+  nextcloudSyncService.enable = true;
+
   nixpkgs = {
     config.allowUnfree = true;
   };
@@ -41,12 +46,13 @@
   home.packages = with pkgs; [
     bambu-studio
     brightnessctl
-    chromium
     dconf
+    dnsutils
     ferdium
     htop
     libreoffice
     mpv
+    nextcloud-client
     pcmanfm
     playerctl
     pulseaudio
@@ -59,6 +65,11 @@
     xdg-utils
     zoom-us
   ];
+
+  #services.nextcloud-client = {
+  #  enable = true;
+  #  startInBackground = true;
+  #};
 
   home.sessionVariables = {
     NIXOS_OZONE_WL = "1";

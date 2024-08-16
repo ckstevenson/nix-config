@@ -41,7 +41,20 @@
     homeDirectory = "/home/cameron";
   };
 
-  xdg.enable = true;
+  xdg = {
+    enable = true;
+    mimeApps = {
+      enable = true;
+      defaultApplications = {
+        "text/plain" = [ "nvim.desktop" ];
+        "application/pdf" = [ "org.pwmt.zathura.desktop" ];
+        "image/*" = [ "sxiv.desktop" ];
+        "video/png" = [ "mpv.desktop" ];
+        "video/jpg" = [ "mpv.desktop" ];
+        "video/*" = [ "mpv.desktop" ];
+      };
+    };
+  };
 
   colorScheme = {
     slug = "oxocarbon-fixed";
@@ -72,4 +85,5 @@
     userName  = "Cameron Stevenson";
     userEmail = "cksteve@protonmail.com";
   };
+
 }
