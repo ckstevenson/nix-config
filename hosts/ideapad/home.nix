@@ -32,7 +32,6 @@
     }
   '';
 
-  backupService.enable = false;
   nextcloudSyncService.enable = true;
 
   nixpkgs = {
@@ -65,11 +64,6 @@
     xdg-utils
     zoom-us
   ];
-
-  #services.nextcloud-client = {
-  #  enable = true;
-  #  startInBackground = true;
-  #};
 
   home.sessionVariables = {
     NIXOS_OZONE_WL = "1";
