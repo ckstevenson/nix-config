@@ -43,7 +43,11 @@
   ];
 
   home.packages = with pkgs; [
+    _1password-gui
+    _1password
     bambu-studio
+    glow
+    bat
     brightnessctl
     dconf
     dnsutils
