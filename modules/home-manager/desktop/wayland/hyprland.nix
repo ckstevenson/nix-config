@@ -1,5 +1,63 @@
 { config, osConfig, lib, pkgs, ... }: {
   config = lib.mkIf osConfig.desktop.enable {
+    programs.hyprlock = {
+      enable = true;
+      settings = {
+        general = {
+          disable_loading_bar = true;
+          #grace = 300;
+          hide_cursor = true;
+          no_fade_in = false;
+        };
+
+        background = [
+          {
+            path = "screenshot";
+            blur_passes = 3;
+            blur_size = 8;
+          }
+        ];
+
+        input-field = [
+          {
+            size = "200, 50";
+            position = "0, -80";
+            monitor = "";
+            dots_center = true;
+            fade_on_empty = false;
+            font_color = "rgb(202, 211, 245)";
+            inner_color = "rgb(91, 96, 120)";
+            outer_color = "rgb(24, 25, 38)";
+            outline_thickness = 5;
+            #placeholder_text = '\'<span foreground="##cad3f5">Password...</span>'\';
+            shadow_passes = 2;
+          }
+        ];
+      };
+    };
+    services.hypridle = {
+      enable = true;
+      settings = {
+        general = {
+          after_sleep_cmd = "hyprctl dispatch dpms on";
+          ignore_dbus_inhibit = false;
+          lock_cmd = "hyprlock";
+        };
+
+        listener = [
+          {
+            timeout = 300;
+            on-timeout = "hyprlock";
+          }
+          {
+            timeout = 600;
+            on-timeout = "hyprctl dispatch dpms off";
+            on-resume = "hyprctl dispatch dpms on";
+          }
+        ];
+      };
+    };
+
     wayland.windowManager.hyprland = {
       enable = true;
       # Whether to enable XWayland
@@ -62,30 +120,8 @@
             "col.shadow" = "rgba(1a1a1aee)";
         };
 
-        #animations = {
-        #    enabled = "yes";
-        #
-        #    # Some default animations, see https://wiki.hyprland.org/Configuring/Animations/ for more
-        #    bezier = "myBezier, 0.05, 0.9, 0.1, 1.05";
-        #
-        #    animation =  [
-        #      "windows, 1, 7, myBezier"
-        #      "windowsOut, 1, 7, default, popin 80%"
-        #      "border, 1, 10, default"
-        #      "borderangle, 1, 8, default"
-        #      "fade, 1, 7, default"
-        #      "workspaces, 1, 6, default"
-        #    ];
-        #};
-
-        #master = {
-        #    # See https://wiki.hyprland.org/Configuring/Master-Layout/ for more
-        #    new_is_master = false;
-        #};
-
-        gestures = {
-            # See https://wiki.hyprland.org/Configuring/Variables/ for more
-            #workspace_swipe = "off";
+        master = {
+          mfact = 0.5;
         };
 
         misc = {
@@ -97,22 +133,15 @@
 
         # Example per-device config
         # See https://wiki.hyprland.org/Configuring/Keywords/#executing for more
-        #"device:epic-mouse-v1" = {
-        #    sensitivity = -0.5;
-        #};
         exec-once = [
           "wpaperd"
           "waybar"
           "lxqt-policykit-agent"
           "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
+          "rbw unlock"
+          "[workspace 10 silent] slack"
         ];
 
-        # Example windowrule v1
-        # windowrule = float, ^(kitty)$
-        # Example windowrule v2
-        # windowrulev2 = float,class:^(kitty)$,title:^(kitty)$
-        # See https://wiki.hyprland.org/Configuring/Window-Rules/ for more
-        #windowrulev2 = "nomaximizerequest, class:.*"; # You'll probably like this.
         "$mainMod" = "SUPER";
         "$terminal" = "alacritty";
 
@@ -152,14 +181,13 @@
           "$mainMod, c, exec, chromium-browser"
           "$mainMod, a, exec, $terminal -e pulsemixer"
           "$mainMod, p, exec, rbw-bemenu"
+          "$mainMod, x, exec, hyprlock"
 
           # Move focus
           "$mainMod, l, movefocus, r"
           "$mainMod, h, movefocus, l"
           "$mainMod, k, movefocus, u"
           "$mainMod, j, movefocus, d"
-         # "$mainMod, p, cyclenext, prev"
-         # "$mainMod, n, cyclenext"
 
           # Move windows
           "$mainMod SHIFT, l, movewindow, r"

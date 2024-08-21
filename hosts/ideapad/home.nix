@@ -34,45 +34,15 @@
 
   nextcloudSyncService.enable = true;
 
-  nixpkgs = {
-    config.allowUnfree = true;
-  };
-
   imports = [
     ../../modules/home-manager
   ];
 
   home.packages = with pkgs; [
-    bambu-studio
-    brightnessctl
-    dconf
-    dnsutils
-    ferdium
-    htop
-    libreoffice
-    mpv
-    nextcloud-client
-    pcmanfm
-    playerctl
-    pulseaudio
-    pulsemixer
-    signal-desktop
-    slack
-    slack-term
-    sxiv
-    teams-for-linux
-    xdg-utils
-    zoom-us
+    _1password-gui
+    _1password
+    vmware-horizon-client
   ];
-
-  home.sessionVariables = {
-    NIXOS_OZONE_WL = "1";
-    BROWSER = "firefox";
-    TERMINAL = "alacritty";
-    #SUDO_ASKPASS = "${pkgs.bemenu} --prompt $1 --password --no-exec </dev/null";
-    IMAGE = "sxiv";
-    VIDEO = "mpv";
-  };
 
   # The state version is required and should stay at the version you
   # originally installed.

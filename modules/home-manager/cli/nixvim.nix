@@ -366,6 +366,7 @@
       autoclose.enable = true;
       fugitive.enable = true;
       nvim-colorizer.enable = true;
+      surround.enable = true;
     };
   };
 }
