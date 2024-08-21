@@ -1,4 +1,4 @@
-{ lib, config, ... }:
+{ pkgs, lib, config, ... }:
 {
   options = {
     laptop.enable = lib.mkEnableOption "enables wireless networking";
@@ -10,6 +10,7 @@
     };
 
     services.thermald.enable = true;
+
   };
 }
 

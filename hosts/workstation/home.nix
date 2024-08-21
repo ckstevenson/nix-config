@@ -1,43 +1,9 @@
-{ pkgs, ... }:
+{  ... }:
 {
-  nixpkgs.config.allowUnfree = true;
 
   imports = [
     ../../modules/home-manager
   ];
-
-  home.packages = with pkgs; [
-    bambu-studio
-    dconf
-    fd
-    gimp
-    git
-    mpv
-    nix-index
-    pcmanfm
-    playerctl
-    pulseaudio
-    pulsemixer
-    ripgrep
-    signal-desktop
-    slack
-    slack-term
-    sshfs
-    sxiv
-    teams-for-linux
-    tree
-    xdg-utils
-    zoom-us
-  ];
-
-  home.sessionVariables = {
-    NIXOS_OZONE_WL = "1";
-    BROWSER = "firefox";
-    TERMINAL = "alacritty";
-    #SUDO_ASKPASS = "${pkgs.bemenu} --prompt $1 --password --no-exec </dev/null";
-    IMAGE = "sxiv";
-    VIDEO = "mpv";
-  };
 
   # The state version is required and should stay at the version you
   # originally installed.
