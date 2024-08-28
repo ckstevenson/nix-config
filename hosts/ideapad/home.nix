@@ -41,6 +41,8 @@
   home.packages = with pkgs; [
     _1password-gui
     _1password
+    remmina
+    freerdp3
     vmware-horizon-client
   ];
 

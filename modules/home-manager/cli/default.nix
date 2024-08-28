@@ -33,6 +33,7 @@
       git
       glow
       htop
+      jq
       nix-index
       pciutils
       restic
@@ -40,6 +41,7 @@
       smartmontools
       sshfs
       tailscale
+      tmux
       tree
       usbutils
       xdg-utils

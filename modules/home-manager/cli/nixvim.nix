@@ -39,7 +39,7 @@
 
     keymaps = [
       {
-        action = ":! sudo nixos-rebuild switch --flake ~/nixos/hosts/#default<cr>";
+        action = ":! sudo nixos-rebuild switch --flake ~/dev/nix-config/<cr>";
         key = "<leader>oo";
       }
       {
@@ -278,17 +278,23 @@
           };
         };
       };
+
       lsp ={
           enable = true;
           servers = {
-            ansiblels.enable = true;
+            #ansiblels.enable = true;
+            ansiblels = {
+              enable = true;
+              filetypes = ["yaml" "yaml.ansible" "ansible"];
+            };
             bashls.enable = true;
-            terraformls.enable = true;
-            pyright.enable = true;
-            gopls.enable = true;
             dockerls.enable = true;
-            nixd.enable = true;
+            gopls.enable = true;
             lua-ls.enable = true;
+            nixd.enable = true;
+            pyright.enable = true;
+            terraformls.enable = true;
+            yamlls.enable = true;
           };
       };
 
@@ -296,6 +302,8 @@
         enable = true;
         theme = "ayu_mirage";
       };
+
+      luasnip.enable = true;
 
       which-key = {
         enable = true;
