@@ -32,9 +32,25 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nix-darwin = {
+      url = "github:LnL7/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    mac-app-util.url = "github:hraban/mac-app-util";
+    nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
   };
 
-  outputs = { nixpkgs, ... }@inputs: {
+  outputs = { nixpkgs, nix-darwin, ... }@inputs: {
+    darwinConfigurations."mbp" = nix-darwin.lib.darwinSystem {
+      specialArgs = {inherit inputs;};
+      modules = [ 
+        ./hosts/mbp/configuration.nix
+        inputs.home-manager.darwinModules.home-manager
+        inputs.nix-homebrew.darwinModules.nix-homebrew
+      ];
+    };
     nixosConfigurations = {
       workstation = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs;};
