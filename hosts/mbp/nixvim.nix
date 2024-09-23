@@ -341,7 +341,7 @@
         enable = true;
         keymaps = {
           "<Leader>ff" = {
-            action = "find_files";
+            action = "find_files hidden=true";
           };
           "<Leader>fg" = {
             action = "live_grep";
@@ -399,14 +399,15 @@
       };
 
       autoclose.enable = true;
+      copilot-vim.enable = true;
       fugitive.enable = true;
       gitignore.enable = true;
       lazygit.enable = true;
       luasnip.enable = true;
       nvim-colorizer.enable = true;
-      vim-surround.enable = true;
       treesitter.enable = true;
-      copilot-vim.enable = true;
+      vim-surround.enable = true;
+      web-devicons.enable = true;
     };
   };
 }
