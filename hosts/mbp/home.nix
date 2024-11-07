@@ -11,15 +11,16 @@
     ./rbw-choose.nix
   ];
 
-  home.packages = with pkgs; [ 
-#    docker
+  home.packages = with pkgs; [
     choose-gui
     alacritty
+    dotnet-sdk_8
     awscli2
     bat
     dbeaver-bin
     dnsutils
     fd
+    gh
     git
     glow
     htop
@@ -38,6 +39,7 @@
     terraform
     tree
     wget
+    powershell
   ];
 
   # The state version is required and should stay at the version you
@@ -87,6 +89,7 @@
     TERMINAL = "alacritty";
     VIDEO = "mpv";
     PATH = "$PATH:/opt/homebrew/bin";
+    EDITOR = "nvim";
   };
   home.shellAliases = {
       e = "nvim";

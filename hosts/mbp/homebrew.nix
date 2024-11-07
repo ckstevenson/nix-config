@@ -5,6 +5,8 @@
       "1password"
       "1password-cli"
       "docker"
+      "macfuse"
+      "nextcloud"
       #"choose-gui"
  #     "alt-tab"
  #     "clipy"

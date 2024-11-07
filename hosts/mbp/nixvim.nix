@@ -49,16 +49,16 @@
         pattern = ["*"];
       }
       {
-        command = "! terraform fmt %:p";
-        event = ["BufWritePre"];
+        command = "silent ! terraform fmt %:p";
+        event = ["BufWritePost"];
         pattern = [
           "*.tf"
           "*.tfvars"
         ];
       }
       {
-        command = "! packer fmt %:p";
-        event = ["BufWritePre"];
+        command = "silent ! packer fmt %:p";
+        event = ["BufWritePost"];
         pattern = [
           "*.pkr.hcl"
           "*.pkrvars.hcl"
@@ -71,13 +71,13 @@
         action = ":! sudo nixos-rebuild switch --flake ~/nixos/hosts/#default<cr>";
         key = "<leader>oo";
       }
-      {
-        action = ":vsplit term://zsh<cr>";
-        key = "<leader><enter>";
-        options = {
-          silent = true;
-        };
-      }
+      #{
+      #  action = ":vsplit term://zsh<cr>";
+      #  key = "<leader><enter>";
+      #  options = {
+      #    silent = true;
+      #  };
+      #}
       {
         action = "*p";
         key = "<leader>p";
@@ -156,7 +156,7 @@
         };
       }
       {
-        action = ":bp | bd<CR>";
+        action = ":bd<CR>";
         key = "<leader>bd";
         options = {
           silent = true;
@@ -408,6 +408,18 @@
       treesitter.enable = true;
       vim-surround.enable = true;
       web-devicons.enable = true;
+      toggleterm = {
+        enable = true;
+        settings = {
+          direction = "float";
+          float_opts = {
+            border = "curved";
+            height = 30;
+            width = 130;
+          };
+          open_mapping = "[[<leader><enter>]]";
+        };
+      };
     };
   };
 }

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 { pkgs, ... }:
-let 
+let
   rbw-choose = pkgs.writeShellApplication {
     name = "rbw-choose";
     runtimeInputs = with pkgs; [
@@ -11,7 +11,7 @@ let
     text = ''
       item="$(rbw list | choose)"
       field="$(echo -e 'password\ntotp\nusername' | choose -p 'Field')"
-      rbw get "$item" -f "$field" | pbcopy
+      rbw get "$item" -f "$field" --clipboard
     '';
   };
 in
