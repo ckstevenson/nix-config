@@ -41,8 +41,8 @@
       default_config = {};
       homeassistant = {
         name = "Home";
-	latitude = 54.757370;
-	longitude = 9.378730;
+	      latitude = 54.757370;
+	      longitude = 9.378730;
         unit_system = "metric";
         time_zone = "Europe/Berlin";
       };
@@ -63,6 +63,57 @@
             sequence = [
               {
                 service = "notify.mobile_app_pixel_7a";
+                data = {
+                  message = "{{ message }}";
+                  title = "{{ title }}";
+                  data = {
+                    clickAction = "{{ url | default(None) }}";
+                  };
+                };
+              }
+            ];
+            fields = {
+              message = {
+                selector = {
+                  text = null;
+                };
+                name = "Message";
+                description = "The message you wanna send";
+                required = true;
+              };
+              title = {
+                selector = {
+                  text = null;
+                };
+                name = "Title";
+                description = "The title for the notification";
+                default = "Home-Assistant";
+              };
+              url = {
+                selector = {
+                  text = null;
+                };
+                name = "URL";
+                description = "An URL that opens when the notification is clicked";
+              };
+            };
+          };
+          notify_all = {
+            mode = "single";
+            icon = "mdi:bell-alert";
+            sequence = [
+              {
+                service = "notify.mobile_app_pixel_7a";
+                data = {
+                  message = "{{ message }}";
+                  title = "{{ title }}";
+                  data = {
+                    clickAction = "{{ url | default(None) }}";
+                  };
+                };
+              }
+              {
+                service = "notify.mobile_app_sm_g991b";
                 data = {
                   message = "{{ message }}";
                   title = "{{ title }}";
@@ -179,13 +230,13 @@
                 "sensor.team_am_friedenshugel_39_super"
                 "sensor.shell_friesische_str_191_super"
               ];
-              below = 1.80;
+              below = 1.60;
             }
           ];
           condition = [];
           action = [
             {
-              service = "script.notify_cameron";
+              service = "script.notify_all";
               data = {
                 title = "Cheap Gasoline";
                 message = "Gasoline is {{ trigger.to_state.state }} at {{trigger.to_state.attributes.friendly_name}}";
@@ -242,17 +293,8 @@
           alias = "Turn off desk plug";
           trigger = [
             {
-              platform = "time";
-      	      at = [
-                "22:00:00"
-                "23:00:00"
-                "00:00:00"
-                "01:00:00"
-                "02:00:00"
-                "03:00:00"
-                "04:00:00"
-                "05:00:00"
-      	      ];
+              platform = "time_pattern";
+              minutes  = "30";
             }
           ];
           condition = [
@@ -262,7 +304,7 @@
               device_id = "29c655fead33b30750cea72c1b7c547f";
               entity_id = "sensor.desk_plug_energy_power";
               domain = "sensor";
-              below = 10;
+              below = 20;
             }
             {
               type = "is_power";
@@ -270,7 +312,7 @@
               device_id = "8ce523786cb1c8189ec6351aa9922235";
               entity_id = "sensor.desk_plug_2_energy_power";
               domain = "sensor";
-              below = 10;
+              below = 20;
             }
           ];
           action = [
@@ -287,17 +329,8 @@
           alias = "Turn off living room media plug";
           trigger = [
             {
-              platform = "time";
-      	      at = [
-                "22:00:00"
-                "23:00:00"
-                "00:00:00"
-                "01:00:00"
-                "02:00:00"
-                "03:00:00"
-                "04:00:00"
-                "05:00:00"
-      	      ];
+              platform = "time_pattern";
+              minutes  = "30";
             }
           ];
           condition = [
@@ -305,16 +338,16 @@
               type = "is_power";
               condition = "device";
               device_id = "6305c5ca04bb79dc123b49713771d9bc";
-              entity_id = "sensor.living_room_media_plug_energy_power";
+              entity_id = "50d96fb70fe012d060ff100564bdd367";
               domain = "sensor";
-              below = 30;
+              below = 20;
             }
           ];
           action = [
             {
               type = "turn_off";
               device_id = "6305c5ca04bb79dc123b49713771d9bc";
-      	      entity_id = "switch.living_room_media_plug";
+      	      entity_id = "0a6dea66ecff575203b03cecc2c2fecb";
       	      domain = "switch";
             }
           ];
