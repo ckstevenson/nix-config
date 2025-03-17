@@ -19,13 +19,13 @@
         "alacritty" ~
         "terminal" ~
       ]
-      
+
       ctrl - c [
         * : skhd -k "cmd - c"
         "alacritty" ~
         "terminal" ~
       ]
-      
+
       ctrl - f [
         * : skhd -k "cmd - f"
         "alacritty" ~
@@ -37,61 +37,61 @@
         "alacritty" ~
         "terminal" ~
       ]
-      
+
       ctrl - k [
         * : skhd -k "cmd - k"
         "alacritty" ~
         "terminal" ~
       ]
-      
+
 #      ctrl - l [
 #        * : skhd -k "cmd - l"
 #        "alacritty" ~
 #        "terminal" ~
 #      ]
-      
+
       ctrl - n [
         * : skhd -k "cmd - n"
         "alacritty" ~
         "terminal" ~
       ]
-      
+
       ctrl - r [
         * : skhd -k "cmd - r"
         "alacritty" ~
         "terminal" ~
       ]
-      
+
       ctrl - t [
         * : skhd -k "cmd - t"
         "alacritty" ~
         "terminal" ~
       ]
-      
+
       shift + ctrl - t [
         * : skhd -k "shift + cmd - t"
         "alacritty" ~
         "terminal" ~
       ]
-      
+
       ctrl - v [
         * : skhd -k "cmd - v"
         "alacritty" ~
         "terminal" ~
       ]
-      
+
       ctrl - w [
         * : skhd -k "cmd - w"
         "alacritty" ~
         "terminal" ~
       ]
-      
+
       ctrl - x [
         * : skhd -k "cmd - x"
         "alacritty" ~
         "terminal" ~
       ]
-      
+
       ctrl - z [
         * : skhd -k "cmd - z"
         "alacritty" ~
@@ -105,10 +105,10 @@
       ]
 
       # focus window
-      cmd - h : yabai -m window --focus west
-      cmd - j : yabai -m window --focus south
-      cmd - k : yabai -m window --focus north
-      cmd - l : yabai -m window --focus east
+      cmd - h : yabai -m window --focus west || yabai -m display --focus west
+      cmd - j : yabai -m window --focus south || yabai -m display --focus south
+      cmd - k : yabai -m window --focus north || yabai -m display --focus north
+      cmd - l : yabai -m window --focus east || yabai -m display --focus east
 
       # move managed window
       shift + cmd - h : yabai -m window --swap west
@@ -146,18 +146,18 @@
       shift + cmd - 0 : yabai -m window --space 10
 
       # move window to space and follow
-      alt + cmd - 1 : yabai -m window --space 1; yabai -m space --focus 1
-      alt + cmd - 2 : yabai -m window --space 2; yabai -m space --focus 2
-      alt + cmd - 3 : yabai -m window --space 3; yabai -m space --focus 3
-      alt + cmd - 4 : yabai -m window --space 4; yabai -m space --focus 4
-      alt + cmd - 5 : yabai -m window --space 5; yabai -m space --focus 5
-      alt + cmd - 6 : yabai -m window --space 6; yabai -m space --focus 6
-      alt + cmd - 7 : yabai -m window --space 7; yabai -m space --focus 7
-      alt + cmd - 8 : yabai -m window --space 8; yabai -m space --focus 8
-      alt + cmd - 9 : yabai -m window --space 9; yabai -m space --focus 9
-      alt + cmd - 0 : yabai -m window --space 10; yabai -m space --focus 10
+      alt + cmd - 1 : yabai -m window --space 1 --focus
+      alt + cmd - 2 : yabai -m window --space 2 --focus
+      alt + cmd - 3 : yabai -m window --space 3 --focus
+      alt + cmd - 4 : yabai -m window --space 4 --focus
+      alt + cmd - 5 : yabai -m window --space 5 --focus
+      alt + cmd - 6 : yabai -m window --space 6 --focus
+      alt + cmd - 7 : yabai -m window --space 7 --focus
+      alt + cmd - 8 : yabai -m window --space 8 --focus
+      alt + cmd - 9 : yabai -m window --space 9 --focus
+      alt + cmd - 0 : yabai -m window --space 10 --focus
 
-      shift + cmd - f : yabai -m window --toggle native-fullscreen
+      shift + cmd - f : yabai -m window --toggle zoom-fullscreen
 
       shift + cmd - b : yabai -m space --balance
       cmd - w : open /Applications/Firefox.app

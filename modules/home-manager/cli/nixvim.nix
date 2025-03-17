@@ -1,20 +1,45 @@
-{ pkgs, ... }:
+{ ... }:
 {
-  home.packages = with pkgs; [
-    wl-clipboard
-  ];
-
   programs.nixvim = {
     enable = true;
     enableMan = true;
     viAlias = true;
     vimAlias = true;
-    clipboard.providers.wl-copy.enable = true;
-    colorschemes.oxocarbon.enable = true;
+    colorschemes.nightfox.enable = true;
+    colorschemes.nightfox.flavor = "carbonfox";
+    #colorschemes.base16.enable = true;
+    #colorschemes.base16.colorscheme = {
+    #  base00 = "#161616";
+    #  base01 = "#262626";
+    #  base02 = "#393939";
+    #  base03 = "#525252";
+    #  base04 = "#dde1e6";
+    #  base05 = "#f2f4f8";
+    #  base06 = "#ffffff";
+    #  base07 = "#08bdba";
+    #  base08 = "#ff7eb6";
+    #  base09 = "#78a9ff";
+    #  base0A = "#FFCB6B";
+    #  base0B = "#42be65";
+    #  base0C = "#3ddbd9";
+    #  base0D = "#33b1ff";
+    #  base0E = "#be95ff";
+    #  base0F = "#82cfff";
+    #};
 
-    globals = {
-      mapleader = " ";
+    nixpkgs.config.allowUnfree = true;
+
+    filetype = {
+      filename ={
+        "user-data" = "yaml";
+      };
+      pattern = {
+        ".*.pkr.*" = "tf";
+      };
     };
+    #globals = {
+    #  mapleader = " ";
+    #};
 
     opts = {
       encoding = "utf-8";
@@ -37,17 +62,34 @@
       splitbelow = true;
     };
 
+    autoCmd = [
+      {
+        command = ''%s/\s\+$//e'';
+        event = ["BufWritePre"];
+        pattern = ["*"];
+      }
+      {
+        command = "silent ! terraform fmt %:p";
+        event = ["BufWritePost"];
+        pattern = [
+          "*.tf"
+          "*.tfvars"
+        ];
+      }
+      {
+        command = "silent ! packer fmt %:p";
+        event = ["BufWritePost"];
+        pattern = [
+          "*.pkr.hcl"
+          "*.pkrvars.hcl"
+        ];
+      }
+    ];
+
     keymaps = [
       {
         action = ":! sudo nixos-rebuild switch --flake ~/nixos/hosts/#default<cr>";
         key = "<leader>oo";
-      }
-      {
-        action = ":vsplit term://zsh<cr>";
-        key = "<leader><enter>";
-        options = {
-          silent = true;
-        };
       }
       {
         action = "*p";
@@ -127,7 +169,7 @@
         };
       }
       {
-        action = ":bp | bd<CR>";
+        action = ":bd<CR>";
         key = "<leader>bd";
         options = {
           silent = true;
@@ -210,6 +252,13 @@
           silent = true;
         };
       }
+      {
+        action = "<cmd>LazyGit<CR>";
+        key = "<leader>gl";
+        options = {
+          silent = true;
+        };
+      }
     ];
 
     plugins = {
@@ -283,18 +332,29 @@
           servers = {
             ansiblels.enable = true;
             bashls.enable = true;
-            terraformls.enable = true;
-            pyright.enable = true;
-            gopls.enable = true;
+            #csharp-ls.enable = true;
+            cssls.enable = true;
+            docker_compose_language_service.enable = true;
             dockerls.enable = true;
+            gopls.enable = true;
+            html.enable = true;
+            jsonls.enable = true;
+            lua_ls.enable = true;
             nixd.enable = true;
-            lua-ls.enable = true;
+            #powershell_es.enable = true;
+            pyright.enable = true;
+            terraformls.enable = true;
+            tflint.enable = true;
+            ts_ls.enable = true;
+            typos_lsp.enable = true;
           };
       };
 
       lualine = {
         enable = true;
-        theme = "ayu_mirage";
+        settings ={
+          options.theme = "ayu_mirage";
+        };
       };
 
       which-key = {
@@ -305,7 +365,7 @@
         enable = true;
         keymaps = {
           "<Leader>ff" = {
-            action = "find_files";
+            action = "find_files hidden=true";
           };
           "<Leader>fg" = {
             action = "live_grep";
@@ -342,7 +402,7 @@
         keymaps = {
 	        addFile = "<leader>ha";
 	        cmdToggleQuickMenu = "<leader>hm";
-          navFile = { 
+          navFile = {
             "1" = "<leader>h1";
             "2" = "<leader>h2";
             "3" = "<leader>h3";
@@ -359,14 +419,34 @@
       git-worktree = {
         enable = true;
         enableTelescope = true;
-        autopush = true;
+        settings.autopush = true;
       };
 
-      treesitter.enable = true;
       autoclose.enable = true;
+      copilot-vim.enable = true;
       fugitive.enable = true;
-      nvim-colorizer.enable = true;
-      surround.enable = true;
+      gitignore.enable = true;
+      gitblame.enable = true;
+      lazygit.enable = true;
+      luasnip.enable = true;
+      colorizer.enable = true;
+      treesitter.enable = true;
+      vim-surround.enable = true;
+      web-devicons.enable = true;
+      toggleterm = {
+        enable = true;
+        settings = {
+          #direction = "horizontal";
+          #size = 35;
+          direction = "float";
+          float_opts = {
+            border = "curved";
+            height = 40;
+            width = 150;
+          };
+          open_mapping = "[[<c-CR>]]";
+        };
+      };
     };
   };
 }

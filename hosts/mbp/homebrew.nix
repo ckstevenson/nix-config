@@ -1,25 +1,21 @@
 { ... }: {
   homebrew = {
     enable = true;
+    brews = [
+      "choose-gui"
+    ];
     casks = [
       "1password"
       "1password-cli"
+      "bambu-studio"
       "docker"
-      "macfuse"
-      "nextcloud"
-      #"choose-gui"
- #     "alt-tab"
- #     "clipy"
- #     "docker"
       "firefox"
- #     "google-chrome"
- #     "karabiner-elements"
-      "microsoft-remote-desktop"
+      "macfuse"
+      "mullvadvpn"
+      "nextcloud"
       "openvpn-connect"
- #     "multitouch"
- #     "raycast"
- #     "the-unarchiver"
- #     "whatsapp"
+      "remote-desktop-manager"
+      "signal"
     ];
   };
 }

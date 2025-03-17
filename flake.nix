@@ -45,7 +45,7 @@
   outputs = { nixpkgs, nix-darwin, ... }@inputs: {
     darwinConfigurations."mbp" = nix-darwin.lib.darwinSystem {
       specialArgs = {inherit inputs;};
-      modules = [ 
+      modules = [
         ./hosts/mbp/configuration.nix
         inputs.home-manager.darwinModules.home-manager
         inputs.nix-homebrew.darwinModules.nix-homebrew

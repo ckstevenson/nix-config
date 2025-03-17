@@ -7,7 +7,7 @@
         layout = "bsp";
         window_placement = "second_child";
         mouse_follows_focus = "on";
-        focus_follows_mouse = "autofocus";
+        focus_follows_mouse = "autoraise";
         top_padding = 5;
         bottom_padding = 5;
         left_padding = 5;

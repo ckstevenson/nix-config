@@ -47,8 +47,9 @@
     autoload -Uz vcs_info
     precmd_vcs_info() { vcs_info }
     precmd_functions+=( precmd_vcs_info )
+    zstyle ':vcs_info:git:*' formats '%F{red}%r %F{cyan}%b'
     setopt prompt_subst
-    PROMPT='%F{blue}%m %F{magenta}%2~'\$vcs_info_msg_0_' %F{yellow}>%f '
+    PROMPT='%F{blue}%m '\$vcs_info_msg_0_' %F{magenta}%2~ %F{yellow}>%f '
 
     # Enable searching through history
     bindkey '^R' history-incremental-pattern-search-backward
