@@ -5,6 +5,11 @@
     enableMan = true;
     viAlias = true;
     vimAlias = true;
+    clipboard.providers =
+      if pkgs.stdenv.isLinux then {
+        wl-copy.enable = true;
+      } else {};
+
     colorschemes.nightfox.enable = true;
     colorschemes.nightfox.flavor = "carbonfox";
     #colorschemes.base16.enable = true;

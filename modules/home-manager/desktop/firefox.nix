@@ -17,9 +17,9 @@
           floccus
           multi-account-containers
           privacy-possum
-          #sponsorblock
-          #vim-vixen
-          #youtube-shorts-block
+          tridactyl
+          sponsorblock
+          youtube-shorts-block
         ];
 
         search = {

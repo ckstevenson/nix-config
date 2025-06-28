@@ -21,6 +21,11 @@
           "video/png" = [ "mpv.desktop" ];
           "video/jpg" = [ "mpv.desktop" ];
           "video/*" = [ "mpv.desktop" ];
+          "text/html" = [ "firefox.desktop" ];
+          "x-scheme-handler/http" = [ "firefox.desktop" ];
+          "x-scheme-handler/https" = "firefox.desktop";
+          "x-scheme-handler/ftp" = "firefox.desktop";
+          "x-scheme-handler/chrome" = "firefox.desktop";
         };
       };
     };

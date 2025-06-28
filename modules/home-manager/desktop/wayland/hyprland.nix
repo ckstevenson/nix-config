@@ -5,7 +5,6 @@
       settings = {
         general = {
           disable_loading_bar = true;
-          #grace = 300;
           hide_cursor = true;
           no_fade_in = false;
         };
@@ -29,7 +28,6 @@
             inner_color = "rgb(91, 96, 120)";
             outer_color = "rgb(24, 25, 38)";
             outline_thickness = 5;
-            #placeholder_text = '\'<span foreground="##cad3f5">Password...</span>'\';
             shadow_passes = 2;
           }
         ];
@@ -95,8 +93,9 @@
             };
 
             repeat_delay = 300;
-            repeat_rate = 90;
+            repeat_rate = 80;
             sensitivity = -0.2;
+            scroll_factor = 1.5;
         };
 
         general = {
@@ -210,16 +209,27 @@
           "$mainMod, 0, workspace, 10"
 
           # Move active window to a workspace with mainMod + SHIFT + [0-9]
-          "$mainMod SHIFT, 1, movetoworkspace, 1"
-          "$mainMod SHIFT, 2, movetoworkspace, 2"
-          "$mainMod SHIFT, 3, movetoworkspace, 3"
-          "$mainMod SHIFT, 4, movetoworkspace, 4"
-          "$mainMod SHIFT, 5, movetoworkspace, 5"
-          "$mainMod SHIFT, 6, movetoworkspace, 6"
-          "$mainMod SHIFT, 7, movetoworkspace, 7"
-          "$mainMod SHIFT, 8, movetoworkspace, 8"
-          "$mainMod SHIFT, 9, movetoworkspace, 9"
-          "$mainMod SHIFT, 0, movetoworkspace, 10"
+          "$mainMod SHIFT, 1, movetoworkspacesilent, 1"
+          "$mainMod SHIFT, 2, movetoworkspacesilent, 2"
+          "$mainMod SHIFT, 3, movetoworkspacesilent, 3"
+          "$mainMod SHIFT, 4, movetoworkspacesilent, 4"
+          "$mainMod SHIFT, 5, movetoworkspacesilent, 5"
+          "$mainMod SHIFT, 6, movetoworkspacesilent, 6"
+          "$mainMod SHIFT, 7, movetoworkspacesilent, 7"
+          "$mainMod SHIFT, 8, movetoworkspacesilent, 8"
+          "$mainMod SHIFT, 9, movetoworkspacesilent, 9"
+          "$mainMod SHIFT, 0, movetoworkspacesilent, 10"
+
+          "$mainMod ALT, 1, movetoworkspace, 1"
+          "$mainMod ALT, 2, movetoworkspace, 2"
+          "$mainMod ALT, 3, movetoworkspace, 3"
+          "$mainMod ALT, 4, movetoworkspace, 4"
+          "$mainMod ALT, 5, movetoworkspace, 5"
+          "$mainMod ALT, 6, movetoworkspace, 6"
+          "$mainMod ALT, 7, movetoworkspace, 7"
+          "$mainMod ALT, 8, movetoworkspace, 8"
+          "$mainMod ALT, 9, movetoworkspace, 9"
+          "$mainMod ALT, 0, movetoworkspace, 10"
 
           # Return to previous workspace
           "$mainMod, TAB, workspace, previous"
