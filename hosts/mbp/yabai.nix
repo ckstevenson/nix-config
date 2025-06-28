@@ -27,6 +27,7 @@
         yabai -m rule --add app="^System Preferences$" manage=off
         yabai -m rule --add title="Preferences$"       manage=off
         yabai -m rule --add title="Settings$"          manage=off
+        yabai -m rule --add title="^Notes$" scratchpad=Notes grid=11:11:1:1:9:9
       '';
     };
   };

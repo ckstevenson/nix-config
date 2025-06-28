@@ -10,12 +10,14 @@
       "bambu-studio"
       "docker"
       "firefox"
+      "keybase"
       "macfuse"
       "mullvadvpn"
       "nextcloud"
       "openvpn-connect"
       "remote-desktop-manager"
       "signal"
+      "yubico-authenticator"
     ];
   };
 }

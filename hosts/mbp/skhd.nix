@@ -4,6 +4,7 @@
     skhdConfig = ''
       # Open Terminal
       cmd - return : /etc/profiles/per-user/cameronstevenson/bin/alacritty
+      cmd + shift - n : yabai -m window --toggle Notes || /etc/profiles/per-user/cameronstevenson/bin/alacritty --title Notes -e nvim /Users/cameronstevenson/Documents/Notes/
       cmd - d : ls /Applications/ /Applications/Utilities/ /System/Applications/ /System/Applications/Utilities/ /Users/cameronstevenson/Applications/Home\ Manager\ Apps | grep '\.app$' | sed 's/\.app$//g' | choose | xargs -I {} open -a "{}.app"
       cmd - p : rbw-choose
 

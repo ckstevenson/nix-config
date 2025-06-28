@@ -11,11 +11,12 @@
     packages = with pkgs; [
       alacritty
       awscli2
-      #azure-cli
+      azure-cli
       jetbrains.webstorm
       clipboard-jh
       dbeaver-bin
       dotnet-sdk_8
+      dotnet-outdated
       jq
       mpv
       mysql-client
@@ -26,13 +27,16 @@
       powershell
       postgresql
       rbw
+      rclone
       redis
       slack
       spacectl
       sshfs
-      terraform
       tmux
+      terraform-docs
       wget
+      watch
+      wordnet
     ];
 
     sessionVariables = {

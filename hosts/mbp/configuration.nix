@@ -1,4 +1,4 @@
-{ lib, pkgs, inputs, ... }: {
+{ lib, pkgs, inputs, config, ... }: {
   options = {
     username = lib.mkOption {
       type = lib.types.str;
@@ -21,6 +21,7 @@
   config = {
     username = "cameronstevenson";
     homeDirectory = "/Users/cameronstevenson";
+    system.primaryUser = config.username;
 
     nixpkgs.config.allowUnfree = true;
 
@@ -104,6 +105,11 @@
     };
 
     system.defaults.WindowManager.EnableStandardClickToShowDesktop = false;
+    system.defaults.WindowManager.StageManagerHideWidgets = false;
+    system.defaults.WindowManager.StandardHideWidgets = false;
+    system.defaults.finder.NewWindowTarget = "Home";
+    system.defaults.finder.ShowExternalHardDrivesOnDesktop = false;
+    system.defaults.finder.ShowRemovableMediaOnDesktop = false;
     system.defaults.screencapture.target = "clipboard";
 
     system.defaults = {

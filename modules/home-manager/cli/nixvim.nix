@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 {
   programs.nixvim = {
     enable = true;
@@ -69,7 +69,7 @@
         pattern = ["*"];
       }
       {
-        command = "silent ! terraform fmt %:p";
+        command = "silent ! tofu fmt %:p";
         event = ["BufWritePost"];
         pattern = [
           "*.tf"
@@ -155,6 +155,20 @@
         };
       }
       {
+        action = "<C-w><";
+        key = "<C-10<";
+        options = {
+          silent = true;
+        };
+      }
+      {
+        action = "<C-w>>";
+        key = "<C-10>";
+        options = {
+          silent = true;
+        };
+      }
+      {
         action = ":bn<CR>";
         key = "<leader>bn";
         options = {
@@ -191,28 +205,28 @@
       }
       {
         action = ":exe \"vertical resize +5\"<CR>";
-        key = "<C-A-l>";
+        key = "<C-S-l>";
         options = {
           silent = true;
         };
       }
       {
         action = ":exe \"vertical resize -5\"<CR>";
-        key = "<C-A-h>";
+        key = "<C-S-h>";
         options = {
           silent = true;
         };
       }
       {
         action = ":exe \"resize +5\"<CR>";
-        key = "<C-A-k>";
+        key = "<C-S-k>";
         options = {
           silent = true;
         };
       }
       {
         action = ":exe \"resize -5\"<CR>";
-        key = "<C-A-j>";
+        key = "<C-S-j>";
         options = {
           silent = true;
         };
@@ -255,6 +269,13 @@
       {
         action = "<cmd>LazyGit<CR>";
         key = "<leader>gl";
+        options = {
+          silent = true;
+        };
+      }
+      {
+        action = "<cmd>CopilotChat<CR>";
+        key = "<C-o>";
         options = {
           silent = true;
         };
@@ -329,10 +350,18 @@
       };
       lsp ={
           enable = true;
+          preConfig = ''
+            vim.lsp.set_log_level('off')
+          '';
+          keymaps.diagnostic = {
+            "<leader>dn" = "goto_next";
+            "<leader>dp" = "goto_prev";
+            "<leader>do" = "open_float";
+          };
           servers = {
             ansiblels.enable = true;
             bashls.enable = true;
-            #csharp-ls.enable = true;
+            #csharp_ls.enable = true;
             cssls.enable = true;
             docker_compose_language_service.enable = true;
             dockerls.enable = true;
@@ -394,27 +423,38 @@
           "<Leader>ft" = {
             action = "treesitter";
           };
+          "<Leader>dd" = {
+            action = "diagnostics";
+          };
         };
       };
 
-      harpoon = {
-        enable = true;
-        keymaps = {
-	        addFile = "<leader>ha";
-	        cmdToggleQuickMenu = "<leader>hm";
-          navFile = {
-            "1" = "<leader>h1";
-            "2" = "<leader>h2";
-            "3" = "<leader>h3";
-            "4" = "<leader>h4";
-          };
-          navNext = "<leader>hn";
-          navPrev = "<leader>hp";
-          gotoTerminal =  {
-            "1" = "<leader>ht";
-          };
-        };
-      };
+      #harpoon = {
+      #  enable = true;
+      #  keymaps = [
+      #     { mode = "n"; key = "<leader>a"; action.__raw = "function() require'harpoon':list():add() end"; }
+      #     { mode = "n"; key = "<C-e>"; action.__raw = "function() require'harpoon'.ui:toggle_quick_menu(require'harpoon':list()) end"; }
+      #     { mode = "n"; key = "<C-j>"; action.__raw = "function() require'harpoon':list():select(1) end"; }
+      #     { mode = "n"; key = "<C-k>"; action.__raw = "function() require'harpoon':list():select(2) end"; }
+      #     { mode = "n"; key = "<C-l>"; action.__raw = "function() require'harpoon':list():select(3) end"; }
+      #     { mode = "n"; key = "<C-m>"; action.__raw = "function() require'harpoon':list():select(4) end"; }
+      #   ];
+      #  keymaps = {
+	    #    addFile = "<leader>ha";
+	    #    cmdToggleQuickMenu = "<leader>hm";
+      #    navFile = {
+      #      "1" = "<leader>h1";
+      #      "2" = "<leader>h2";
+      #      "3" = "<leader>h3";
+      #      "4" = "<leader>h4";
+      #    };
+      #    navNext = "<leader>hn";
+      #    navPrev = "<leader>hp";
+      #    gotoTerminal =  {
+      #      "1" = "<leader>ht";
+      #    };
+      #  };
+      #};
 
       git-worktree = {
         enable = true;
@@ -422,8 +462,10 @@
         settings.autopush = true;
       };
 
+      dap.enable = true;
       autoclose.enable = true;
       copilot-vim.enable = true;
+      copilot-chat.enable = true;
       fugitive.enable = true;
       gitignore.enable = true;
       gitblame.enable = true;
