@@ -11,7 +11,7 @@
     };
   };
 
-  programs.zsh.initExtra = ''
+  programs.zsh.initContent = ''
     bindkey '^ ' autosuggest-execute
     bindkey -v
     # bring back my bash habits
@@ -47,6 +47,7 @@
     autoload -Uz vcs_info
     precmd_vcs_info() { vcs_info }
     precmd_functions+=( precmd_vcs_info )
+    zstyle ':vcs_info:git:*' formats ' %F{red}%r on %F{cyan}%b'
     setopt prompt_subst
     PROMPT='%F{blue}%m %F{magenta}%2~'\$vcs_info_msg_0_' %F{yellow}>%f '
 

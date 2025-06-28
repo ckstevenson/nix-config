@@ -5,7 +5,7 @@ let
   rbw-choose = pkgs.writeShellApplication {
     name = "rbw-choose";
     runtimeInputs = with pkgs; [
-      choose-gui
+      # choose-gui in ./homebrew.nix
       rbw
     ];
     text = ''

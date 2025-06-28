@@ -1,4 +1,4 @@
-{ config, pkgs, lib, osConfig, ... }: {
+{ pkgs, lib, osConfig, ... }: {
 
   imports = [
     ./alacritty.nix
@@ -11,8 +11,6 @@
   ];
 
   config = lib.mkIf osConfig.desktop.enable {
-    nixpkgs.config.allowUnfree = true;
-
     xdg = {
       enable = true;
       mimeApps = {

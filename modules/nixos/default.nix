@@ -1,7 +1,18 @@
 { lib, pkgs, ...}:{
   options = {
-    # used in imported modules if dektop is enabled
     desktop.enable = lib.mkEnableOption "enables desktop applications";
+
+    username = lib.mkOption {
+      type = lib.types.str;
+      default = "cameron";
+      description = "The username of the user";
+    };
+
+    homeDirectory = lib.mkOption {
+      type = lib.types.str;
+      default = "/home/cameron";
+      description = "The home directory of the user";
+    };
   };
 
   imports = [
@@ -18,8 +29,6 @@
     # Use the systemd-boot EFI boot loader.
     boot.loader.systemd-boot.enable = true;
     boot.loader.efi.canTouchEfiVariables = true;
-
-    nixpkgs.config.allowUnfree = true;
 
     powerManagement = {
       enable = true;

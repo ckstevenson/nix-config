@@ -1,20 +1,45 @@
 { pkgs, ... }:
 {
-  home.packages = with pkgs; [
-    wl-clipboard
-  ];
-
   programs.nixvim = {
     enable = true;
     enableMan = true;
     viAlias = true;
     vimAlias = true;
-    clipboard.providers.wl-copy.enable = true;
-    colorschemes.oxocarbon.enable = true;
+    colorschemes.nightfox.enable = true;
+    colorschemes.nightfox.flavor = "carbonfox";
+    #colorschemes.base16.enable = true;
+    #colorschemes.base16.colorscheme = {
+    #  base00 = "#161616";
+    #  base01 = "#262626";
+    #  base02 = "#393939";
+    #  base03 = "#525252";
+    #  base04 = "#dde1e6";
+    #  base05 = "#f2f4f8";
+    #  base06 = "#ffffff";
+    #  base07 = "#08bdba";
+    #  base08 = "#ff7eb6";
+    #  base09 = "#78a9ff";
+    #  base0A = "#FFCB6B";
+    #  base0B = "#42be65";
+    #  base0C = "#3ddbd9";
+    #  base0D = "#33b1ff";
+    #  base0E = "#be95ff";
+    #  base0F = "#82cfff";
+    #};
 
-    globals = {
-      mapleader = " ";
+    nixpkgs.config.allowUnfree = true;
+
+    filetype = {
+      filename ={
+        "user-data" = "yaml";
+      };
+      pattern = {
+        ".*.pkr.*" = "tf";
+      };
     };
+    #globals = {
+    #  mapleader = " ";
+    #};
 
     opts = {
       encoding = "utf-8";
@@ -37,17 +62,34 @@
       splitbelow = true;
     };
 
+    autoCmd = [
+      {
+        command = ''%s/\s\+$//e'';
+        event = ["BufWritePre"];
+        pattern = ["*"];
+      }
+      {
+        command = "silent ! tofu fmt %:p";
+        event = ["BufWritePost"];
+        pattern = [
+          "*.tf"
+          "*.tfvars"
+        ];
+      }
+      {
+        command = "silent ! packer fmt %:p";
+        event = ["BufWritePost"];
+        pattern = [
+          "*.pkr.hcl"
+          "*.pkrvars.hcl"
+        ];
+      }
+    ];
+
     keymaps = [
       {
         action = ":! sudo nixos-rebuild switch --flake ~/nixos/hosts/#default<cr>";
         key = "<leader>oo";
-      }
-      {
-        action = ":vsplit term://zsh<cr>";
-        key = "<leader><enter>";
-        options = {
-          silent = true;
-        };
       }
       {
         action = "*p";
@@ -113,6 +155,20 @@
         };
       }
       {
+        action = "<C-w><";
+        key = "<C-10<";
+        options = {
+          silent = true;
+        };
+      }
+      {
+        action = "<C-w>>";
+        key = "<C-10>";
+        options = {
+          silent = true;
+        };
+      }
+      {
         action = ":bn<CR>";
         key = "<leader>bn";
         options = {
@@ -127,7 +183,7 @@
         };
       }
       {
-        action = ":bp | bd<CR>";
+        action = ":bd<CR>";
         key = "<leader>bd";
         options = {
           silent = true;
@@ -149,28 +205,28 @@
       }
       {
         action = ":exe \"vertical resize +5\"<CR>";
-        key = "<C-A-l>";
+        key = "<C-S-l>";
         options = {
           silent = true;
         };
       }
       {
         action = ":exe \"vertical resize -5\"<CR>";
-        key = "<C-A-h>";
+        key = "<C-S-h>";
         options = {
           silent = true;
         };
       }
       {
         action = ":exe \"resize +5\"<CR>";
-        key = "<C-A-k>";
+        key = "<C-S-k>";
         options = {
           silent = true;
         };
       }
       {
         action = ":exe \"resize -5\"<CR>";
-        key = "<C-A-j>";
+        key = "<C-S-j>";
         options = {
           silent = true;
         };
@@ -206,6 +262,20 @@
       {
         action = "<cmd>lua require('telescope').extensions.git_worktree.create_git_worktrees()<CR>";
         key = "<leader>gwc";
+        options = {
+          silent = true;
+        };
+      }
+      {
+        action = "<cmd>LazyGit<CR>";
+        key = "<leader>gl";
+        options = {
+          silent = true;
+        };
+      }
+      {
+        action = "<cmd>CopilotChat<CR>";
+        key = "<C-o>";
         options = {
           silent = true;
         };
@@ -280,21 +350,40 @@
       };
       lsp ={
           enable = true;
+          preConfig = ''
+            vim.lsp.set_log_level('off')
+          '';
+          keymaps.diagnostic = {
+            "<leader>dn" = "goto_next";
+            "<leader>dp" = "goto_prev";
+            "<leader>do" = "open_float";
+          };
           servers = {
             ansiblels.enable = true;
             bashls.enable = true;
-            terraformls.enable = true;
-            pyright.enable = true;
-            gopls.enable = true;
+            #csharp_ls.enable = true;
+            cssls.enable = true;
+            docker_compose_language_service.enable = true;
             dockerls.enable = true;
+            gopls.enable = true;
+            html.enable = true;
+            jsonls.enable = true;
+            lua_ls.enable = true;
             nixd.enable = true;
-            lua-ls.enable = true;
+            #powershell_es.enable = true;
+            pyright.enable = true;
+            terraformls.enable = true;
+            tflint.enable = true;
+            ts_ls.enable = true;
+            typos_lsp.enable = true;
           };
       };
 
       lualine = {
         enable = true;
-        theme = "ayu_mirage";
+        settings ={
+          options.theme = "ayu_mirage";
+        };
       };
 
       which-key = {
@@ -305,7 +394,7 @@
         enable = true;
         keymaps = {
           "<Leader>ff" = {
-            action = "find_files";
+            action = "find_files hidden=true";
           };
           "<Leader>fg" = {
             action = "live_grep";
@@ -334,39 +423,72 @@
           "<Leader>ft" = {
             action = "treesitter";
           };
+          "<Leader>dd" = {
+            action = "diagnostics";
+          };
         };
       };
 
-      harpoon = {
-        enable = true;
-        keymaps = {
-	        addFile = "<leader>ha";
-	        cmdToggleQuickMenu = "<leader>hm";
-          navFile = { 
-            "1" = "<leader>h1";
-            "2" = "<leader>h2";
-            "3" = "<leader>h3";
-            "4" = "<leader>h4";
-          };
-          navNext = "<leader>hn";
-          navPrev = "<leader>hp";
-          gotoTerminal =  {
-            "1" = "<leader>ht";
-          };
-        };
-      };
+      #harpoon = {
+      #  enable = true;
+      #  keymaps = [
+      #     { mode = "n"; key = "<leader>a"; action.__raw = "function() require'harpoon':list():add() end"; }
+      #     { mode = "n"; key = "<C-e>"; action.__raw = "function() require'harpoon'.ui:toggle_quick_menu(require'harpoon':list()) end"; }
+      #     { mode = "n"; key = "<C-j>"; action.__raw = "function() require'harpoon':list():select(1) end"; }
+      #     { mode = "n"; key = "<C-k>"; action.__raw = "function() require'harpoon':list():select(2) end"; }
+      #     { mode = "n"; key = "<C-l>"; action.__raw = "function() require'harpoon':list():select(3) end"; }
+      #     { mode = "n"; key = "<C-m>"; action.__raw = "function() require'harpoon':list():select(4) end"; }
+      #   ];
+      #  keymaps = {
+	    #    addFile = "<leader>ha";
+	    #    cmdToggleQuickMenu = "<leader>hm";
+      #    navFile = {
+      #      "1" = "<leader>h1";
+      #      "2" = "<leader>h2";
+      #      "3" = "<leader>h3";
+      #      "4" = "<leader>h4";
+      #    };
+      #    navNext = "<leader>hn";
+      #    navPrev = "<leader>hp";
+      #    gotoTerminal =  {
+      #      "1" = "<leader>ht";
+      #    };
+      #  };
+      #};
 
       git-worktree = {
         enable = true;
         enableTelescope = true;
-        autopush = true;
+        settings.autopush = true;
       };
 
-      treesitter.enable = true;
+      dap.enable = true;
       autoclose.enable = true;
+      copilot-vim.enable = true;
+      copilot-chat.enable = true;
       fugitive.enable = true;
-      nvim-colorizer.enable = true;
-      surround.enable = true;
+      gitignore.enable = true;
+      gitblame.enable = true;
+      lazygit.enable = true;
+      luasnip.enable = true;
+      colorizer.enable = true;
+      treesitter.enable = true;
+      vim-surround.enable = true;
+      web-devicons.enable = true;
+      toggleterm = {
+        enable = true;
+        settings = {
+          #direction = "horizontal";
+          #size = 35;
+          direction = "float";
+          float_opts = {
+            border = "curved";
+            height = 40;
+            width = 150;
+          };
+          open_mapping = "[[<c-CR>]]";
+        };
+      };
     };
   };
 }

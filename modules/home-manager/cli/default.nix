@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ osConfig, pkgs, ... }: {
   imports = [
     ./lf.nix
     ./rbw.nix
@@ -22,9 +22,9 @@
       VISUAL = "$EDITOR";
     };
 
-    username = "cameron";
+    username = osConfig.username;
 
-    homeDirectory = "/home/cameron";
+    homeDirectory = osConfig.homeDirectory;
 
     packages = with pkgs; [
       bat
@@ -41,25 +41,24 @@
       sshfs
       tailscale
       tree
-      usbutils
-      xdg-utils
+      #usbutils
+      #xdg-utils
     ];
   };
 
-  xdg = {
-    enable = true;
-    mimeApps = {
-      enable = true;
-      defaultApplications = {
-        "text/plain" = [ "nvim.desktop" ];
-      };
-    };
-  };
+  #xdg = {
+  #  enable = true;
+  #  mimeApps = {
+  #    enable = true;
+  #    defaultApplications = {
+  #      "text/plain" = [ "nvim.desktop" ];
+  #    };
+  #  };
+  #};
 
-  programs.git = {
-    enable = true;
-    userName  = "Cameron Stevenson";
-    userEmail = "cksteve@protonmail.com";
-  };
-
+  #programs.git = {
+  #  enable = true;
+  #  userName  = "Cameron Stevenson";
+  #  userEmail = "cksteve@protonmail.com";
+  #};
 }
