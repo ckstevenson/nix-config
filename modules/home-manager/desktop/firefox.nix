@@ -11,7 +11,7 @@
     programs.firefox = {
       enable = true;
       profiles.cameron = {
-        extensions = with inputs.firefox-addons.packages."x86_64-linux"; [
+        extensions.packages = with inputs.firefox-addons.packages."x86_64-linux"; [
           bitwarden
           darkreader
           floccus
@@ -30,9 +30,9 @@
             "Nix Packages"
           ];
           engines = {
-            "Bing".metaData.hidden = true;
-            "DuckDuckGo".metaData.hidden = true;
-            "Google".metaData.hidden = true;
+            #"Bing".metaData.hidden = true;
+            #"DuckDuckGo".metaData.hidden = true;
+            #"Google".metaData.hidden = true;
             "SearchXNG" = {
               urls = [
                 {

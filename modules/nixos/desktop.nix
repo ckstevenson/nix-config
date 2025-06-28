@@ -17,7 +17,7 @@
     # Styling
     fonts = {
       packages = with pkgs; [
-        nerdfonts
+        nerd-fonts.dejavu-sans-mono
       ];
 
       fontconfig = {

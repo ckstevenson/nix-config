@@ -37,7 +37,6 @@
       pulseaudio
       pulsemixer
       signal-desktop
-      slack
       sxiv
     ];
 

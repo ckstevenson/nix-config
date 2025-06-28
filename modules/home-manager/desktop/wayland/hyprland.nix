@@ -94,6 +94,8 @@
               natural_scroll = "false";
             };
 
+            repeat_delay = 300;
+            repeat_rate = 90;
             sensitivity = -0.2;
         };
 
@@ -139,7 +141,6 @@
           "lxqt-policykit-agent"
           "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
           "rbw unlock"
-          "[workspace 10 silent] slack"
         ];
 
         "$mainMod" = "SUPER";

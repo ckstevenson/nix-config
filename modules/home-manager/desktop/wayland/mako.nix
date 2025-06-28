@@ -2,12 +2,14 @@
   config = lib.mkIf osConfig.desktop.enable {
     services.mako = with config.colorScheme.palette; {
       enable = true;
-      backgroundColor = "#${base01}";
-      borderColor = "#${base0E}";
-      borderRadius = 5;
-      borderSize = 2;
-      textColor = "#${base04}";
-      layer = "overlay";
+      settings = {
+        background-color = "#${base01}";
+        border-color = "#${base0E}";
+        border-radius = 5;
+        border-size = 2;
+        text-olor = "#${base04}";
+        layer = "overlay";
+      };
     };
   };
 }
