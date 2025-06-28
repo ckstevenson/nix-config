@@ -30,9 +30,9 @@
             "Nix Packages"
           ];
           engines = {
-            #"Bing".metaData.hidden = true;
-            #"DuckDuckGo".metaData.hidden = true;
-            #"Google".metaData.hidden = true;
+            "bing".metaData.hidden = true;
+            "ddg".metaData.hidden = true;
+            "goo".metaData.hidden = true;
             "SearchXNG" = {
               urls = [
                 {
