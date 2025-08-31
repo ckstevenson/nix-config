@@ -11,7 +11,7 @@
     packages = with pkgs; [
       alacritty
       awscli2
-      azure-cli
+      #azure-cli
       jetbrains.webstorm
       clipboard-jh
       dbeaver-bin

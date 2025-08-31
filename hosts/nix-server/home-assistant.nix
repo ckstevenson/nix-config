@@ -293,8 +293,18 @@
           alias = "Turn off desk plug";
           trigger = [
             {
-              platform = "time_pattern";
-              minutes  = "30";
+              platform = "time";
+              at  = [
+                "22:00:00"
+                "23:00:00"
+                "00:00:00"
+                "01:00:00"
+                "02:00:00"
+                "03:00:00"
+                "04:00:00"
+                "05:00:00"
+                "06:00:00"
+              ];
             }
           ];
           condition = [
@@ -329,8 +339,18 @@
           alias = "Turn off living room media plug";
           trigger = [
             {
-              platform = "time_pattern";
-              minutes  = "30";
+              platform = "time";
+              at  = [
+                "22:00:00"
+                "23:00:00"
+                "00:00:00"
+                "01:00:00"
+                "02:00:00"
+                "03:00:00"
+                "04:00:00"
+                "05:00:00"
+                "06:00:00"
+              ];
             }
           ];
           condition = [
