@@ -16,15 +16,21 @@
       clipboard-jh
       dbeaver-bin
       dotnet-sdk_8
+      qmk
       dotnet-outdated
       jq
+      copilot-cli
+      bitwarden-desktop
+      #bitwarden-menu
       mpv
+      gh
       mysql-client
       nodePackages.prettier
       nodejs
       opentofu
       packer
       powershell
+      opencode
       postgresql
       rbw
       rclone
@@ -32,15 +38,21 @@
       slack
       spacectl
       sshfs
-      tmux
+      maccy
       terraform-docs
+      sqlcmd
+      speedtest-cli
       wget
       watch
       wordnet
+      yt-dlp
+      vscode
+      vscodium
+      #vscode-utils
     ];
 
     sessionVariables = {
-      BROWSER = "safari";
+      BROWSER = "zen";
       TERMINAL = "alacritty";
       VIDEO = "mpv";
       PATH = "$PATH:/opt/homebrew/bin";

@@ -1,6 +1,8 @@
-{ pkgs, ... }:
+{ ... }:
 {
   programs.nixvim = {
+  #
+
     enable = true;
     enableMan = true;
     viAlias = true;
@@ -247,7 +249,7 @@
       }
       {
         action = "<cmd>Telescope harpoon marks<CR>";
-        key = "<leader>hs";
+        key = "<leader>hm";
         options = {
           silent = true;
         };
@@ -280,6 +282,34 @@
           silent = true;
         };
       }
+      {
+        key = "<leader>ha";
+        action.__raw = "function() require'harpoon':list():add() end";
+      }
+      {
+        key = "<leader>hl";
+        action.__raw = "function() require'harpoon'.ui:toggle_quick_menu(require'harpoon':list()) end";
+      }
+      {
+        key = "<leader>1";
+        action.__raw = "function() require'harpoon':list():select(1) end";
+      }
+      {
+        key = "<leader>2";
+        action.__raw = "function() require'harpoon':list():select(2) end";
+      }
+      {
+        key = "<leader>3";
+        action.__raw = "function() require'harpoon':list():select(3) end";
+      }
+      {
+        key = "<leader>4";
+        action.__raw = "function() require'harpoon':list():select(4) end";
+      }
+      {
+        action = "<cmd>UndotreeToggle<cr>";
+        key = "<leader>u";
+      }
     ];
 
     plugins = {
@@ -291,18 +321,11 @@
             expand = "function(args) require('luasnip').lsp_expand(args.body) end";
           };
           sources = [
-            {
-              name = "nvim_lsp";
-            }
-            {
-              name = "luasnip";
-            }
-            {
-              name = "path";
-            }
-            {
-              name = "buffer";
-            }
+            { name = "nvim_lsp"; }
+            { name = "luasnip"; }
+            { name = "path"; }
+            { name = "buffer"; }
+            #{ name = "copilot"; }
           ];
           mapping = {
             __raw = ''
@@ -392,8 +415,23 @@
 
       telescope = {
         enable = true;
+        extensions = {
+          undo.enable = true;
+          ui-select.enable = true;
+          fzf-native.enable = true;
+          advanced-git-search.enable = true;
+        };
+        #enabledExtensions = [
+        #  "undo"
+        #  "ui-select"
+        #  "fzf-native"
+        #  "advanced-git-search"
+        #];
         keymaps = {
           "<Leader>ff" = {
+            action = "find_files";
+          };
+          "<Leader>fh" = {
             action = "find_files hidden=true";
           };
           "<Leader>fg" = {
@@ -429,57 +467,58 @@
         };
       };
 
-      #harpoon = {
-      #  enable = true;
-      #  keymaps = [
-      #     { mode = "n"; key = "<leader>a"; action.__raw = "function() require'harpoon':list():add() end"; }
-      #     { mode = "n"; key = "<C-e>"; action.__raw = "function() require'harpoon'.ui:toggle_quick_menu(require'harpoon':list()) end"; }
-      #     { mode = "n"; key = "<C-j>"; action.__raw = "function() require'harpoon':list():select(1) end"; }
-      #     { mode = "n"; key = "<C-k>"; action.__raw = "function() require'harpoon':list():select(2) end"; }
-      #     { mode = "n"; key = "<C-l>"; action.__raw = "function() require'harpoon':list():select(3) end"; }
-      #     { mode = "n"; key = "<C-m>"; action.__raw = "function() require'harpoon':list():select(4) end"; }
-      #   ];
-      #  keymaps = {
-	    #    addFile = "<leader>ha";
-	    #    cmdToggleQuickMenu = "<leader>hm";
-      #    navFile = {
-      #      "1" = "<leader>h1";
-      #      "2" = "<leader>h2";
-      #      "3" = "<leader>h3";
-      #      "4" = "<leader>h4";
-      #    };
-      #    navNext = "<leader>hn";
-      #    navPrev = "<leader>hp";
-      #    gotoTerminal =  {
-      #      "1" = "<leader>ht";
-      #    };
-      #  };
-      #};
-
       git-worktree = {
         enable = true;
         enableTelescope = true;
         settings.autopush = true;
       };
 
+      harpoon.enable = true;
       dap.enable = true;
-      autoclose.enable = true;
+      autoclose = {
+        enable = true;
+        settings = {
+          options = {
+            disable_filetype = [
+              "text"
+              "markdown"
+            ];
+          };
+          touch_regex = "[%w(%[{]";
+        };
+      };
       copilot-vim.enable = true;
-      copilot-chat.enable = true;
+      copilot-chat = {
+        enable = true;
+        settings = {
+          model = "claude-sonnet-4";
+          mappings = {
+             complete = {
+               insert = "<S-Tab>";
+             };
+          };
+        };
+      };
+      markview.enable = true;
       fugitive.enable = true;
       gitignore.enable = true;
       gitblame.enable = true;
-      lazygit.enable = true;
+      lazygit.enable = false;
       luasnip.enable = true;
       colorizer.enable = true;
       treesitter.enable = true;
       vim-surround.enable = true;
       web-devicons.enable = true;
-      toggleterm = {
-        enable = true;
+      undotree = {
+        enable = false;
         settings = {
-          #direction = "horizontal";
-          #size = 35;
+          SplitWidth = 40;
+          SetFocusWhenToggle = true;
+        };
+      };
+      toggleterm = {
+        enable = false;
+        settings = {
           direction = "float";
           float_opts = {
             border = "curved";

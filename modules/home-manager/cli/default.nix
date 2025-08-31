@@ -38,6 +38,7 @@
       restic
       ripgrep
       smartmontools
+      tmux-sessionizer
       sshfs
       tailscale
       tree
@@ -45,6 +46,21 @@
       #xdg-utils
     ];
   };
+    programs.tmux = {
+      enable = true;
+      #plugins = with pkgs.tmuxPlugins; [
+      #  tmux-sessionizer
+      #];
+      baseIndex = 1;
+      mouse = true;
+      keyMode = "vi";
+      terminal = "xterm-256color";
+      historyLimit = 10000;
+      plugins = with pkgs.tmuxPlugins; [
+        continuum
+      ];
+    };
+
 
   #xdg = {
   #  enable = true;

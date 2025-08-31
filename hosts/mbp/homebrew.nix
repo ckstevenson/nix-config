@@ -8,16 +8,17 @@
       "1password"
       "1password-cli"
       "bambu-studio"
-      "docker"
+      "docker-desktop"
       "firefox"
       "keybase"
       "macfuse"
-      "mullvadvpn"
+      "mullvad-vpn"
       "nextcloud"
       "openvpn-connect"
-      "remote-desktop-manager"
+      "retroarch"
       "signal"
       "yubico-authenticator"
+      "zen-browser"
     ];
   };
 }

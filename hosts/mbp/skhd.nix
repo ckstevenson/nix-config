@@ -161,7 +161,7 @@
       shift + cmd - f : yabai -m window --toggle zoom-fullscreen
 
       shift + cmd - b : yabai -m space --balance
-      cmd - w : open /Applications/Firefox.app
+      cmd - w : open /Applications/Zen.app
       #cmd - d : open /System/Library/CoreServices/Spotlight.app
       cmd + shift - q : yabai -m window --close
 
