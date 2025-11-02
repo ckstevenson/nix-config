@@ -33,7 +33,7 @@
         imports = [
           inputs.mac-app-util.homeManagerModules.default
           inputs.nix-colors.homeManagerModules.default
-          inputs.nixvim.homeManagerModules.nixvim
+          inputs.nixvim.homeModules.nixvim
           ./home.nix
         ];
       };

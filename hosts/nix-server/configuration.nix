@@ -19,7 +19,7 @@
   };
 
   sops = {
-    defaultSopsFile = ../../secrets/secrets.yaml;
+    defaultSopsFile = ../../secrets/services/home-assistant.yaml;
     defaultSopsFormat = "yaml";
     age.keyFile = "/home/cameron/.config/sops/age/keys.txt";
     secrets."mosquitto/password" = {

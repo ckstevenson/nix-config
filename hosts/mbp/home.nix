@@ -1,14 +1,45 @@
-{ pkgs, ... }: {
+{ config, pkgs, ... }: {
   imports = [
     ../../modules/home-manager/cli
+    ../../modules/home-manager/darwin-secure-backup.nix
     ./firefox.nix
     ./rbw-choose.nix
     ./git.nix
     ./alacritty.nix
   ];
+  
+  # SOPS configuration for secrets management
+  sops = {
+    age.keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
+    defaultSopsFile = ../../secrets/secrets.yaml;
+  };
+  
+  # Enable secure macOS backup service with SOPS integration
+  services.darwinBackupService = {
+    enable = true;
+    interval = 86400; # 24 hours
+    excludePaths = [
+      "*/Library/Caches"
+      "*/Library/Logs"
+      "*/.Trash"
+      "*/Downloads"
+      "*/.cache"
+      "*/node_modules"
+      "*/.npm"
+      "*/.nix-*"
+      "*/Applications"
+      "*/Library/CloudStorage"
+    ];
+  };
+
+  programs.opencode = {
+    enable = true;
+  };
 
   home = {
     packages = with pkgs; [
+      anki-bin
+      task-master-ai
       alacritty
       awscli2
       #azure-cli
@@ -19,18 +50,18 @@
       qmk
       dotnet-outdated
       jq
-      copilot-cli
-      bitwarden-desktop
+      #bitwarden-desktop
       #bitwarden-menu
+      mermaid-cli
       mpv
       gh
-      mysql-client
+      github-copilot-cli
+      mariadb.client
       nodePackages.prettier
       nodejs
       opentofu
       packer
       powershell
-      opencode
       postgresql
       rbw
       rclone
@@ -46,9 +77,15 @@
       watch
       wordnet
       yt-dlp
+      utm
       vscode
       vscodium
       #vscode-utils
+      # Development and pre-commit tools
+      pre-commit
+      nixpkgs-fmt
+      shellcheck
+      detect-secrets
     ];
 
     sessionVariables = {

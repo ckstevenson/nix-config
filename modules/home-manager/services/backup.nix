@@ -1,4 +1,8 @@
-{ pkgs, lib, config, ... }: {
+{ pkgs, lib, config, ... }: 
+let
+  backup = pkgs.callPackage ../pkgs/backup.nix {};
+in
+{
 
   options = {
     backupService.enable = lib.mkEnableOption "enables system backup";
@@ -13,7 +17,7 @@
           };
           Service = {
             Type = "oneshot";
-            ExecStart = "${pkgs.rbw-bemenu}/bin/rbw-menu";
+            ExecStart = "${backup}/bin/backup";
           };
         };
       };

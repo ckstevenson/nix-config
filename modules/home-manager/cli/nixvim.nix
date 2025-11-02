@@ -128,34 +128,7 @@
           silent = true;
         };
       }
-      {
-        action = "<C-w>j";
-        key = "<C-j>";
-        options = {
-          silent = true;
-        };
-      }
-      {
-        action = "<C-w>h";
-        key = "<C-h>";
-        options = {
-          silent = true;
-        };
-      }
-      {
-        action = "<C-w>k";
-        key = "<C-k>";
-        options = {
-          silent = true;
-        };
-      }
-      {
-        action = "<C-w>l";
-        key = "<C-l>";
-        options = {
-          silent = true;
-        };
-      }
+
       {
         action = "<C-w><";
         key = "<C-10<";
@@ -276,13 +249,6 @@
         };
       }
       {
-        action = "<cmd>CopilotChat<CR>";
-        key = "<C-o>";
-        options = {
-          silent = true;
-        };
-      }
-      {
         key = "<leader>ha";
         action.__raw = "function() require'harpoon':list():add() end";
       }
@@ -309,6 +275,56 @@
       {
         action = "<cmd>UndotreeToggle<cr>";
         key = "<leader>u";
+      }
+      # OpenCode keymaps
+      {
+        key = "<C-o>";
+        mode = [ "n" "x" ];
+        action.__raw = "function() require('opencode').ask('@this: ', { submit = true }) end";
+        options = {
+          desc = "Ask opencode";
+        };
+      }
+      {
+        key = "<leader>op";
+        mode = [ "n" "x" ];
+        action.__raw = "function() require('opencode').select() end";
+        options = {
+          desc = "Execute opencode action…";
+        };
+      }
+      {
+        key = "<leader>oa";
+        mode = [ "n" "x" ];
+        action.__raw = "function() require('opencode').prompt('@this') end";
+        options = {
+          desc = "Add to opencode";
+        };
+      }
+      {
+        key = "<leader>ot";
+        mode = [ "n" "t" ];
+        action.__raw = "function() require('opencode').toggle() end";
+        options = {
+          desc = "Toggle opencode";
+          silent = true;
+        };
+      }
+      {
+        key = "<S-C-u>";
+        mode = [ "n" ];
+        action.__raw = "function() require('opencode').command('session.half.page.up') end";
+        options = {
+          desc = "opencode half page up";
+        };
+      }
+      {
+        key = "<S-C-d>";
+        mode = [ "n" ];
+        action.__raw = "function() require('opencode').command('session.half.page.down') end";
+        options = {
+          desc = "opencode half page down";
+        };
       }
     ];
 
@@ -382,7 +398,6 @@
             "<leader>do" = "open_float";
           };
           servers = {
-            ansiblels.enable = true;
             bashls.enable = true;
             #csharp_ls.enable = true;
             cssls.enable = true;
@@ -489,7 +504,7 @@
       };
       copilot-vim.enable = true;
       copilot-chat = {
-        enable = true;
+        enable = false;
         settings = {
           model = "claude-sonnet-4";
           mappings = {
@@ -499,12 +514,24 @@
           };
         };
       };
+      diagram.enable = true;
       markview.enable = true;
       fugitive.enable = true;
       gitignore.enable = true;
       gitblame.enable = true;
       lazygit.enable = false;
       luasnip.enable = true;
+      opencode = {
+        enable = true;
+        #settings = {
+        #  # Ensure OpenCode uses system colors and inherits terminal theme
+        #  theme = "system";
+        #};
+      };
+      snacks = {
+        enable = true;
+        settings.input.enabled = true;
+      };
       colorizer.enable = true;
       treesitter.enable = true;
       vim-surround.enable = true;

@@ -59,6 +59,9 @@
       plugins = with pkgs.tmuxPlugins; [
         continuum
       ];
+      extraConfig = ''
+        set -g renumber-windows on
+      '';
     };
 
 

@@ -7,6 +7,7 @@
     ./desktop
     inputs.nix-colors.homeManagerModules.default
     inputs.nixvim.homeManagerModules.nixvim
+    inputs.sops-nix.homeManagerModules.sops
   ];
 
   colorScheme = {

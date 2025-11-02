@@ -1,9 +1,11 @@
 { ... }: {
   programs.git = {
     enable = true;
-    userName  = "Cameron Stevenson";
-    userEmail = "cameron.stevenson@kaleris.com";
-    extraConfig = {
+    settings = {
+      user = {
+        name  = "Cameron Stevenson";
+        email = "cameron.stevenson@kaleris.com";
+      };
       push.autoSetupRemote = true;
       url = {
          "ssh://git@github.com/" = {

@@ -7,7 +7,8 @@
     casks = [
       "1password"
       "1password-cli"
-      "bambu-studio"
+      #"bambu-studio
+      "crystalfetch"
       "docker-desktop"
       "firefox"
       "keybase"
@@ -18,7 +19,7 @@
       "retroarch"
       "signal"
       "yubico-authenticator"
-      "zen-browser"
+      "zen"
     ];
   };
 }

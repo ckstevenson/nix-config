@@ -30,6 +30,15 @@
       setopt prompt_subst
       PROMPT='%F{blue}%m %F{magenta}%2~'\$vcs_info_msg_0_' %F{yellow}>%f '
     '';
+    completionInit = ''
+      if [[ -n $(print ~/.zcompdump(Nmh+24)) ]] {
+        # Regenerate completions because the dump file hasn't been modified within the last 24 hours
+        compinit
+      } else {
+        # Reuse the existing completions file
+        compinit -C
+      }
+'';
   #  autoload -U colors && colors
 
       #bindkey "^A" vi-beginning-of-line
