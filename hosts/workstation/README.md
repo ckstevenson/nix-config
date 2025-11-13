@@ -1,9 +1,9 @@
 # Workstation - Desktop Linux System
 
 ## Overview
-**Platform:** `x86_64-linux`  
-**Hostname:** `workstation`  
-**User:** `cameron`  
+**Platform:** `x86_64-linux`
+**Hostname:** `workstation`
+**User:** `cameron`
 **Primary Role:** Desktop development system with AMD GPU support and VPN capabilities
 
 This host serves as a desktop Linux development system with a modern Wayland-based desktop environment, hardware graphics acceleration, and enterprise VPN connectivity.
@@ -134,18 +134,6 @@ networking = {
 services.resolved.enable = true;
 ```
 
-### GlobalProtect VPN
-```nix
-globalProtect.enable = true;
-# Provides: services.globalprotect.enable = true;
-```
-
-**VPN Features:**
-- Corporate VPN connectivity via GlobalProtect
-- Integrated with NetworkManager
-- Supports SSL VPN protocols
-- Compatible with Palo Alto Networks gateways
-
 ### Remote Access
 ```nix
 sshd.enable = true;  # SSH daemon enabled
@@ -185,7 +173,7 @@ imports = [
 
 **Included Module Categories:**
 - **CLI Tools** (`./cli`) - Command-line development tools
-- **Desktop Apps** (`./desktop`) - GUI applications and desktop integration  
+- **Desktop Apps** (`./desktop`) - GUI applications and desktop integration
 - **Packages** (`./pkgs`) - Additional software packages
 - **Services** (`./services`) - Background services and daemons
 
@@ -274,7 +262,7 @@ nix.settings.experimental-features = [ "nix-command" "flakes" ];
 ```
 hosts/workstation/
 ├── configuration.nix           # Main system configuration
-├── home.nix                   # Home Manager configuration  
+├── home.nix                   # Home Manager configuration
 └── hardware-configuration.nix # Auto-generated hardware config
 ```
 

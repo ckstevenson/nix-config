@@ -1,9 +1,9 @@
 # MacBook Pro (mbp) - Development Workstation
 
 ## Overview
-**Platform:** `aarch64-darwin` (Apple Silicon M-series)  
-**Hostname:** `mbp`  
-**User:** `cameronstevenson`  
+**Platform:** `aarch64-darwin` (Apple Silicon M-series)
+**Hostname:** `mbp`
+**User:** `cameronstevenson`
 **Primary Role:** Development workstation with advanced window management and comprehensive tooling
 
 This host serves as the primary development machine with a sophisticated macOS configuration optimized for productivity, featuring advanced window management, extensive development tooling, and secure backup integration.

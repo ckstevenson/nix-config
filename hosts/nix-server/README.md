@@ -6,7 +6,7 @@ The **nix-server** host represents a comprehensive home server infrastructure, f
 
 ### Hardware Profile
 - **Platform**: x86_64 Intel-based server/workstation
-- **Storage**: 
+- **Storage**:
   - Boot: UEFI EFI system partition
   - Root: ext4 filesystem
   - **ZFS Pools**: `apps` and `tank` for application data and media storage
@@ -207,7 +207,7 @@ systemd.services.backup = {
     zfs snapshot tank/pictures@backup
     zfs snapshot apps/docker@backup
     zfs snapshot apps/images@backup
-    
+
     # Backup via read-only snapshot mount points
     restic backup /mnt/pictures/.zfs/snapshot/backup/
     restic backup /var/lib/docker/.zfs/snapshot/backup/
@@ -215,12 +215,12 @@ systemd.services.backup = {
     restic backup /var/lib/hass
     restic backup /etc/nixos
     restic backup /srv/docker
-    
+
     # Cleanup snapshots
     zfs destroy tank/pictures@backup
     zfs destroy apps/images@backup
     zfs destroy apps/docker@backup
-    
+
     # Retention policy
     restic forget --keep-daily 7 --keep-weekly 4 --keep-monthly 3 --keep-yearly 1 --prune
   '';
@@ -248,10 +248,10 @@ networking = {
   firewall.enable = false; # Custom firewall via Docker/containers
   hostId = "b3a2c54b";     # ZFS requirement
   hostName = "nix-server";
-  
+
   # Network bridge for container networking
   bridges.br0.interfaces = [ "enp4s0f1" ];
-  
+
   networkmanager = {
     enable = true;
     unmanaged = [ "tailscale0" ];  # Exclude VPN interface

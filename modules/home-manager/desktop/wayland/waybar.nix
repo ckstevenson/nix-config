@@ -32,7 +32,7 @@
       '';
     };
   };
-        #font-size: ${toString config.fontSize}px;
+  #font-size: ${toString config.fontSize}px;
 
   config = lib.mkIf osConfig.desktop.enable {
     programs.waybar = {
@@ -43,7 +43,7 @@
         mainBar = {
           layer = "top";
           position = "bottom";
-          modules-left = [ "hyprland/workspaces"];
+          modules-left = [ "hyprland/workspaces" ];
           modules-center = [ "clock" ];
           modules-right = [ "battery" "backlight" "pulseaudio" "cpu" "memory" "network" "disk" ];
 
@@ -56,17 +56,17 @@
             "format-alt" = "{:%A, %B %d, %Y (%R)}  ";
             "tooltip-format" = "<tt><small>{calendar}</small></tt>";
             "calendar" = {
-              "mode"           = "year";
-              "mode-mon-col"   = 3;
-              "weeks-pos"      = "right";
-              "on-scroll"      = 1;
+              "mode" = "year";
+              "mode-mon-col" = 3;
+              "weeks-pos" = "right";
+              "on-scroll" = 1;
               "on-click-right" = "mode";
               "format" = {
-                "months" =     "<span color='#${base0D}'><b>{}</b></span>";
-                "days" =       "<span color='#${base04}'><b>{}</b></span>";
-                "weeks" =      "<span color='#${base0F}'><b>W{}</b></span>";
-                "weekdays" =   "<span color='#${base0E}'><b>{}</b></span>";
-                "today" =      "<span color='#${base0A}'><b><u>{}</u></b></span>";
+                "months" = "<span color='#${base0D}'><b>{}</b></span>";
+                "days" = "<span color='#${base04}'><b>{}</b></span>";
+                "weeks" = "<span color='#${base0F}'><b>W{}</b></span>";
+                "weekdays" = "<span color='#${base0E}'><b>{}</b></span>";
+                "today" = "<span color='#${base0A}'><b><u>{}</u></b></span>";
               };
             };
           };
@@ -105,9 +105,9 @@
             #"on-click" = "alacritty -e pulsemixer";
           };
           "disk" = {
-              "interval" = 30;
-              "format" = "󰋊 {used}/{total}";
-              "path" = "/";
+            "interval" = 30;
+            "format" = "󰋊 {used}/{total}";
+            "path" = "/";
           };
           "battery" = {
             "bat" = "BAT1";
@@ -117,13 +117,13 @@
               "critical" = 15;
             };
             "format" = "{icon} {capacity}%";
-            "format-icons" = [ "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂"];
+            "format-icons" = [ "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" ];
             "format-charging" = "󰂄 {capacity}%";
           };
           "backlight" = {
-              "device" = "intel_backlight";
-              "format" = "{icon} {percent}%";
-              "format-icons" = [ "󰃞" "󰃟" "󰃝" "󰃠" ];
+            "device" = "intel_backlight";
+            "format" = "{icon} {percent}%";
+            "format-icons" = [ "󰃞" "󰃟" "󰃝" "󰃠" ];
           };
         };
       };

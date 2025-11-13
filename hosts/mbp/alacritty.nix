@@ -39,8 +39,8 @@
           { key = "U"; mods = "Alt"; action = "ScrollHalfPageUp"; }
           { key = "D"; mods = "Alt"; action = "ScrollHalfPageDown"; }
           { key = "Key0"; mods = "Alt"; action = "ResetFontSize"; }
-          { key = "K"; mods = "Shift|Alt"; action =  "IncreaseFontSize"; }
-          { key = "J"; mods = "Shift|Alt"; action =  "DecreaseFontSize"; }
+          { key = "K"; mods = "Shift|Alt"; action = "IncreaseFontSize"; }
+          { key = "J"; mods = "Shift|Alt"; action = "DecreaseFontSize"; }
         ];
 
         hints.enabled = [
@@ -91,4 +91,3 @@
     };
   };
 }
-

@@ -1,4 +1,4 @@
-{ lib, pkgs, ...}:{
+{ lib, pkgs, ... }: {
   options = {
     desktop.enable = lib.mkEnableOption "enables desktop applications";
 
@@ -19,7 +19,6 @@
     ./desktop.nix
     ./laptop.nix
     ./ssh.nix
-    ./global-protect.nix
   ];
 
   config = {
@@ -62,4 +61,3 @@
     nix.settings.experimental-features = [ "nix-command" "flakes" ];
   };
 }
-

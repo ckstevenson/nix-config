@@ -86,38 +86,38 @@
         ];
 
         input = {
-            kb_layout = "us";
-            follow_mouse = 1;
-            kb_options = "caps:escape";
+          kb_layout = "us";
+          follow_mouse = 1;
+          kb_options = "caps:escape";
 
-            touchpad = {
-              natural_scroll = "false";
-            };
+          touchpad = {
+            natural_scroll = "false";
+          };
 
-            sensitivity = -0.2;
+          sensitivity = -0.2;
         };
 
         general = {
-            # See https://wiki.hyprland.org/Configuring/Variables/ for more
-            gaps_in = 5;
-            gaps_out = 5;
-            border_size = 1;
-            "col.active_border" = "rgba(${config.colorScheme.palette.base0E}ff) rgba(${config.colorScheme.palette.base09}ff) 60deg";
-            "col.inactive_border" = "rgba(${config.colorScheme.palette.base00}ff)";
+          # See https://wiki.hyprland.org/Configuring/Variables/ for more
+          gaps_in = 5;
+          gaps_out = 5;
+          border_size = 1;
+          "col.active_border" = "rgba(${config.colorScheme.palette.base0E}ff) rgba(${config.colorScheme.palette.base09}ff) 60deg";
+          "col.inactive_border" = "rgba(${config.colorScheme.palette.base00}ff)";
 
-            layout = "master";
+          layout = "master";
 
-            # Please see https://wiki.hyprland.org/Configuring/Tearing/ before you turn this on
-            allow_tearing = false;
+          # Please see https://wiki.hyprland.org/Configuring/Tearing/ before you turn this on
+          allow_tearing = false;
         };
 
         decoration = {
-            # See https://wiki.hyprland.org/Configuring/Variables/ for more
-            rounding = 0;
-            drop_shadow = "yes";
-            shadow_range = 4;
-            shadow_render_power = 3;
-            "col.shadow" = "rgba(1a1a1aee)";
+          # See https://wiki.hyprland.org/Configuring/Variables/ for more
+          rounding = 0;
+          drop_shadow = "yes";
+          shadow_range = 4;
+          shadow_render_power = 3;
+          "col.shadow" = "rgba(1a1a1aee)";
         };
 
         master = {

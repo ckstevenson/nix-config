@@ -37,14 +37,14 @@
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-#    opencode-flake.url = "github:aodhanhayter/opencode-flake";
+    #    opencode-flake.url = "github:aodhanhayter/opencode-flake";
     mac-app-util.url = "github:hraban/mac-app-util";
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
   };
 
   outputs = { nixpkgs, nix-darwin, ... }@inputs: {
     darwinConfigurations."mbp" = nix-darwin.lib.darwinSystem {
-      specialArgs = {inherit inputs;};
+      specialArgs = { inherit inputs; };
       modules = [
         ./hosts/mbp/configuration.nix
         inputs.home-manager.darwinModules.home-manager
@@ -53,23 +53,23 @@
     };
     nixosConfigurations = {
       workstation = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs;};
+        specialArgs = { inherit inputs; };
         modules = [
           ./hosts/workstation/configuration.nix
           inputs.home-manager.nixosModules.default
         ];
       };
       ideapad = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs;};
+        specialArgs = { inherit inputs; };
         modules = [
-	        ./hosts/ideapad/configuration.nix
+          ./hosts/ideapad/configuration.nix
           inputs.home-manager.nixosModules.default
         ];
       };
       nix-server = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs;};
+        specialArgs = { inherit inputs; };
         modules = [
-	        ./hosts/nix-server/configuration.nix
+          ./hosts/nix-server/configuration.nix
           inputs.home-manager.nixosModules.default
         ];
       };

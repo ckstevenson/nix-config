@@ -1,7 +1,7 @@
 { ... }:
 {
   programs.nixvim = {
-  #
+    #
 
     enable = true;
     enableMan = true;
@@ -32,7 +32,7 @@
     nixpkgs.config.allowUnfree = true;
 
     filetype = {
-      filename ={
+      filename = {
         "user-data" = "yaml";
       };
       pattern = {
@@ -67,12 +67,12 @@
     autoCmd = [
       {
         command = ''%s/\s\+$//e'';
-        event = ["BufWritePre"];
-        pattern = ["*"];
+        event = [ "BufWritePre" ];
+        pattern = [ "*" ];
       }
       {
         command = "silent ! tofu fmt %:p";
-        event = ["BufWritePost"];
+        event = [ "BufWritePost" ];
         pattern = [
           "*.tf"
           "*.tfvars"
@@ -80,7 +80,7 @@
       }
       {
         command = "silent ! packer fmt %:p";
-        event = ["BufWritePost"];
+        event = [ "BufWritePost" ];
         pattern = [
           "*.pkr.hcl"
           "*.pkrvars.hcl"
@@ -387,39 +387,39 @@
           };
         };
       };
-      lsp ={
-          enable = true;
-          preConfig = ''
-            vim.lsp.set_log_level('off')
-          '';
-          keymaps.diagnostic = {
-            "<leader>dn" = "goto_next";
-            "<leader>dp" = "goto_prev";
-            "<leader>do" = "open_float";
-          };
-          servers = {
-            bashls.enable = true;
-            #csharp_ls.enable = true;
-            cssls.enable = true;
-            docker_compose_language_service.enable = true;
-            dockerls.enable = true;
-            gopls.enable = true;
-            html.enable = true;
-            jsonls.enable = true;
-            lua_ls.enable = true;
-            nixd.enable = true;
-            #powershell_es.enable = true;
-            pyright.enable = true;
-            terraformls.enable = true;
-            tflint.enable = true;
-            ts_ls.enable = true;
-            typos_lsp.enable = true;
-          };
+      lsp = {
+        enable = true;
+        preConfig = ''
+          vim.lsp.set_log_level('off')
+        '';
+        keymaps.diagnostic = {
+          "<leader>dn" = "goto_next";
+          "<leader>dp" = "goto_prev";
+          "<leader>do" = "open_float";
+        };
+        servers = {
+          bashls.enable = true;
+          #csharp_ls.enable = true;
+          cssls.enable = true;
+          docker_compose_language_service.enable = true;
+          dockerls.enable = true;
+          gopls.enable = true;
+          html.enable = true;
+          jsonls.enable = true;
+          lua_ls.enable = true;
+          nixd.enable = true;
+          #powershell_es.enable = true;
+          pyright.enable = true;
+          terraformls.enable = true;
+          tflint.enable = true;
+          ts_ls.enable = true;
+          typos_lsp.enable = true;
+        };
       };
 
       lualine = {
         enable = true;
-        settings ={
+        settings = {
           options.theme = "ayu_mirage";
         };
       };
@@ -508,9 +508,9 @@
         settings = {
           model = "claude-sonnet-4";
           mappings = {
-             complete = {
-               insert = "<S-Tab>";
-             };
+            complete = {
+              insert = "<S-Tab>";
+            };
           };
         };
       };

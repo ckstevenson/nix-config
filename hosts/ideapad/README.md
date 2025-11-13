@@ -26,12 +26,11 @@ This host serves as a **mobile development workstation**, providing:
 # hosts/ideapad/configuration.nix
 {
   networking.hostName = "ideapad";
-  
+
   # Enable laptop-specific optimizations
   laptop.enable = true;
   desktop.enable = true;
-  globalProtect.enable = true;
-  
+
   system.stateVersion = "23.11";
 }
 ```
@@ -44,7 +43,7 @@ The ideapad configuration leverages several key modules:
 {
   # Wireless networking with iwd
   networking.wireless.iwd.enable = true;
-  
+
   # Thermal management for battery life
   services.thermald.enable = true;
 }
@@ -192,14 +191,6 @@ networking.wireless.iwd.enable = true;
 - **Enterprise WiFi**: Support for WPA2-Enterprise networks
 - **Power Management**: WiFi power saving for battery life
 
-### VPN Integration
-```nix
-globalProtect.enable = true;
-```
-- **Palo Alto GlobalProtect**: Enterprise VPN solution
-- **Always-On**: Automatic connection maintenance
-- **Split Tunneling**: Optimized routing for local and remote traffic
-
 ## ⚡ Power Management
 
 ### Thermal Control
@@ -279,7 +270,7 @@ hosts/ideapad/
 - Module imports and user configuration
 - System version pinning
 
-#### `hardware-configuration.nix` - Hardware Specific  
+#### `hardware-configuration.nix` - Hardware Specific
 - Boot loader and kernel module configuration
 - Filesystem and partition definitions
 - CPU-specific optimizations (Intel microcode)
@@ -358,7 +349,7 @@ restic backup ~/Documents --repo /path/to/repo
 
 ### Battery Life Considerations
 - **Compositor**: Hyprland configured with reduced animations
-- **Services**: Non-essential services disabled for power savings  
+- **Services**: Non-essential services disabled for power savings
 - **Thermal**: Active thermal management prevents throttling
 - **Display**: Manual brightness control for optimal battery usage
 

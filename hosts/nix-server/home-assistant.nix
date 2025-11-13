@@ -38,11 +38,11 @@
     config = {
       # Includes dependencies for a basic setup
       # https://www.home-assistant.io/integrations/default_config/
-      default_config = {};
+      default_config = { };
       homeassistant = {
         name = "Home";
-	      latitude = 54.757370;
-	      longitude = 9.378730;
+        latitude = 54.757370;
+        longitude = 9.378730;
         unit_system = "metric";
         time_zone = "Europe/Berlin";
       };
@@ -54,7 +54,7 @@
         ];
       };
 
-      prometheus = {};
+      prometheus = { };
       script = [
         {
           notify_cameron = {
@@ -164,11 +164,11 @@
               subtype = "remote_button_short_press";
             }
           ];
-          condition = [];
+          condition = [ ];
           action = [
             {
               service = "light.turn_on";
-              metadata = {};
+              metadata = { };
               data = {
                 brightness_pct = 100;
               };
@@ -195,11 +195,11 @@
               subtype = "remote_button_double_press";
             }
           ];
-          condition = [];
+          condition = [ ];
           action = [
             {
               service = "light.turn_on";
-              metadata = {};
+              metadata = { };
               data = {
                 brightness_pct = 10;
               };
@@ -220,7 +220,7 @@
           trigger = [
             {
               platform = "numeric_state";
-      	      entity_id = [
+              entity_id = [
                 "sensor.orlen_lilienthalstrasse_4_super"
                 "sensor.shell_ochsenweg_18_super"
                 "sensor.classic_liebigstr_10_super"
@@ -233,7 +233,7 @@
               below = 1.60;
             }
           ];
-          condition = [];
+          condition = [ ];
           action = [
             {
               service = "script.notify_all";
@@ -250,19 +250,19 @@
           trigger = [
             {
               platform = "device";
-	      type = "turned_off";
-      	      entity_id = "switch.desk_plug";
-	      device_id = "29c655fead33b30750cea72c1b7c547f";
-      	      domain = "switch";
+              type = "turned_off";
+              entity_id = "switch.desk_plug";
+              device_id = "29c655fead33b30750cea72c1b7c547f";
+              domain = "switch";
             }
           ];
-          condition = [];
+          condition = [ ];
           action = [
             {
               type = "turn_off";
               device_id = "8ce523786cb1c8189ec6351aa9922235";
-      	      entity_id = "switch.desk_plug_2";
-      	      domain = "switch";
+              entity_id = "switch.desk_plug_2";
+              domain = "switch";
             }
           ];
         }
@@ -272,19 +272,19 @@
           trigger = [
             {
               platform = "device";
-	      type = "turned_on";
-      	      entity_id = "switch.desk_plug";
-	      device_id = "29c655fead33b30750cea72c1b7c547f";
-      	      domain = "switch";
+              type = "turned_on";
+              entity_id = "switch.desk_plug";
+              device_id = "29c655fead33b30750cea72c1b7c547f";
+              domain = "switch";
             }
           ];
-          condition = [];
+          condition = [ ];
           action = [
             {
               type = "turn_on";
               device_id = "8ce523786cb1c8189ec6351aa9922235";
-      	      entity_id = "switch.desk_plug_2";
-      	      domain = "switch";
+              entity_id = "switch.desk_plug_2";
+              domain = "switch";
             }
           ];
         }
@@ -294,7 +294,7 @@
           trigger = [
             {
               platform = "time";
-              at  = [
+              at = [
                 "22:00:00"
                 "23:00:00"
                 "00:00:00"
@@ -329,8 +329,8 @@
             {
               type = "turn_off";
               device_id = "29c655fead33b30750cea72c1b7c547f";
-      	      entity_id = "switch.desk_plug";
-      	      domain = "switch";
+              entity_id = "switch.desk_plug";
+              domain = "switch";
             }
           ];
         }
@@ -340,7 +340,7 @@
           trigger = [
             {
               platform = "time";
-              at  = [
+              at = [
                 "22:00:00"
                 "23:00:00"
                 "00:00:00"
@@ -367,8 +367,8 @@
             {
               type = "turn_off";
               device_id = "6305c5ca04bb79dc123b49713771d9bc";
-      	      entity_id = "0a6dea66ecff575203b03cecc2c2fecb";
-      	      domain = "switch";
+              entity_id = "0a6dea66ecff575203b03cecc2c2fecb";
+              domain = "switch";
             }
           ];
         }

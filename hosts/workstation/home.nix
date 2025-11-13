@@ -7,7 +7,7 @@
 
   # Enable secure backup service with SOPS integration
   services.backupService.enable = true;
-  
+
   # Configure SOPS for secrets management
   sops = {
     age.keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";

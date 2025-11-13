@@ -34,6 +34,7 @@
           inputs.mac-app-util.homeManagerModules.default
           inputs.nix-colors.homeManagerModules.default
           inputs.nixvim.homeModules.nixvim
+          inputs.sops-nix.homeManagerModules.sops
           ./home.nix
         ];
       };
@@ -57,7 +58,7 @@
     nix.settings.experimental-features = "nix-command flakes";
 
     # Create /etc/zshrc that loads the nix-darwin environment.
-    programs.zsh.enable = true;  # default shell on catalina
+    programs.zsh.enable = true; # default shell on catalina
     # programs.fish.enable = true;
 
     # Set Git commit hash for darwin-version.
@@ -82,17 +83,17 @@
 
       ];
 
-  #    fontconfig = {
-  #      defaultFonts = {
-  #        monospace = ["DejaVuSansM Nerd Font Mono"];
-  #        sansSerif = ["DejaVuSansM Nerd Font"];
-  #        serif = ["DejaVuSansM Nerd Font"];
-  #      };
-  #
-  #      subpixel = {
-  #        rgba = "rgb";
-  #      };
-  #    };
+      #    fontconfig = {
+      #      defaultFonts = {
+      #        monospace = ["DejaVuSansM Nerd Font Mono"];
+      #        sansSerif = ["DejaVuSansM Nerd Font"];
+      #        serif = ["DejaVuSansM Nerd Font"];
+      #      };
+      #
+      #      subpixel = {
+      #        rgba = "rgb";
+      #      };
+      #    };
     };
     security.sudo.extraConfig = ''
       cameronstevenson ALL=(ALL) NOPASSWD: ALL
@@ -122,27 +123,27 @@
 
       # ** Dock, Mission Control
       dock = {
-          autohide = true;
-          # make smaller (default 64)
-          tilesize = 48;
+        autohide = true;
+        # make smaller (default 64)
+        tilesize = 48;
 
-          # whether to automatically rearrange spaces based on most recent use
-          # don't want if using yabai
-          mru-spaces = false;
+        # whether to automatically rearrange spaces based on most recent use
+        # don't want if using yabai
+        mru-spaces = false;
 
-          # make icons of hidden applications translucent
-          # showhidden
-          # autohide-delay
-          # animation speed
-          # autohide-time-modifier
-          # mission control animation speed
-          # expose-animation-duration
+        # make icons of hidden applications translucent
+        # showhidden
+        # autohide-delay
+        # animation speed
+        # autohide-time-modifier
+        # mission control animation speed
+        # expose-animation-duration
 
-          # defaults
-          # show-recents = true;
-          # animate opening applications from dock
-          # launchanim = true;
-          # orientation = "bottom";
+        # defaults
+        # show-recents = true;
+        # animate opening applications from dock
+        # launchanim = true;
+        # orientation = "bottom";
       };
 
       # ** Keyboard

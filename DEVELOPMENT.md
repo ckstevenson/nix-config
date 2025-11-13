@@ -81,7 +81,7 @@ pre-commit run nixpkgs-fmt --all-files
    ```bash
    # For NixOS
    nixos-rebuild build --flake .#<hostname>
-   
+
    # For Darwin
    darwin-rebuild build --flake .#mbp
    ```

@@ -7,29 +7,17 @@
     ./git.nix
     ./alacritty.nix
   ];
-  
+
   # SOPS configuration for secrets management
   sops = {
     age.keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
     defaultSopsFile = ../../secrets/secrets.yaml;
   };
-  
+
   # Enable secure macOS backup service with SOPS integration
   services.darwinBackupService = {
     enable = true;
     interval = 86400; # 24 hours
-    excludePaths = [
-      "*/Library/Caches"
-      "*/Library/Logs"
-      "*/.Trash"
-      "*/Downloads"
-      "*/.cache"
-      "*/node_modules"
-      "*/.npm"
-      "*/.nix-*"
-      "*/Applications"
-      "*/Library/CloudStorage"
-    ];
   };
 
   programs.opencode = {
@@ -44,6 +32,7 @@
       awscli2
       #azure-cli
       jetbrains.webstorm
+      teams
       clipboard-jh
       dbeaver-bin
       dotnet-sdk_8
@@ -86,6 +75,7 @@
       nixpkgs-fmt
       shellcheck
       detect-secrets
+      volatility3
     ];
 
     sessionVariables = {
@@ -118,26 +108,26 @@
   };
 
   colorScheme = {
-     slug = "oxocarbon-fixed";
-     name = "Oxocarbon Fixed";
-     author = "Cameron Stevenson";
-     palette = {
-       base00 = "#161616";
-       base01 = "#262626";
-       base02 = "#393939";
-       base03 = "#525252";
-       base04 = "#dde1e6";
-       base05 = "#f2f4f8";
-       base06 = "#ffffff";
-       base07 = "#08bdba";
-       base08 = "#ff7eb6";
-       base09 = "#78a9ff";
-       base0A = "#FFCB6B";
-       base0B = "#42be65";
-       base0C = "#3ddbd9";
-       base0D = "#33b1ff";
-       base0E = "#be95ff";
-       base0F = "#82cfff";
-     };
-   };
+    slug = "oxocarbon-fixed";
+    name = "Oxocarbon Fixed";
+    author = "Cameron Stevenson";
+    palette = {
+      base00 = "#161616";
+      base01 = "#262626";
+      base02 = "#393939";
+      base03 = "#525252";
+      base04 = "#dde1e6";
+      base05 = "#f2f4f8";
+      base06 = "#ffffff";
+      base07 = "#08bdba";
+      base08 = "#ff7eb6";
+      base09 = "#78a9ff";
+      base0A = "#FFCB6B";
+      base0B = "#42be65";
+      base0C = "#3ddbd9";
+      base0D = "#33b1ff";
+      base0E = "#be95ff";
+      base0F = "#82cfff";
+    };
+  };
 }

@@ -46,23 +46,23 @@
       #xdg-utils
     ];
   };
-    programs.tmux = {
-      enable = true;
-      #plugins = with pkgs.tmuxPlugins; [
-      #  tmux-sessionizer
-      #];
-      baseIndex = 1;
-      mouse = true;
-      keyMode = "vi";
-      terminal = "xterm-256color";
-      historyLimit = 10000;
-      plugins = with pkgs.tmuxPlugins; [
-        continuum
-      ];
-      extraConfig = ''
-        set -g renumber-windows on
-      '';
-    };
+  programs.tmux = {
+    enable = true;
+    #plugins = with pkgs.tmuxPlugins; [
+    #  tmux-sessionizer
+    #];
+    baseIndex = 1;
+    mouse = true;
+    keyMode = "vi";
+    terminal = "xterm-256color";
+    historyLimit = 10000;
+    plugins = with pkgs.tmuxPlugins; [
+      continuum
+    ];
+    extraConfig = ''
+      set -g renumber-windows on
+    '';
+  };
 
 
   #xdg = {

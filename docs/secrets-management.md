@@ -34,7 +34,7 @@ Each host should have its own age key for security isolation:
 
 - `nix-server`: Production server key (existing)
 - `mbp`: Development environment key (to be generated)
-- `workstation`: Desktop key (to be generated) 
+- `workstation`: Desktop key (to be generated)
 - `ideapad`: Laptop key (to be generated)
 - Recovery key: Offline backup key (to be generated)
 
@@ -107,7 +107,7 @@ The old `secrets/secrets.yaml` file contained all secrets in a single file with 
     defaultSopsFile = ../../secrets/hosts/nix-server.yaml;
     defaultSopsFormat = "yaml";
     age.keyFile = "/home/cameron/.config/sops/age/keys.txt";
-    
+
     secrets = {
       "api_keys/some_service" = {
         owner = "some-user";
@@ -125,7 +125,7 @@ The old `secrets/secrets.yaml` file contained all secrets in a single file with 
   sops = {
     defaultSopsFile = ../../secrets/hosts/mbp.yaml;
     age.keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
-    
+
     secrets = {
       "personal/ssh_key" = {
         path = "${config.home.homeDirectory}/.ssh/personal_key";

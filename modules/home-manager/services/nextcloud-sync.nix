@@ -3,7 +3,7 @@
   options = {
     nextcloudSyncService.enable = lib.mkEnableOption "enables nextcloud sync service and timer";
   };
-  
+
   config = lib.mkIf config.nextcloudSyncService.enable {
     home.file = {
       ".config/Nextcloud/sync-exclude.lst".text = ''
@@ -65,7 +65,7 @@
         *.sb-*
       '';
     };
-    systemd.user = { 
+    systemd.user = {
       services = {
         nextcloud-sync = {
           Unit = {
@@ -83,8 +83,8 @@
             Description = "Timer to backup up system";
           };
           Timer = {
-            OnStartupSec="5m";
-            OnUnitActiveSec="10m";
+            OnStartupSec = "5m";
+            OnUnitActiveSec = "10m";
           };
           Install = {
             WantedBy = [ "timers.target" ];

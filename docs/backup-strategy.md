@@ -62,7 +62,7 @@ darwinBackupService.enable = true;
 **Backup Script**: `modules/home-manager/pkgs/darwin-backup.nix`
 - Backs up `$HOME` directory with macOS-specific exclusions:
   - `~/Library/Caches`
-  - `~/Library/Logs` 
+  - `~/Library/Logs`
   - `~/.Trash`
   - `~/Downloads`
   - `~/.cache`
@@ -134,7 +134,7 @@ restic restore latest --target ~/restore/
    # Clone nix-config repository
    git clone https://github.com/username/nix-config.git
    cd nix-config
-   
+
    # Apply configuration
    home-manager switch --flake .#hostname
    ```
@@ -143,10 +143,10 @@ restic restore latest --target ~/restore/
    # Set environment variables (or run through rbw)
    export RESTIC_REPOSITORY="swift://container/hostname"
    export RESTIC_PASSWORD="$(rbw get --field password restic-backups)"
-   
+
    # List available snapshots
    restic snapshots
-   
+
    # Restore latest snapshot
    restic restore latest --target $HOME
    ```
@@ -225,7 +225,7 @@ launchctl load ~/Library/LaunchAgents/backup.service.plist
 - Review backup logs for errors
 - Verify recent snapshots exist
 
-### Monthly  
+### Monthly
 - Run full repository integrity check:
   ```bash
   restic check --read-data
@@ -248,7 +248,7 @@ launchctl load ~/Library/LaunchAgents/backup.service.plist
 
 ### Integration Opportunities
 - Home Assistant backup status notifications
-- Prometheus metrics for backup monitoring  
+- Prometheus metrics for backup monitoring
 - Grafana dashboard for backup analytics
 - Automated backup testing pipeline
 

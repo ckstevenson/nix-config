@@ -5,13 +5,13 @@
 keys:
   # Primary administrative key - has access to all secrets
   - &primary age1vml7vp242mag7qd3cpg94gaaej6dd2nzn8yvzaqh6vk2hajfyssq0jj587
-  
-  # Future host-specific keys (generate with: age-keygen)
-  # - &mbp age1234567890abcdef...       # MacBook Pro key
-  # - &workstation age1234567890abcdef... # Workstation key  
+
+  # Host-specific keys
+  - &mbp age13qsxcjp43x7h8a5wtnxzfhwdppu0k98l256r3etj7plrdg33cq3sryswqe  # MacBook Pro key
+  # - &workstation age1234567890abcdef... # Workstation key
   # - &nix-server age1234567890abcdef...  # Nix-server key
   # - &ideapad age1234567890abcdef...     # Ideapad key
-  
+
   # Recovery key for emergency access (store securely offline)
   # - &recovery age1234567890abcdef...
 
@@ -21,42 +21,43 @@ creation_rules:
     key_groups:
       - age:
         - *primary
-        
+
   # Host-specific secrets
   - path_regex: secrets/hosts/mbp.yaml$
     key_groups:
       - age:
         - *primary
         # - *mbp        # Uncomment when host-specific key is generated
-        
+
   - path_regex: secrets/hosts/workstation.yaml$
     key_groups:
       - age:
         - *primary
         # - *workstation # Uncomment when host-specific key is generated
-        
+
   - path_regex: secrets/hosts/nix-server.yaml$
     key_groups:
       - age:
         - *primary
         # - *nix-server  # Uncomment when host-specific key is generated
-        
+
   - path_regex: secrets/hosts/ideapad.yaml$
     key_groups:
       - age:
         - *primary
         # - *ideapad     # Uncomment when host-specific key is generated
-        
+
   # Service-specific secrets (accessible by relevant hosts)
   - path_regex: secrets/services/home-assistant.yaml$
     key_groups:
       - age:
         - *primary
         # - *nix-server  # Home Assistant runs on nix-server
-        
+
   # Backup and recovery secrets
   - path_regex: secrets/backup/.*\.yaml$
     key_groups:
       - age:
         - *primary
+        - *mbp         # MacBook Pro needs access to backup secrets
         # - *recovery    # Recovery key should have access to backup secrets

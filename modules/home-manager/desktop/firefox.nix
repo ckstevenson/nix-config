@@ -45,7 +45,7 @@
                   ];
                 }
               ];
-              definedAliases = ["@s"];
+              definedAliases = [ "@s" ];
             };
             "Github" = {
               urls = [
@@ -59,7 +59,7 @@
                   ];
                 }
               ];
-              definedAliases = ["@gh"];
+              definedAliases = [ "@gh" ];
             };
             "Nix Packages" = {
               urls = [
@@ -82,7 +82,7 @@
                 }
               ];
               icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
-              definedAliases = ["@n"];
+              definedAliases = [ "@n" ];
             };
           };
         };
@@ -107,4 +107,3 @@
     };
   };
 }
-

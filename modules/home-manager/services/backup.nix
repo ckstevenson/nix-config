@@ -1,15 +1,15 @@
-{ pkgs, lib, config, ... }: 
+{ pkgs, lib, config, ... }:
 let
-  backup = pkgs.callPackage ../pkgs/backup.nix {};
+  backup = pkgs.callPackage ../pkgs/backup.nix { };
 in
 {
 
   options = {
     backupService.enable = lib.mkEnableOption "enables system backup";
   };
-  
+
   config = lib.mkIf config.backupService.enable {
-    systemd.user = { 
+    systemd.user = {
       services = {
         backup = {
           Unit = {
@@ -27,8 +27,8 @@ in
             Description = "Timer to backup up system";
           };
           Timer = {
-            OnStartupSec="10m";
-            OnUnitActiveSec="1d";
+            OnStartupSec = "10m";
+            OnUnitActiveSec = "1d";
           };
           Install = {
             WantedBy = [ "timers.target" ];

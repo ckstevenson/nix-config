@@ -34,4 +34,4 @@ node_modules/
 # Task Master - Keep these (project configuration)
 # .taskmaster/config.json         ✅ Keep committed
 # .taskmaster/templates/          ✅ Keep committed
-# .taskmaster/CLAUDE.md           ✅ Keep committed 
+# .taskmaster/CLAUDE.md           ✅ Keep committed
