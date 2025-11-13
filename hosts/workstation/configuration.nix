@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  imports = [ 
+  imports = [
     ./hardware-configuration.nix
     ../../modules/nixos
     inputs.home-manager.nixosModules.default
@@ -10,6 +10,8 @@
 
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
+    useGlobalPkgs = true;
+    useUserPackages = true;
     users = {
       "cameron" = import ./home.nix;
     };
@@ -25,8 +27,8 @@
 
   sshd.enable = true;
   desktop.enable = true;
-  globalProtect.enable = true;
+
+  nixpkgs.config.allowUnfree = true;
 
   system.stateVersion = "23.11";
 }
-

@@ -2,11 +2,12 @@
 
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
+      # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ./home-assistant.nix
       ../../modules/nixos
-       inputs.sops-nix.nixosModules.sops
+      inputs.sops-nix.nixosModules.sops
     ];
 
   sshd.enable = true;
@@ -116,8 +117,8 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users = {
     groups = {
-      pictures = {};
-      media = {};
+      pictures = { };
+      media = { };
     };
     users = {
       cameron = {
@@ -146,7 +147,7 @@
         enable = true;
         setSocketVariable = true;
       };
-    storageDriver = "zfs";
+      storageDriver = "zfs";
     };
   };
 
@@ -156,14 +157,14 @@
   # for jellyfin
   # enable vaapi on OS-level
   nixpkgs.config.packageOverrides = pkgs: {
-    vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
+    intel-vaapi-driver = pkgs.intel-vaapi-driver.override { enableHybridCodec = true; };
   };
   hardware.graphics = {
     enable = true;
     extraPackages = with pkgs; [
       intel-media-driver
-      vaapiIntel
-      vaapiVdpau
+      intel-vaapi-driver
+      libva-vdpau-driver
       libvdpau-va-gl
       intel-compute-runtime # OpenCL filter support (hardware tonemapping and subtitle burn-in)
     ];
@@ -195,32 +196,32 @@
       serviceConfig.Type = "oneshot";
       path = with pkgs; [ zfs restic ];
       script = ''
-        . /root/.config/restic/vars
+          . /root/.config/restic/vars
 
-        ## Destroy old snapshot, if any
-        [ "$(zfs list -t snapshot tank/pictures@backup)" ] && zfs destroy tank/pictures@backup
-        [ "$(zfs list -t snapshot apps/docker@backup)" ] && zfs destroy apps/docker@backup
-        [ "$(zfs list -t snapshot apps/images@backup)" ] && zfs destroy apps/images@backup
+          ## Destroy old snapshot, if any
+          [ "$(zfs list -t snapshot tank/pictures@backup)" ] && zfs destroy tank/pictures@backup
+          [ "$(zfs list -t snapshot apps/docker@backup)" ] && zfs destroy apps/docker@backup
+          [ "$(zfs list -t snapshot apps/images@backup)" ] && zfs destroy apps/images@backup
 
-        ## Create snapshot
-        zfs snapshot tank/pictures@backup
-        zfs snapshot apps/docker@backup
-        zfs snapshot apps/images@backup
+          ## Create snapshot
+          zfs snapshot tank/pictures@backup
+          zfs snapshot apps/docker@backup
+          zfs snapshot apps/images@backup
 
-        ## Backup read-only snapshot via its mount point
-        restic backup /mnt/pictures/.zfs/snapshot/backup/
-        restic backup /var/lib/docker/.zfs/snapshot/backup/
-      	restic backup /var/lib/mosquitto
-      	restic backup /var/lib/hass
-      	restic backup /etc/nixos
-        restic backup /srv/docker
+          ## Backup read-only snapshot via its mount point
+          restic backup /mnt/pictures/.zfs/snapshot/backup/
+          restic backup /var/lib/docker/.zfs/snapshot/backup/
+        	restic backup /var/lib/mosquitto
+        	restic backup /var/lib/hass
+        	restic backup /etc/nixos
+          restic backup /srv/docker
 
-        ## Destroy the snapshot
-        zfs destroy tank/pictures@backup
-        zfs destroy apps/images@backup
-        zfs destroy apps/docker@backup
+          ## Destroy the snapshot
+          zfs destroy tank/pictures@backup
+          zfs destroy apps/images@backup
+          zfs destroy apps/docker@backup
 
-        restic forget --keep-daily 7 --keep-weekly 4 --keep-monthly 3 --keep-yearly 1 --prune
+          restic forget --keep-daily 7 --keep-weekly 4 --keep-monthly 3 --keep-yearly 1 --prune
       '';
     };
     nextcloud-preview = {

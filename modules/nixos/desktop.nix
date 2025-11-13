@@ -17,14 +17,14 @@
     # Styling
     fonts = {
       packages = with pkgs; [
-        nerdfonts
+        nerd-fonts.dejavu-sans-mono
       ];
 
       fontconfig = {
         defaultFonts = {
-          monospace = ["DejaVuSansM Nerd Font Mono"];
-          sansSerif = ["DejaVuSansM Nerd Font"];
-          serif = ["DejaVuSansM Nerd Font"];
+          monospace = [ "DejaVuSansM Nerd Font Mono" ];
+          sansSerif = [ "DejaVuSansM Nerd Font" ];
+          serif = [ "DejaVuSansM Nerd Font" ];
         };
 
         subpixel = {
@@ -62,4 +62,3 @@
     programs.hyprland.enable = true;
   };
 }
-
