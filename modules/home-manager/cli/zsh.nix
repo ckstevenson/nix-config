@@ -14,6 +14,7 @@
 
     initContent = ''
       bindkey '^ ' autosuggest-execute
+      bindkey '^R' history-incremental-pattern-search-backward
 
       bindkey "^[[1;5C" forward-word
       bindkey "^[[1;5D" backward-word
@@ -62,7 +63,6 @@
     #  PROMPT='%F{blue}%m %F{magenta}%2~'\$vcs_info_msg_0_' %F{yellow}>%f '
 
     #  # Enable searching through history
-    #  bindkey '^R' history-incremental-pattern-search-backward
 
     # # # ci", ci', ci`, di", etc
     # # autoload -U select-quoted
