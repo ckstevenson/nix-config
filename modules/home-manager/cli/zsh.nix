@@ -16,6 +16,9 @@
       bindkey '^ ' autosuggest-execute
       bindkey '^R' history-incremental-pattern-search-backward
 
+      bindkey "^A" vi-beginning-of-line
+      bindkey "^E" vi-end-of-line
+
       bindkey "^[[1;5C" forward-word
       bindkey "^[[1;5D" backward-word
 
@@ -42,8 +45,6 @@
     '';
     #  autoload -U colors && colors
 
-    #bindkey "^A" vi-beginning-of-line
-    #bindkey "^E" vi-end-of-line
 
     # # zmodload zsh/complist
     # # compinit

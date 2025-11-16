@@ -139,7 +139,7 @@
           "lxqt-policykit-agent"
           "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
           "rbw unlock"
-          "[workspace 10 silent] slack"
+          #"[workspace 10 silent] slack"
         ];
 
         "$mainMod" = "SUPER";

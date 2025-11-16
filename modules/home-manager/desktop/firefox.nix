@@ -17,6 +17,7 @@
           floccus
           multi-account-containers
           privacy-possum
+          tridactyl
           #sponsorblock
           #vim-vixen
           #youtube-shorts-block

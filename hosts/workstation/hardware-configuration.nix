@@ -23,6 +23,11 @@
       fsType = "vfat";
       options = [ "fmask=0077" "dmask=0077" ];
     };
+  fileSystems."/home/cameron/Games" =
+    { device = "/dev/disk/by-uuid/0dd7c9ed-7e08-4d11-8b02-d25db509d470";
+      fsType = "ext4";
+      #options = [ "fmask=0077" "dmask=0077" ];
+    };
 
   swapDevices = [ ];
 

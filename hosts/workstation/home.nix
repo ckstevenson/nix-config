@@ -27,14 +27,15 @@
       qmk
       dotnet-outdated
       jq
-      #bitwarden-desktop
-      #bitwarden-menu
+      bitwarden-desktop
+      bitwarden-menu
       mermaid-cli
       mpv
       gh
       github-copilot-cli
       mariadb.client
       nodePackages.prettier
+      wl-clipboard
       nodejs
       opentofu
       packer

@@ -6,6 +6,7 @@
     ./zoxide.nix
     ./nixvim.nix
     ./direnv.nix
+    ./opencode.nix
   ];
 
   home = {
