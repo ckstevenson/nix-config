@@ -1,6 +1,7 @@
 { config, pkgs, ... }: {
   imports = [
     ../../modules/home-manager/cli
+    ../../modules/home-manager/pkgs
     ../../modules/home-manager/darwin-secure-backup.nix
     ./firefox.nix
     ./rbw-choose.nix
@@ -32,7 +33,6 @@
       awscli2
       #azure-cli
       jetbrains.webstorm
-      teams
       clipboard-jh
       dbeaver-bin
       dotnet-sdk_8
