@@ -4,7 +4,7 @@ let
     name = "openspec";
     runtimeInputs = [ pkgs.nodejs ];
     text = ''
-      exec ${pkgs.nodejs}/bin/npx -y @fission-ai/openspec@0.9.2 "$@"
+      exec ${pkgs.nodejs}/bin/npx -y @fission-ai/openspec@0.16.0 "$@"
     '';
   };
 in

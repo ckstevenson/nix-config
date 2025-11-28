@@ -2,8 +2,8 @@
 {
   programs = {
     direnv = {
-      enable = true;
-      nix-direnv.enable = true;
+      enable = false; # Temporarily disabled due to fish build issues
+      nix-direnv.enable = false;
     };
   };
 }

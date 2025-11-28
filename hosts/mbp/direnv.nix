@@ -2,7 +2,7 @@
 {
   programs = {
     direnv = {
-      enable = true;
+      enable = false; # Temporarily disabled due to fish build issues
     };
   };
 }
