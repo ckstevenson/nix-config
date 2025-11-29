@@ -40,6 +40,11 @@
     #    opencode-flake.url = "github:aodhanhayter/opencode-flake";
     mac-app-util.url = "github:hraban/mac-app-util";
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
+
+    zen-browser = {
+      url = "github:0xc000022070/zen-browser-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { nixpkgs, nix-darwin, ... }@inputs: {

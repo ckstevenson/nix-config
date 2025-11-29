@@ -5,6 +5,7 @@
     ./bemenu.nix
     ./firefox.nix
     ./gtk.nix
+    ./zen-browser.nix
     ./zathura.nix
     ./wayland
   ];
@@ -41,7 +42,7 @@
 
     home.sessionVariables = {
       NIXOS_OZONE_WL = "1";
-      BROWSER = "firefox";
+      BROWSER = "zen";
       TERMINAL = "alacritty";
       IMAGE = "sxiv";
       VIDEO = "mpv";

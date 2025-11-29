@@ -1,27 +1,24 @@
 { config, inputs, lib, osConfig, pkgs, ... }:
 {
-  options = {
-    firefoxFontSize = lib.mkOption {
-      type = lib.types.int;
-      default = 16;
-    };
-  };
+  imports = [
+    inputs.zen-browser.homeModules.twilight
+  ];
 
   config = lib.mkIf ((osConfig.desktop.enable or false) || pkgs.stdenv.isDarwin) {
-    programs.firefox = {
+    programs.zen-browser = {
       enable = true;
+
       profiles.cameron = {
-        extensions = lib.optionals (!pkgs.stdenv.isDarwin) (with inputs.firefox-addons.packages."x86_64-linux"; [
-          bitwarden
-          darkreader
-          floccus
-          multi-account-containers
-          privacy-possum
-          tridactyl
-          #sponsorblock
-          #vim-vixen
-          #youtube-shorts-block
-        ]);
+        extensions.packages = lib.optionals (!pkgs.stdenv.isDarwin) (
+          with inputs.firefox-addons.packages."x86_64-linux"; [
+            bitwarden
+            darkreader
+            floccus
+            multi-account-containers
+            privacy-possum
+            tridactyl
+          ]
+        );
 
         search = {
           force = true;
@@ -101,9 +98,64 @@
           "identity.fxaccounts.enabled" = false;
           "privacy.trackingprotection.enabled" = true;
           "signon.rememberSignons" = false;
-          "font.size.variable.x-western" = config.firefoxFontSize;
-          "browser.uiCustomization.state" = ''{"placements":{"widget-overflow-fixed-list":[],"nav-bar":["back-button","forward-button","stop-reload-button","home-button","urlbar-container","downloads-button","library-button","_testpilot-containers-browser-action"],"toolbar-menubar":["menubar-items"],"TabsToolbar":["tabbrowser-tabs","new-tab-button","alltabs-button"],"PersonalToolbar":["import-button","personal-bookmarks"]},"seen":["save-to-pocket-button","developer-button","_testpilot-containers-browser-action"],"dirtyAreaCache":["nav-bar","PersonalToolbar","toolbar-menubar","TabsToolbar","widget-overflow-fixed-list"],"currentVersion":18,"newElementCount":4}'';
         };
+      };
+
+      policies = {
+        AutofillAddressEnabled = false;
+        AutofillCreditCardEnabled = false;
+        DisableAppUpdate = true;
+        DisableFeedbackCommands = true;
+        DisableFirefoxStudies = true;
+        DisablePocket = true;
+        DisableTelemetry = true;
+        DontCheckDefaultBrowser = true;
+        NoDefaultBookmarks = true;
+        OfferToSaveLogins = false;
+        EnableTrackingProtection = {
+          Value = true;
+          Locked = true;
+          Cryptomining = true;
+          Fingerprinting = true;
+        };
+      };
+    };
+
+    # XDG MIME associations for Zen Browser
+    xdg.mimeApps = lib.mkIf (osConfig.desktop.enable or false) {
+      associations.added = {
+        "application/x-extension-shtml" = "zen.desktop";
+        "application/x-extension-xhtml" = "zen.desktop";
+        "application/x-extension-html" = "zen.desktop";
+        "application/x-extension-xht" = "zen.desktop";
+        "application/x-extension-htm" = "zen.desktop";
+        "x-scheme-handler/unknown" = "zen.desktop";
+        "x-scheme-handler/mailto" = "zen.desktop";
+        "x-scheme-handler/chrome" = "zen.desktop";
+        "x-scheme-handler/about" = "zen.desktop";
+        "x-scheme-handler/https" = "zen.desktop";
+        "x-scheme-handler/http" = "zen.desktop";
+        "application/xhtml+xml" = "zen.desktop";
+        "application/json" = "zen.desktop";
+        "text/plain" = "zen.desktop";
+        "text/html" = "zen.desktop";
+      };
+      defaultApplications = {
+        "application/x-extension-shtml" = "zen.desktop";
+        "application/x-extension-xhtml" = "zen.desktop";
+        "application/x-extension-html" = "zen.desktop";
+        "application/x-extension-xht" = "zen.desktop";
+        "application/x-extension-htm" = "zen.desktop";
+        "x-scheme-handler/unknown" = "zen.desktop";
+        "x-scheme-handler/mailto" = "zen.desktop";
+        "x-scheme-handler/chrome" = "zen.desktop";
+        "x-scheme-handler/about" = "zen.desktop";
+        "x-scheme-handler/https" = "zen.desktop";
+        "x-scheme-handler/http" = "zen.desktop";
+        "application/xhtml+xml" = "zen.desktop";
+        "application/json" = "zen.desktop";
+        "text/plain" = "zen.desktop";
+        "text/html" = "zen.desktop";
       };
     };
   };

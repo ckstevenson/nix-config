@@ -5,7 +5,8 @@
 
 {
   imports =
-    [ (modulesPath + "/installer/scan/not-detected.nix")
+    [
+      (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
   boot.initrd.availableKernelModules = [ "vmd" "xhci_pci" "ahci" "nvme" "usbhid" "uas" "usb_storage" "sd_mod" ];
@@ -14,17 +15,20 @@
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/c8764745-e09b-41c3-a937-39761c3e0190";
+    {
+      device = "/dev/disk/by-uuid/c8764745-e09b-41c3-a937-39761c3e0190";
       fsType = "ext4";
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/33A7-F931";
+    {
+      device = "/dev/disk/by-uuid/33A7-F931";
       fsType = "vfat";
       options = [ "fmask=0077" "dmask=0077" ];
     };
   fileSystems."/home/cameron/Games" =
-    { device = "/dev/disk/by-uuid/0dd7c9ed-7e08-4d11-8b02-d25db509d470";
+    {
+      device = "/dev/disk/by-uuid/0dd7c9ed-7e08-4d11-8b02-d25db509d470";
       fsType = "ext4";
       #options = [ "fmask=0077" "dmask=0077" ];
     };
