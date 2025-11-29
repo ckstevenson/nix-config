@@ -1,8 +1,6 @@
 { ... }:
 {
   programs.nixvim = {
-    #
-
     enable = true;
     enableMan = true;
     viAlias = true;
@@ -85,6 +83,18 @@
           "*.pkr.hcl"
           "*.pkrvars.hcl"
         ];
+      }
+      # Auto-insert semicolon after {} in Nix files
+      {
+        event = [ "FileType" ];
+        pattern = [ "nix" ];
+        callback.__raw = ''
+          function()
+            vim.keymap.set("i", "{", function()
+              return "{};<Left><Left>"
+            end, { expr = true, buffer = true, noremap = true })
+          end
+        '';
       }
     ];
 
@@ -500,6 +510,14 @@
             ];
           };
           touch_regex = "[%w(%[{]";
+          keys = {
+            "{" = {
+              escape = false;
+              close = true;
+              pair = "{}";
+              disabled_filetypes = [ "nix" ];
+            };
+          };
         };
       };
       copilot-vim.enable = true;

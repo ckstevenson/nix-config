@@ -5,7 +5,7 @@
             # Open Terminal
             cmd - return : /etc/profiles/per-user/cameronstevenson/bin/alacritty
             cmd + shift - n : yabai -m window --toggle Notes || /etc/profiles/per-user/cameronstevenson/bin/alacritty --title Notes -e nvim /Users/cameronstevenson/Documents/Notes/
-            cmd - d : ls /Applications/ /Applications/Utilities/ /System/Applications/ /System/Applications/Utilities/ /Users/cameronstevenson/Applications/Home\ Manager\ Apps | grep '\.app$' | sed 's/\.app$//g' | choose | xargs -I {} open -a "{}.app"
+            cmd - d : ls /Applications/ /Applications/Utilities/ /System/Applications/ /System/Applications/Utilities/ /Users/cameronstevenson/Applications/Home\ Manager\ Apps/  /System/Library/CoreServices/ | grep '\.app$' | sed 's/\.app$//g' | choose | xargs -I {} open -a "{}.app"
             cmd - p : rbw-choose
 
             # use ctrl key as cmd for common actions
@@ -45,11 +45,11 @@
               "terminal" ~
             ]
 
-      #      ctrl - l [
-      #        * : skhd -k "cmd - l"
-      #        "alacritty" ~
-      #        "terminal" ~
-      #      ]
+            ctrl - l [
+              * : skhd -k "cmd - l"
+              "alacritty" ~
+              "terminal" ~
+            ]
 
             ctrl - n [
               * : skhd -k "cmd - n"
@@ -161,7 +161,7 @@
             shift + cmd - f : yabai -m window --toggle zoom-fullscreen
 
             shift + cmd - b : yabai -m space --balance
-            cmd - w : open /Applications/Zen.app
+            cmd - w : open /Users/cameronstevenson/Applications/Home\ Manager\ Trampolines/Firefox.app
             #cmd - d : open /System/Library/CoreServices/Spotlight.app
             cmd + shift - q : yabai -m window --close
 

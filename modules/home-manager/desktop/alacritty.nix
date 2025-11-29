@@ -1,17 +1,32 @@
-{ config, lib, osConfig, ... }:
+{ config, lib, osConfig, pkgs, ... }:
 {
   options = {
     alacrittyFontSize = lib.mkOption {
       type = lib.types.int;
-      default = 14;
+      default = if pkgs.stdenv.isDarwin then 16 else 14;
     };
   };
 
-  config = lib.mkIf osConfig.desktop.enable {
+  config = lib.mkIf ((osConfig.desktop.enable or false) || pkgs.stdenv.isDarwin) {
     programs.alacritty = {
       enable = true;
       settings = {
-        font.size = config.alacrittyFontSize;
+        font = {
+          size = config.alacrittyFontSize;
+        } // lib.optionalAttrs pkgs.stdenv.isDarwin {
+          normal = {
+            family = "DejaVuSansM Nerd Font";
+            style = "Regular";
+          };
+          bold = {
+            family = "DejaVuSansM Nerd Font";
+            style = "Bold";
+          };
+          italic = {
+            family = "DejaVuSansM Nerd Font";
+            style = "Italic";
+          };
+        };
         scrolling.history = 50000;
         keyboard.bindings = [
           { key = "Return"; mods = "Control|Shift"; action = "SpawnNewInstance"; }
@@ -29,7 +44,7 @@
         hints.enabled = [
           {
             regex = ''(mailto:|gemini:|gopher:|https:|http:|news:|file:|git:|ssh:|ftp:)[^\u0000-\u001F\u007F-\u009F<>"\\s{-}\\^⟨⟩`]+'';
-            command = "xdg-open";
+            command = if pkgs.stdenv.isDarwin then "open" else "xdg-open";
             hyperlinks = true;
             post_processing = true;
             mouse.enabled = true;

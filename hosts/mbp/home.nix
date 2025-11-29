@@ -2,11 +2,12 @@
   imports = [
     ../../modules/home-manager/cli
     ../../modules/home-manager/pkgs
+    ../../modules/home-manager/desktop/alacritty.nix
+    ../../modules/home-manager/desktop/firefox.nix
+    ../../modules/home-manager/desktop/zen-browser.nix
     ../../modules/home-manager/darwin-secure-backup.nix
-    ./firefox.nix
     ./rbw-choose.nix
     ./git.nix
-    ./alacritty.nix
   ];
 
   # SOPS configuration for secrets management
@@ -84,6 +85,8 @@
       VIDEO = "mpv";
       PATH = "$PATH:/opt/homebrew/bin";
       EDITOR = "nvim";
+      # Homebrew: Disable environment hints
+      HOMEBREW_NO_ENV_HINTS = "1";
     };
 
     shellAliases = {

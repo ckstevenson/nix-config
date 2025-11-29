@@ -1,24 +1,11 @@
-{ config, inputs, lib, osConfig, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 {
-  imports = [
-    inputs.zen-browser.homeModules.twilight
-  ];
-
-  config = lib.mkIf ((osConfig.desktop.enable or false) || pkgs.stdenv.isDarwin) {
+  config = lib.mkIf pkgs.stdenv.isDarwin {
     programs.zen-browser = {
       enable = true;
 
       profiles.cameron = {
-        extensions.packages = lib.optionals (!pkgs.stdenv.isDarwin) (
-          with inputs.firefox-addons.packages."x86_64-linux"; [
-            bitwarden
-            darkreader
-            floccus
-            multi-account-containers
-            privacy-possum
-            tridactyl
-          ]
-        );
+        extensions.packages = [ ];
 
         search = {
           force = true;
@@ -118,44 +105,6 @@
           Cryptomining = true;
           Fingerprinting = true;
         };
-      };
-    };
-
-    # XDG MIME associations for Zen Browser
-    xdg.mimeApps = lib.mkIf (osConfig.desktop.enable or false) {
-      associations.added = {
-        "application/x-extension-shtml" = "zen.desktop";
-        "application/x-extension-xhtml" = "zen.desktop";
-        "application/x-extension-html" = "zen.desktop";
-        "application/x-extension-xht" = "zen.desktop";
-        "application/x-extension-htm" = "zen.desktop";
-        "x-scheme-handler/unknown" = "zen.desktop";
-        "x-scheme-handler/mailto" = "zen.desktop";
-        "x-scheme-handler/chrome" = "zen.desktop";
-        "x-scheme-handler/about" = "zen.desktop";
-        "x-scheme-handler/https" = "zen.desktop";
-        "x-scheme-handler/http" = "zen.desktop";
-        "application/xhtml+xml" = "zen.desktop";
-        "application/json" = "zen.desktop";
-        "text/plain" = "zen.desktop";
-        "text/html" = "zen.desktop";
-      };
-      defaultApplications = {
-        "application/x-extension-shtml" = "zen.desktop";
-        "application/x-extension-xhtml" = "zen.desktop";
-        "application/x-extension-html" = "zen.desktop";
-        "application/x-extension-xht" = "zen.desktop";
-        "application/x-extension-htm" = "zen.desktop";
-        "x-scheme-handler/unknown" = "zen.desktop";
-        "x-scheme-handler/mailto" = "zen.desktop";
-        "x-scheme-handler/chrome" = "zen.desktop";
-        "x-scheme-handler/about" = "zen.desktop";
-        "x-scheme-handler/https" = "zen.desktop";
-        "x-scheme-handler/http" = "zen.desktop";
-        "application/xhtml+xml" = "zen.desktop";
-        "application/json" = "zen.desktop";
-        "text/plain" = "zen.desktop";
-        "text/html" = "zen.desktop";
       };
     };
   };

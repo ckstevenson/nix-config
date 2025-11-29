@@ -13,6 +13,10 @@
     };
 
     initContent = ''
+      # Make Ctrl+W stop at slashes and common delimiters
+      # Removes / from default WORDCHARS so paths are deleted segment by segment
+      WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
+
       bindkey '^ ' autosuggest-execute
       bindkey '^R' history-incremental-pattern-search-backward
 

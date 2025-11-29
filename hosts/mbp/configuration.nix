@@ -28,6 +28,8 @@
     home-manager = {
       useGlobalPkgs = true;
       useUserPackages = true;
+      backupFileExtension = "backup";
+      extraSpecialArgs = { inherit inputs; };
 
       users.cameronstevenson = {
         imports = [
@@ -35,6 +37,7 @@
           inputs.nix-colors.homeManagerModules.default
           inputs.nixvim.homeModules.nixvim
           inputs.sops-nix.homeManagerModules.sops
+          inputs.zen-browser.homeModules.twilight
           ./home.nix
         ];
       };
@@ -46,7 +49,7 @@
       enable = true;
 
       # Apple Silicon Only: Also install Homebrew under the default Intel prefix for Rosetta 2
-      #enableRosetta = true;
+      enableRosetta = true;
 
       # User owning the Homebrew prefix
       user = "cameronstevenson";
