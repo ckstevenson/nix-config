@@ -27,7 +27,11 @@
             style = "Italic";
           };
         };
-        scrolling.history = 50000;
+
+        scrolling = {
+          history = 50000;
+        };
+
         keyboard.bindings = [
           { key = "Return"; mods = "Control|Shift"; action = "SpawnNewInstance"; }
           { key = "V"; mods = "Alt"; action = "Paste"; }

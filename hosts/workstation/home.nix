@@ -16,39 +16,36 @@
 
   home = {
     packages = with pkgs; [
-      lutris
-      anki-bin
-      task-master-ai
       alacritty
+      anki-bin
       awscli2
-      clipboard-jh
-      dbeaver-bin
-      dotnet-sdk_8
-      qmk
-      dotnet-outdated
-      jq
       bitwarden-desktop
       bitwarden-menu
-      mermaid-cli
-      mpv
+      clipboard-jh
+      discord
       gh
       github-copilot-cli
+      jq
+      lutris
       mariadb.client
+      mermaid-cli
+      mpv
       nodePackages.prettier
-      wl-clipboard
       nodejs
       opentofu
       packer
-      powershell
       postgresql
+      powershell
+      qmk
       rbw
       rclone
       redis
       slack
       spacectl
       speedtest-cli
-      wget
       watch
+      wget
+      wl-clipboard
       wordnet
       yt-dlp
       # Development and pre-commit tools
@@ -56,7 +53,6 @@
       nixpkgs-fmt
       shellcheck
       detect-secrets
-      volatility3
       wev
     ];
 
