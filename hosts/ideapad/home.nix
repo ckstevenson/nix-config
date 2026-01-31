@@ -43,6 +43,11 @@
     defaultSopsFile = ../../secrets/backup/restic.yaml;
   };
 
+  # Configure opencode
+  programs.opencode = {
+    enable = true;
+  };
+
   imports = [
     ../../modules/home-manager
   ];

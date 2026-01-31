@@ -45,16 +45,14 @@
       url = "github:0xc000022070/zen-browser-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    opencode-config = {
-      url = "path:/Users/cameronstevenson/dev/github/ckstevenson/opencode-config";
-      flake = false;
-    };
   };
 
   outputs = { nixpkgs, nix-darwin, ... }@inputs: {
     darwinConfigurations."mbp" = nix-darwin.lib.darwinSystem {
-      specialArgs = { inherit inputs; };
+      specialArgs = {
+        inherit inputs;
+        opencode-config = /Users/cameronstevenson/dev/github/ckstevenson/opencode-config;
+      };
       modules = [
         ./hosts/mbp/configuration.nix
         inputs.home-manager.darwinModules.home-manager

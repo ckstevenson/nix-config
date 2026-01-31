@@ -27,6 +27,7 @@
 
   sshd.enable = true;
   desktop.enable = true;
+  opencode.enable = true;
 
   nixpkgs.config.allowUnfree = true;
 
