@@ -35,7 +35,10 @@
       useGlobalPkgs = true;
       useUserPackages = true;
       backupFileExtension = "backup";
-      extraSpecialArgs = { inherit inputs; };
+      extraSpecialArgs = {
+        inherit inputs;
+        opencode-config = /Users/cameronstevenson/dev/github/ckstevenson/opencode-config;
+      };
 
       users.cameronstevenson = {
         imports = [

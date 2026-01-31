@@ -7,8 +7,6 @@
     ./zoxide.nix
     ./nixvim.nix
     ./direnv.nix
-  ] ++ lib.optionals ((osConfig.opencode.enable or true) && (inputs ? opencode-config)) [
-    "${inputs.opencode-config}"
   ];
 
   home = {

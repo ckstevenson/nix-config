@@ -51,7 +51,6 @@
     darwinConfigurations."mbp" = nix-darwin.lib.darwinSystem {
       specialArgs = {
         inherit inputs;
-        opencode-config = /Users/cameronstevenson/dev/github/ckstevenson/opencode-config;
       };
       modules = [
         ./hosts/mbp/configuration.nix

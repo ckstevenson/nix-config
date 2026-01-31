@@ -1,4 +1,4 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, opencode-config, ... }: {
   imports = [
     ../../modules/home-manager/cli
     ../../modules/home-manager/pkgs
@@ -11,6 +11,7 @@
     ./rbw-choose.nix
     ./git.nix
     ./jankyborders.nix
+    opencode-config
   ];
 
   # SOPS configuration for secrets management
