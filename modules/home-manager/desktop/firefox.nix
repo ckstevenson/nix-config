@@ -16,7 +16,7 @@
           darkreader
           floccus
           multi-account-containers
-          privacy-possum
+          #privacy-possum
           tridactyl
           #sponsorblock
           #vim-vixen
@@ -89,20 +89,77 @@
         };
 
         settings = {
+          # Enable hardware video decoding
+          "media.hardware-video-decoding.enabled" = true;
+          # Use GPU-accelerated rendering
+          "gfx.webrender.all" = true;
+          # Enable DRM for streaming services (Netflix, etc.)
+          "media.eme.enabled" = true;
+          # Skip warning when accessing about:config
           "browser.aboutConfig.showWarning" = false;
+          # Don't prompt to reset Firefox after crashes
           "browser.disableResetPrompt" = true;
+          # Show download panel automatically
           "browser.download.panel.shown" = true;
+          # Disable sponsored content on new tab page
           "browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
+          # Don't check if Firefox is default browser
           "browser.shell.checkDefaultBrowser" = false;
           "browser.shell.defaultBrowserCheckCount" = 1;
+          # Custom homepage
           "browser.startup.homepage" = "https://dashboard.germerica.us";
+          # Always show bookmarks toolbar
           "browser.toolbars.bookmarks.visibility" = "always";
+          # Force HTTPS connections only
           "dom.security.https_only_mode" = true;
+          # Disable Firefox Account/Sync (using Floccus for bookmarks, Bitwarden for passwords)
           "identity.fxaccounts.enabled" = false;
+          # Block known trackers
           "privacy.trackingprotection.enabled" = true;
+          # Don't offer to save passwords (using Bitwarden)
           "signon.rememberSignons" = false;
+          # Custom font size
           "font.size.variable.x-western" = config.firefoxFontSize;
-          "browser.uiCustomization.state" = ''{"placements":{"widget-overflow-fixed-list":[],"nav-bar":["back-button","forward-button","stop-reload-button","home-button","urlbar-container","downloads-button","library-button","_testpilot-containers-browser-action"],"toolbar-menubar":["menubar-items"],"TabsToolbar":["tabbrowser-tabs","new-tab-button","alltabs-button"],"PersonalToolbar":["import-button","personal-bookmarks"]},"seen":["save-to-pocket-button","developer-button","_testpilot-containers-browser-action"],"dirtyAreaCache":["nav-bar","PersonalToolbar","toolbar-menubar","TabsToolbar","widget-overflow-fixed-list"],"currentVersion":18,"newElementCount":4}'';
+          # Toolbar layout customization
+          "browser.uiCustomization.state" = builtins.toJSON {
+            placements = {
+              widget-overflow-fixed-list = [ ];
+              nav-bar = [
+                "back-button"
+                "forward-button"
+                "stop-reload-button"
+                "home-button"
+                "urlbar-container"
+                "downloads-button"
+                "library-button"
+                "_testpilot-containers-browser-action"
+              ];
+              toolbar-menubar = [ "menubar-items" ];
+              TabsToolbar = [
+                "tabbrowser-tabs"
+                "new-tab-button"
+                "alltabs-button"
+              ];
+              PersonalToolbar = [
+                "import-button"
+                "personal-bookmarks"
+              ];
+            };
+            seen = [
+              "save-to-pocket-button"
+              "developer-button"
+              "_testpilot-containers-browser-action"
+            ];
+            dirtyAreaCache = [
+              "nav-bar"
+              "PersonalToolbar"
+              "toolbar-menubar"
+              "TabsToolbar"
+              "widget-overflow-fixed-list"
+            ];
+            currentVersion = 18;
+            newElementCount = 4;
+          };
         };
       };
     };

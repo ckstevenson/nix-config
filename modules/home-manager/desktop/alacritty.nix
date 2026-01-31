@@ -28,6 +28,10 @@
           };
         };
 
+        window = {
+          decorations = "buttonless";
+        };
+
         scrolling = {
           history = 50000;
         };

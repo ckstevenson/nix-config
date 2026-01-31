@@ -11,6 +11,7 @@
     ];
 
   sshd.enable = true;
+  opencode.enable = false;
 
   home-manager = {
     extraSpecialArgs = { inherit inputs; };

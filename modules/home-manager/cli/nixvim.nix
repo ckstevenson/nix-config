@@ -1,4 +1,7 @@
-{ ... }:
+{ pkgs, config, ... }:
+let
+  palette = config.colorScheme.palette;
+in
 {
   programs.nixvim = {
     enable = true;
@@ -7,31 +10,43 @@
     vimAlias = true;
     colorschemes.nightfox.enable = true;
     colorschemes.nightfox.flavor = "carbonfox";
-    #colorschemes.base16.enable = true;
-    #colorschemes.base16.colorscheme = {
-    #  base00 = "#161616";
-    #  base01 = "#262626";
-    #  base02 = "#393939";
-    #  base03 = "#525252";
-    #  base04 = "#dde1e6";
-    #  base05 = "#f2f4f8";
-    #  base06 = "#ffffff";
-    #  base07 = "#08bdba";
-    #  base08 = "#ff7eb6";
-    #  base09 = "#78a9ff";
-    #  base0A = "#FFCB6B";
-    #  base0B = "#42be65";
-    #  base0C = "#3ddbd9";
-    #  base0D = "#33b1ff";
-    #  base0E = "#be95ff";
-    #  base0F = "#82cfff";
-    #};
 
     nixpkgs.config.allowUnfree = true;
 
+    # Set terminal colors to match the nix-colors palette
+    # This ensures :terminal in Neovim uses the same colors as your external terminal
+    extraConfigLua = ''
+      -- ANSI terminal colors (0-7: normal, 8-15: bright)
+      vim.g.terminal_color_0  = "#${palette.base00}" -- black
+      vim.g.terminal_color_1  = "#${palette.base08}" -- red
+      vim.g.terminal_color_2  = "#${palette.base0B}" -- green
+      vim.g.terminal_color_3  = "#${palette.base0A}" -- yellow
+      vim.g.terminal_color_4  = "#${palette.base0D}" -- blue
+      vim.g.terminal_color_5  = "#${palette.base0E}" -- magenta
+      vim.g.terminal_color_6  = "#${palette.base0C}" -- cyan
+      vim.g.terminal_color_7  = "#${palette.base05}" -- white
+      -- Bright variants
+      vim.g.terminal_color_8  = "#${palette.base03}" -- bright black
+      vim.g.terminal_color_9  = "#${palette.base08}" -- bright red
+      vim.g.terminal_color_10 = "#${palette.base0B}" -- bright green
+      vim.g.terminal_color_11 = "#${palette.base0A}" -- bright yellow
+      vim.g.terminal_color_12 = "#${palette.base0D}" -- bright blue
+      vim.g.terminal_color_13 = "#${palette.base0E}" -- bright magenta
+      vim.g.terminal_color_14 = "#${palette.base0C}" -- bright cyan
+      vim.g.terminal_color_15 = "#${palette.base06}" -- bright white
+    '';
+
     filetype = {
       filename = {
-        "user-data" = "yaml";
+        "user-data".__raw = ''
+          function(path)
+            local first_line = vim.fn.readfile(path, "", 1)[1] or ""
+            if first_line:match("^<powershell>") then
+              return "ps1"
+            end
+            return "yaml"
+          end
+        '';
       };
       pattern = {
         ".*.pkr.*" = "tf";
@@ -52,6 +67,7 @@
       scrolloff = 8;
       ff = "unix";
       autoindent = true;
+      autoread = true;
       clipboard = "unnamedplus";
       smarttab = true;
       expandtab = true;
@@ -60,6 +76,7 @@
       softtabstop = 2;
       splitright = true;
       splitbelow = true;
+      foldlevelstart = 99;
     };
 
     autoCmd = [
@@ -84,6 +101,16 @@
           "*.pkrvars.hcl"
         ];
       }
+      # Enable folding for Terraform files
+      {
+        event = [ "FileType" ];
+        pattern = [ "terraform" "tf" ];
+        callback.__raw = ''
+          function()
+            vim.opt_local.foldmethod = "indent"
+          end
+        '';
+      }
       # Auto-insert semicolon after {} in Nix files
       {
         event = [ "FileType" ];
@@ -92,6 +119,9 @@
           function()
             vim.keymap.set("i", "{", function()
               return "{};<Left><Left>"
+            end, { expr = true, buffer = true, noremap = true })
+            vim.keymap.set("i", "[", function()
+              return "[];<Left><Left>"
             end, { expr = true, buffer = true, noremap = true })
           end
         '';
@@ -336,6 +366,43 @@
           desc = "opencode half page down";
         };
       }
+      # Terminal keymaps
+      {
+        key = "<leader>tv";
+        mode = "n";
+        action = "<cmd>vsplit | terminal<CR>";
+        options = {
+          desc = "Terminal vertical split";
+          silent = true;
+        };
+      }
+      {
+        key = "<leader>th";
+        mode = "n";
+        action = "<cmd>split | terminal<CR>";
+        options = {
+          desc = "Terminal horizontal split";
+          silent = true;
+        };
+      }
+      {
+        key = "<leader>tt";
+        mode = "n";
+        action = "<cmd>tabnew | terminal<CR>";
+        options = {
+          desc = "Terminal new tab";
+          silent = true;
+        };
+      }
+      {
+        key = "<Esc>";
+        mode = "t";
+        action = "<C-\\><C-n>";
+        options = {
+          desc = "Exit terminal mode";
+          silent = true;
+        };
+      }
     ];
 
     plugins = {
@@ -354,15 +421,13 @@
             #{ name = "copilot"; }
           ];
           mapping = {
-            __raw = ''
-              cmp.mapping.preset.insert({
-                ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-                ['<C-f>'] = cmp.mapping.scroll_docs(4),
-                ['<C-Space>'] = cmp.mapping.complete(),
-                ['<C-e>'] = cmp.mapping.abort(),
-                ['<CR>'] = cmp.mapping.confirm({ select = true }),
-              })
-            '';
+            "<C-b>" = "cmp.mapping.scroll_docs(-4)";
+            "<C-f>" = "cmp.mapping.scroll_docs(4)";
+            "<C-Space>" = "cmp.mapping.complete()";
+            "<C-e>" = "cmp.mapping.abort()";
+            "<CR>" = "cmp.mapping.confirm({ select = true })";
+            "<C-n>" = "cmp.mapping.select_next_item()";
+            "<C-p>" = "cmp.mapping.select_prev_item()";
           };
         };
         cmdline = {
@@ -400,16 +465,31 @@
       lsp = {
         enable = true;
         preConfig = ''
-          vim.lsp.set_log_level('off')
+          vim.lsp.set_log_level('debug')
         '';
         keymaps.diagnostic = {
           "<leader>dn" = "goto_next";
           "<leader>dp" = "goto_prev";
           "<leader>do" = "open_float";
         };
+        keymaps.lspBuf = {
+          "gd" = "definition";
+          "gD" = "declaration";
+          "gr" = "references";
+          "gi" = "implementation";
+          "K" = "hover";
+          "<leader>rn" = "rename";
+          "<leader>ca" = "code_action";
+          "<leader>fs" = "document_symbol";
+          "<leader>ws" = "workspace_symbol";
+        };
         servers = {
           bashls.enable = true;
-          #csharp_ls.enable = true;
+          omnisharp = {
+            enable = true;
+            package = pkgs.omnisharp-roslyn;
+            cmd = [ "${pkgs.omnisharp-roslyn}/bin/OmniSharp" "-lsp" ];
+          };
           cssls.enable = true;
           docker_compose_language_service.enable = true;
           dockerls.enable = true;
@@ -430,7 +510,88 @@
       lualine = {
         enable = true;
         settings = {
-          options.theme = "ayu_mirage";
+          options.theme = {
+            normal = {
+              a = { fg = "#${palette.base00}"; bg = "#${palette.base0E}"; gui = "bold"; };
+              b = { fg = "#${palette.base05}"; bg = "#${palette.base01}"; };
+              c = { fg = "#${palette.base05}"; bg = "#${palette.base00}"; };
+            };
+            insert = {
+              a = { fg = "#${palette.base00}"; bg = "#${palette.base0E}"; gui = "bold"; };
+              b = { fg = "#${palette.base05}"; bg = "#${palette.base01}"; };
+              c = { fg = "#${palette.base05}"; bg = "#${palette.base00}"; };
+            };
+            visual = {
+              a = { fg = "#${palette.base00}"; bg = "#${palette.base0E}"; gui = "bold"; };
+              b = { fg = "#${palette.base05}"; bg = "#${palette.base01}"; };
+              c = { fg = "#${palette.base05}"; bg = "#${palette.base00}"; };
+            };
+            replace = {
+              a = { fg = "#${palette.base00}"; bg = "#${palette.base0E}"; gui = "bold"; };
+              b = { fg = "#${palette.base05}"; bg = "#${palette.base01}"; };
+              c = { fg = "#${palette.base05}"; bg = "#${palette.base00}"; };
+            };
+            command = {
+              a = { fg = "#${palette.base00}"; bg = "#${palette.base0E}"; gui = "bold"; };
+              b = { fg = "#${palette.base05}"; bg = "#${palette.base01}"; };
+              c = { fg = "#${palette.base05}"; bg = "#${palette.base00}"; };
+            };
+            inactive = {
+              a = { fg = "#${palette.base03}"; bg = "#${palette.base01}"; };
+              b = { fg = "#${palette.base03}"; bg = "#${palette.base01}"; };
+              c = { fg = "#${palette.base03}"; bg = "#${palette.base00}"; };
+            };
+          };
+          sections = {
+            lualine_a = [ "mode" ];
+            lualine_b = [
+              "branch"
+              {
+                __unkeyed-1.__raw = ''
+                  function()
+                    local git_dir = vim.fn.FugitiveGitDir()
+                    if git_dir == "" then
+                      return ""
+                    end
+                    -- Check if we're in a worktree (git_dir contains /worktrees/)
+                    if git_dir:find("/worktrees/") then
+                      -- Extract project name: strip /worktrees/* then get parent dir name
+                      local main_git_dir = git_dir:gsub("/worktrees/.*", "")
+                      return vim.fn.fnamemodify(main_git_dir, ":h:t")
+                    else
+                      -- Regular repo: get parent of .git dir
+                      return vim.fn.fnamemodify(git_dir, ":h:t")
+                    end
+                  end
+                '';
+                icon = "";
+              }
+            ];
+            lualine_c = [
+              {
+                __unkeyed-1.__raw = ''
+                  function()
+                    local git_dir = vim.fn.FugitiveGitDir()
+                    if git_dir == "" then
+                      -- Not in a git repo, show relative path
+                      return vim.fn.expand('%:~:.')
+                    end
+                    -- Get path relative to repo root
+                    local file_path = vim.fn.expand('%:p')
+                    local repo_root = vim.fn.FugitiveWorkTree()
+                    if repo_root ~= "" and file_path:find(repo_root, 1, true) == 1 then
+                      local rel_path = file_path:sub(#repo_root + 2)
+                      return rel_path ~= "" and rel_path or vim.fn.expand('%:t')
+                    end
+                    return vim.fn.expand('%:t')
+                  end
+                '';
+              }
+            ];
+            lualine_x = [ "diagnostics" "filetype" ];
+            lualine_y = [ "progress" ];
+            lualine_z = [ "location" ];
+          };
         };
       };
 
@@ -504,7 +665,7 @@
         enable = true;
         settings = {
           options = {
-            disable_filetype = [
+            disabled_filetypes = [
               "text"
               "markdown"
             ];
@@ -532,7 +693,8 @@
           };
         };
       };
-      diagram.enable = true;
+      #diagram.enable = true;
+      #dotnet.enable = true;
       markview.enable = true;
       fugitive.enable = true;
       gitignore.enable = true;
@@ -548,7 +710,11 @@
       };
       snacks = {
         enable = true;
-        settings.input.enabled = true;
+        settings = {
+          input.enabled = true;
+          picker.enabled = true;
+          terminal.enabled = true;
+        };
       };
       colorizer.enable = true;
       treesitter.enable = true;

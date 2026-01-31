@@ -28,7 +28,6 @@
       jq
       lutris
       mariadb.client
-      mermaid-cli
       mpv
       nodePackages.prettier
       nodejs

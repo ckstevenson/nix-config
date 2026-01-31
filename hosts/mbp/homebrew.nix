@@ -8,24 +8,27 @@
       upgrade = true;
     };
 
+    taps = [
+      "sumologic-labs/homebrew-tap" #brew tap sumologic-labs/homebrew-tap
+    ];
     brews = [
       "choose-gui"
+      "sumocli" #brew install sumologic-labs/tap/sumocli
     ];
     casks = [
+      #"bambu-studio"
       "1password"
       "1password-cli"
-      "bambu-studio"
       "crystalfetch"
       "docker-desktop"
       "keybase"
       "macfuse"
-      "mullvad-vpn"
+      "mullvad-vpn" # not available for aarch64-darwin in nixpkgs
       "nextcloud"
       "openvpn-connect"
-      "retroarch"
-      "signal"
+      "retroarch" # nixpkgs version is broken
+      "signal" # not available for aarch64-darwin in nixpkgs
       "yubico-authenticator"
-      #"zen"
     ];
   };
 }

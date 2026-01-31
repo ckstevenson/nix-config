@@ -11,8 +11,8 @@
   ];
 
   colorScheme = {
-    slug = "oxocarbon-fixed";
-    name = "Oxocarbon Fixed";
+    slug = "carbonfox-fixed";
+    name = "Carbonfox Fixed";
     author = "Cameron Stevenson";
     palette = {
       base00 = "#161616";

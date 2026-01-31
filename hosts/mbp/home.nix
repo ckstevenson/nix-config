@@ -5,9 +5,12 @@
     ../../modules/home-manager/desktop/alacritty.nix
     ../../modules/home-manager/desktop/firefox.nix
     ../../modules/home-manager/desktop/zen-browser.nix
+    ../../modules/home-manager/desktop/sketchybar.nix
     ../../modules/home-manager/darwin-secure-backup.nix
+    ../../modules/home-manager/pkgs/sqlpackage.nix
     ./rbw-choose.nix
     ./git.nix
+    ./jankyborders.nix
   ];
 
   # SOPS configuration for secrets management
@@ -26,23 +29,26 @@
     enable = true;
   };
 
+  services.sketchybar = {
+    enable = true;
+  };
+
   home = {
     packages = with pkgs; [
       anki-bin
-      task-master-ai
       alacritty
+      #mermaid-cli
       awscli2
-      #azure-cli
+      azure-cli
       jetbrains.webstorm
+      freerdp
       clipboard-jh
       dbeaver-bin
       dotnet-sdk_8
       qmk
-      dotnet-outdated
       jq
-      #bitwarden-desktop
-      #bitwarden-menu
-      mermaid-cli
+      bitwarden-desktop
+      bitwarden-cli
       mpv
       gh
       github-copilot-cli
@@ -77,10 +83,13 @@
       shellcheck
       detect-secrets
       volatility3
+      # Migrated from Homebrew
+      #_1password-gui
+      #_1password-cli
     ];
 
     sessionVariables = {
-      BROWSER = "zen";
+      BROWSER = "firefox";
       TERMINAL = "alacritty";
       VIDEO = "mpv";
       PATH = "$PATH:/opt/homebrew/bin";
@@ -111,8 +120,8 @@
   };
 
   colorScheme = {
-    slug = "oxocarbon-fixed";
-    name = "Oxocarbon Fixed";
+    slug = "carbonfox-fixed";
+    name = "Carbonfox Fixed";
     author = "Cameron Stevenson";
     palette = {
       base00 = "#161616";

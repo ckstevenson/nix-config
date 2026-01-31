@@ -120,47 +120,51 @@
             cmd - tab : yabai -m space --focus recent
             cmd + alt - p : yabai -m space --focus prev
             cmd + alt - n : yabai -m space --focus next
-            cmd - 1 : yabai -m space --focus 1
-            cmd - 2 : yabai -m space --focus 2
-            cmd - 3 : yabai -m space --focus 3
-            cmd - 4 : yabai -m space --focus 4
-            cmd - 5 : yabai -m space --focus 5
-            cmd - 6 : yabai -m space --focus 6
-            cmd - 7 : yabai -m space --focus 7
-            cmd - 8 : yabai -m space --focus 8
-            cmd - 9 : yabai -m space --focus 9
-            cmd - 0 : yabai -m space --focus 10
+            # Focus space, creating it if it doesn't exist
+            cmd - 1 : yabai -m space --focus 1 || (yabai -m space --create && yabai -m space --focus 1)
+            cmd - 2 : yabai -m space --focus 2 || (while [ $(yabai -m query --spaces | jq 'length') -lt 2 ]; do yabai -m space --create; done && yabai -m space --focus 2)
+            cmd - 3 : yabai -m space --focus 3 || (while [ $(yabai -m query --spaces | jq 'length') -lt 3 ]; do yabai -m space --create; done && yabai -m space --focus 3)
+            cmd - 4 : yabai -m space --focus 4 || (while [ $(yabai -m query --spaces | jq 'length') -lt 4 ]; do yabai -m space --create; done && yabai -m space --focus 4)
+            cmd - 5 : yabai -m space --focus 5 || (while [ $(yabai -m query --spaces | jq 'length') -lt 5 ]; do yabai -m space --create; done && yabai -m space --focus 5)
+            cmd - 6 : yabai -m space --focus 6 || (while [ $(yabai -m query --spaces | jq 'length') -lt 6 ]; do yabai -m space --create; done && yabai -m space --focus 6)
+            cmd - 7 : yabai -m space --focus 7 || (while [ $(yabai -m query --spaces | jq 'length') -lt 7 ]; do yabai -m space --create; done && yabai -m space --focus 7)
+            cmd - 8 : yabai -m space --focus 8 || (while [ $(yabai -m query --spaces | jq 'length') -lt 8 ]; do yabai -m space --create; done && yabai -m space --focus 8)
+            cmd - 9 : yabai -m space --focus 9 || (while [ $(yabai -m query --spaces | jq 'length') -lt 9 ]; do yabai -m space --create; done && yabai -m space --focus 9)
+            cmd - 0 : yabai -m space --focus 10 || (while [ $(yabai -m query --spaces | jq 'length') -lt 10 ]; do yabai -m space --create; done && yabai -m space --focus 10)
 
             cmd + alt - h : yabai -m display --focus west
             cmd + alt - l : yabai -m display --focus east
 
-            # move window to space
-            shift + cmd - 1 : yabai -m window --space 1
-            shift + cmd - 2 : yabai -m window --space 2
-            shift + cmd - 3 : yabai -m window --space 3
-            shift + cmd - 4 : yabai -m window --space 4
-            shift + cmd - 5 : yabai -m window --space 5
-            shift + cmd - 6 : yabai -m window --space 6
-            shift + cmd - 7 : yabai -m window --space 7
-            shift + cmd - 8 : yabai -m window --space 8
-            shift + cmd - 9 : yabai -m window --space 9
-            shift + cmd - 0 : yabai -m window --space 10
+            # move window to space (creating space if needed)
+            shift + cmd - 1 : yabai -m window --space 1 || (yabai -m space --create && yabai -m window --space 1)
+            shift + cmd - 2 : yabai -m window --space 2 || (while [ $(yabai -m query --spaces | jq 'length') -lt 2 ]; do yabai -m space --create; done && yabai -m window --space 2)
+            shift + cmd - 3 : yabai -m window --space 3 || (while [ $(yabai -m query --spaces | jq 'length') -lt 3 ]; do yabai -m space --create; done && yabai -m window --space 3)
+            shift + cmd - 4 : yabai -m window --space 4 || (while [ $(yabai -m query --spaces | jq 'length') -lt 4 ]; do yabai -m space --create; done && yabai -m window --space 4)
+            shift + cmd - 5 : yabai -m window --space 5 || (while [ $(yabai -m query --spaces | jq 'length') -lt 5 ]; do yabai -m space --create; done && yabai -m window --space 5)
+            shift + cmd - 6 : yabai -m window --space 6 || (while [ $(yabai -m query --spaces | jq 'length') -lt 6 ]; do yabai -m space --create; done && yabai -m window --space 6)
+            shift + cmd - 7 : yabai -m window --space 7 || (while [ $(yabai -m query --spaces | jq 'length') -lt 7 ]; do yabai -m space --create; done && yabai -m window --space 7)
+            shift + cmd - 8 : yabai -m window --space 8 || (while [ $(yabai -m query --spaces | jq 'length') -lt 8 ]; do yabai -m space --create; done && yabai -m window --space 8)
+            shift + cmd - 9 : yabai -m window --space 9 || (while [ $(yabai -m query --spaces | jq 'length') -lt 9 ]; do yabai -m space --create; done && yabai -m window --space 9)
+            shift + cmd - 0 : yabai -m window --space 10 || (while [ $(yabai -m query --spaces | jq 'length') -lt 10 ]; do yabai -m space --create; done && yabai -m window --space 10)
 
-            # move window to space and follow
-            alt + cmd - 1 : yabai -m window --space 1 --focus
-            alt + cmd - 2 : yabai -m window --space 2 --focus
-            alt + cmd - 3 : yabai -m window --space 3 --focus
-            alt + cmd - 4 : yabai -m window --space 4 --focus
-            alt + cmd - 5 : yabai -m window --space 5 --focus
-            alt + cmd - 6 : yabai -m window --space 6 --focus
-            alt + cmd - 7 : yabai -m window --space 7 --focus
-            alt + cmd - 8 : yabai -m window --space 8 --focus
-            alt + cmd - 9 : yabai -m window --space 9 --focus
-            alt + cmd - 0 : yabai -m window --space 10 --focus
+            # move window to space and follow (creating space if needed)
+            alt + cmd - 1 : yabai -m window --space 1 --focus || (yabai -m space --create && yabai -m window --space 1 --focus)
+            alt + cmd - 2 : yabai -m window --space 2 --focus || (while [ $(yabai -m query --spaces | jq 'length') -lt 2 ]; do yabai -m space --create; done && yabai -m window --space 2 --focus)
+            alt + cmd - 3 : yabai -m window --space 3 --focus || (while [ $(yabai -m query --spaces | jq 'length') -lt 3 ]; do yabai -m space --create; done && yabai -m window --space 3 --focus)
+            alt + cmd - 4 : yabai -m window --space 4 --focus || (while [ $(yabai -m query --spaces | jq 'length') -lt 4 ]; do yabai -m space --create; done && yabai -m window --space 4 --focus)
+            alt + cmd - 5 : yabai -m window --space 5 --focus || (while [ $(yabai -m query --spaces | jq 'length') -lt 5 ]; do yabai -m space --create; done && yabai -m window --space 5 --focus)
+            alt + cmd - 6 : yabai -m window --space 6 --focus || (while [ $(yabai -m query --spaces | jq 'length') -lt 6 ]; do yabai -m space --create; done && yabai -m window --space 6 --focus)
+            alt + cmd - 7 : yabai -m window --space 7 --focus || (while [ $(yabai -m query --spaces | jq 'length') -lt 7 ]; do yabai -m space --create; done && yabai -m window --space 7 --focus)
+            alt + cmd - 8 : yabai -m window --space 8 --focus || (while [ $(yabai -m query --spaces | jq 'length') -lt 8 ]; do yabai -m space --create; done && yabai -m window --space 8 --focus)
+            alt + cmd - 9 : yabai -m window --space 9 --focus || (while [ $(yabai -m query --spaces | jq 'length') -lt 9 ]; do yabai -m space --create; done && yabai -m window --space 9 --focus)
+            alt + cmd - 0 : yabai -m window --space 10 --focus || (while [ $(yabai -m query --spaces | jq 'length') -lt 10 ]; do yabai -m space --create; done && yabai -m window --space 10 --focus)
 
             shift + cmd - f : yabai -m window --toggle zoom-fullscreen
+            shift + cmd - o : yabai -m window --toggle float
 
             shift + cmd - b : yabai -m space --balance
+            shift + cmd - c : yabai -m space --create
+            shift + cmd - x : yabai -m space --destroy
             cmd - w : open /Users/cameronstevenson/Applications/Home\ Manager\ Trampolines/Firefox.app
             #cmd - d : open /System/Library/CoreServices/Spotlight.app
             cmd + shift - q : yabai -m window --close

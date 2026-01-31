@@ -241,12 +241,12 @@ security.sudo.extraConfig = ''
 
 ## Theming & Appearance
 
-### Color Scheme: Oxocarbon Fixed
-Custom color scheme based on IBM's Oxocarbon theme:
+### Color Scheme: Carbonfox Fixed
+Custom color scheme based on IBM's Carbon design system:
 ```nix
 colorScheme = {
-  slug = "oxocarbon-fixed";
-  name = "Oxocarbon Fixed";
+  slug = "carbonfox-fixed";
+  name = "Carbonfox Fixed";
   palette = {
     base00 = "#161616";  # Background
     base01 = "#262626";  # Lighter background

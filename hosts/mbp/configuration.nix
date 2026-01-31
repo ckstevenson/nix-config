@@ -1,5 +1,11 @@
 { lib, pkgs, inputs, config, ... }: {
   options = {
+    opencode.enable = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Enable opencode with 1password integration";
+    };
+
     username = lib.mkOption {
       type = lib.types.str;
       default = "cameron";
@@ -58,7 +64,12 @@
     services.tailscale.enable = true;
 
     # Necessary for using flakes on this system.
-    nix.settings.experimental-features = "nix-command flakes";
+    nix.settings = {
+      experimental-features = "nix-command flakes";
+      # Allow this user to use restricted settings like netrc-file
+      # Required for authenticated NuGet package downloads in pure Nix builds
+      trusted-users = [ "root" "cameronstevenson" ];
+    };
 
     # Create /etc/zshrc that loads the nix-darwin environment.
     programs.zsh.enable = true; # default shell on catalina
@@ -122,7 +133,8 @@
       NSGlobalDomain.AppleInterfaceStyle = "Dark";
 
       # ** Menu Bar
-      #NSGlobalDomain._HIHideMenuBar = true;
+      # Show the macOS menu bar
+      NSGlobalDomain._HIHideMenuBar = false;
 
       # ** Dock, Mission Control
       dock = {
@@ -193,5 +205,19 @@
     };
 
     networking.hostName = "mbp";
+
+    # Tailscale MagicDNS workaround for macOS
+    # macOS doesn't properly resolve split DNS for custom subdomains via Tailscale
+    # These entries point to the nix-server Tailscale IP for local service resolution
+    #networking.extraHosts = ''
+    #  100.74.109.93 vw.germerica.us
+    #  100.74.109.93 ha.germerica.us
+    #  100.74.109.93 nc.germerica.us
+    #  100.74.109.93 prometheus.germerica.us
+    #  100.74.109.93 jf.germerica.us
+    #  100.74.109.93 gw.germerica.us
+    #  100.74.109.93 search.germerica.us
+    #  100.74.109.93 dashboard.germerica.us
+    #'';
   };
 }

@@ -183,11 +183,11 @@ imports = [
 - **sops-nix** - Secrets management
 
 ### Color Scheme
-Uses the same **Oxocarbon Fixed** theme as other hosts:
+Uses the same **Carbonfox Fixed** theme as other hosts:
 ```nix
 colorScheme = {
-  slug = "oxocarbon-fixed";
-  name = "Oxocarbon Fixed";
+  slug = "carbonfox-fixed";
+  name = "Carbonfox Fixed";
   # IBM-inspired dark theme with carefully chosen colors
   # for development and general use
 };

@@ -131,7 +131,7 @@ Modules use a standardized option system:
 
 The configuration uses a centralized color scheme system:
 
-- **Color Scheme**: Custom "Oxocarbon Fixed" theme via nix-colors
+- **Color Scheme**: Custom "Carbonfox Fixed" theme via nix-colors
 - **Consistent Theming**: Applied across terminal, desktop, and applications
 - **Customizable**: Easy to switch themes by modifying the color scheme
 

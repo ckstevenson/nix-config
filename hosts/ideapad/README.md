@@ -87,13 +87,13 @@ decoration = {
 }
 ```
 
-### Color Scheme: Oxocarbon Fixed
-The ideapad implements a custom "Oxocarbon Fixed" color scheme:
+### Color Scheme: Carbonfox Fixed
+The ideapad implements a custom "Carbonfox Fixed" color scheme:
 
 ```nix
 colorScheme = {
-  slug = "oxocarbon-fixed";
-  name = "Oxocarbon Fixed";
+  slug = "carbonfox-fixed";
+  name = "Carbonfox Fixed";
   palette = {
     base00 = "#161616";  # Background
     base01 = "#262626";  # Secondary background

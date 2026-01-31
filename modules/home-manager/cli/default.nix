@@ -1,12 +1,14 @@
-{ osConfig, pkgs, ... }: {
+{ config, osConfig, pkgs, inputs, lib, ... }: {
   imports = [
     ./lf.nix
     ./rbw.nix
+    ./tmux.nix
     ./zsh.nix
     ./zoxide.nix
     ./nixvim.nix
     ./direnv.nix
-    ./opencode.nix
+  ] ++ lib.optionals (osConfig.opencode.enable or true) [
+    "${inputs.opencode-config}"
   ];
 
   home = {
@@ -39,7 +41,6 @@
       restic
       ripgrep
       smartmontools
-      tmux-sessionizer
       sshfs
       tailscale
       tree
@@ -47,24 +48,6 @@
       #xdg-utils
     ];
   };
-  programs.tmux = {
-    enable = true;
-    #plugins = with pkgs.tmuxPlugins; [
-    #  tmux-sessionizer
-    #];
-    baseIndex = 1;
-    mouse = true;
-    keyMode = "vi";
-    terminal = "xterm-256color";
-    historyLimit = 10000;
-    plugins = with pkgs.tmuxPlugins; [
-      continuum
-    ];
-    extraConfig = ''
-      set -g renumber-windows on
-    '';
-  };
-
 
   #xdg = {
   #  enable = true;

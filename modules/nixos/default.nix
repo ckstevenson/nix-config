@@ -2,6 +2,12 @@
   options = {
     desktop.enable = lib.mkEnableOption "enables desktop applications";
 
+    opencode.enable = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Enable opencode with 1password integration";
+    };
+
     username = lib.mkOption {
       type = lib.types.str;
       default = "cameron";

@@ -35,7 +35,7 @@
 
     nix-darwin = {
       url = "github:LnL7/nix-darwin";
-      inputs.nixpkgs.follows = "nixpkgs";
+      #inputs.nixpkgs.follows = "nixpkgs";
     };
     #    opencode-flake.url = "github:aodhanhayter/opencode-flake";
     mac-app-util.url = "github:hraban/mac-app-util";
@@ -44,6 +44,11 @@
     zen-browser = {
       url = "github:0xc000022070/zen-browser-flake";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    opencode-config = {
+      url = "path:/Users/cameronstevenson/dev/github/ckstevenson/opencode-config";
+      flake = false;
     };
   };
 

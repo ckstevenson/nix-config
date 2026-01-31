@@ -95,7 +95,7 @@
           };
 
           sensitivity = -0.2;
-          repeat_rate = 67;   # Keys per second when held (~66.6 to match macOS, default is 25)
+          repeat_rate = 67; # Keys per second when held (~66.6 to match macOS, default is 25)
           repeat_delay = 375; # Delay in ms before repeat starts (matches macOS default of 25×15ms)
         };
 
@@ -235,10 +235,10 @@
           # Fullscreen
           "$mainMod SHIFT, F, fullscreen"
 
-          # Groups
+          # Groups (tabs)
           "$mainMod SHIFT, T, togglegroup"
-          "$mainMod, p, changegroupactive, back"
-          "$mainMod, n, changegroupactive, forward"
+          "$mainMod SHIFT, bracketleft, changegroupactive, b"
+          "$mainMod SHIFT, bracketright, changegroupactive, f"
         ];
       };
     };
