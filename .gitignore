@@ -24,14 +24,5 @@ node_modules/
 # OS specific
 .DS_Store
 
-# Task Master - Personal work state (don't commit active tasks)
-.taskmaster/tasks/tasks.json
-.taskmaster/state.json
-.taskmaster/logs/
-.taskmaster/cache/
-.taskmaster/temp/
-
-# Task Master - Keep these (project configuration)
-# .taskmaster/config.json         ✅ Keep committed
-# .taskmaster/templates/          ✅ Keep committed
-# .taskmaster/CLAUDE.md           ✅ Keep committed
+# Nix
+result
