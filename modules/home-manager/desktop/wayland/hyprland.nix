@@ -8,6 +8,7 @@
           #grace = 300;
           hide_cursor = true;
           no_fade_in = false;
+          no_update_news = true;
         };
 
         background = [
@@ -120,6 +121,30 @@
           #shadow_range = 4;
           #shadow_render_power = 3;
           #"col.shadow" = "rgba(1a1a1aee)";
+        };
+
+        animations = {
+          enabled = true;
+          bezier = [
+            "snappy, 0.05, 0.9, 0.1, 1.0"
+            "quick, 0.25, 0.9, 0.25, 1.0"
+          ];
+          animation = [
+            "windows, 1, 2, snappy, popin 90%"
+            "windowsIn, 1, 2, snappy, popin 90%"
+            "windowsOut, 1, 2, snappy, popin 90%"
+            "windowsMove, 1, 2, snappy, slide"
+            "fade, 1, 3, quick"
+            "fadeIn, 1, 3, quick"
+            "fadeOut, 1, 3, quick"
+            "fadeSwitch, 1, 3, quick"
+            "fadeShadow, 1, 3, quick"
+            "fadeDim, 1, 3, quick"
+            "border, 1, 3, quick"
+            "borderangle, 1, 3, quick"
+            "workspaces, 1, 3, snappy, slide"
+            "specialWorkspace, 1, 2, snappy, slidevert"
+          ];
         };
 
         master = {

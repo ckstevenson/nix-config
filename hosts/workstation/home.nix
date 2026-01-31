@@ -14,17 +14,34 @@
     defaultSopsFile = ../../secrets/backup/restic.yaml;
   };
 
+  # Enable MangoHud for FPS overlay
+  #programs.mangohud = {
+  #  enable = true;
+  #  enableSessionWide = true; # Enable for all applications
+  #  settings = {
+  #    fps = true;
+  #    frame_timing = true;
+  #    gpu_stats = true;
+  #    cpu_stats = true;
+  #    vulkan_driver = true;
+  #    gamemode = true;
+  #  };
+  #};
+
   home = {
     packages = with pkgs; [
       alacritty
       anki-bin
       awscli2
+      bluetuith
       bitwarden-desktop
       bitwarden-menu
       clipboard-jh
       discord
       gh
       github-copilot-cli
+      goverlay
+      vkbasalt
       jq
       lutris
       mariadb.client
@@ -33,6 +50,7 @@
       nodejs
       opentofu
       packer
+      piper
       postgresql
       powershell
       qmk
@@ -53,6 +71,7 @@
       shellcheck
       detect-secrets
       wev
+      via
     ];
 
     sessionVariables = {
