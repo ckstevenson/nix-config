@@ -33,7 +33,22 @@
   # Bootloader.
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
 
-  services.tailscale.enable = true;
+  boot.kernel.sysctl = {
+    "net.ipv4.ip_forward" = 1;
+    # If you need IPv6 forwarding (though you have IPv6 disabled):
+    # "net.ipv6.conf.all.forwarding" = 1;
+    #"net.ipv4.conf.all.rp_filter" = 0;
+    #"net.ipv4.conf.default.rp_filter" = 0;
+  };
+
+  services.tailscale = {
+    enable = true;
+    extraUpFlags = [
+      "--advertise-exit-node"
+      "--advertise-routes=10.10.10.0/24"
+      "--accept-dns=false"
+    ];
+  };
 
   # https://github.com/NixOS/nixpkgs/issues/180175
   networking = {
@@ -44,16 +59,16 @@
 
     networkmanager = {
       enable = true;
-      unmanaged = [ "tailscale0" ];
+      #unmanaged = [ "tailscale0" ];
     };
 
-    bridges = {
-      br0 = {
-        interfaces = [
-          "enp4s0f1"
-        ];
-      };
-    };
+    #bridges = {
+    #  br0 = {
+    #    interfaces = [
+    #      "enp4s0f1"
+    #    ];
+    #  };
+    #};
   };
 
   # Enable ZFS support

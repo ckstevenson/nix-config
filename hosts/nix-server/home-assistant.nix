@@ -36,6 +36,18 @@
     ];
 
     config = {
+      template = [{
+        sensor = [{
+          name = "total_lights_power";
+          unique_id = "desk_total_power";
+          unit_of_measurement = "W";
+          #state = "{{ (states('sensor.desk_plug_energy_power') + (states('sensor.desk_plug_2_energy_power') }}";
+          state = ''
+            {{ (states('sensor.desk_plug_energy_power')) +
+               (states('sensor.desk_plug_2_energy_power')) }}
+          '';
+        }];
+      }];
       # Includes dependencies for a basic setup
       # https://www.home-assistant.io/integrations/default_config/
       default_config = { };
