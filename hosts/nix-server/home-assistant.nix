@@ -401,7 +401,7 @@
           acl = [
             "readwrite #"
           ];
-          hashedPasswordFile = "/var/lib/mosquitto/ha-passwd";
+          passwordFile = "/var/lib/mosquitto/ha-passwd";
         };
       };
     }];
