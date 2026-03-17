@@ -72,7 +72,7 @@
   };
 
   # Enable ZFS support
-  boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
+  boot.kernelPackages = pkgs.linuxPackages;
   boot.supportedFilesystems = [ "zfs" ];
   boot.zfs.extraPools = [
     "apps"
