@@ -51,7 +51,7 @@
       lutris
       mariadb.client
       mpv
-      nodePackages.prettier
+      prettier
       nodejs
       opentofu
       packer

@@ -52,7 +52,10 @@
         hints.enabled = [
           {
             regex = ''(mailto:|gemini:|gopher:|https:|http:|news:|file:|git:|ssh:|ftp:)[^\u0000-\u001F\u007F-\u009F<>"\\s{-}\\^⟨⟩`]+'';
-            command = if pkgs.stdenv.isDarwin then "open" else "xdg-open";
+            command =
+              if pkgs.stdenv.isDarwin
+              then { program = "open"; args = [ ]; }
+              else { program = "xdg-open"; args = [ ]; };
             hyperlinks = true;
             post_processing = true;
             mouse.enabled = true;

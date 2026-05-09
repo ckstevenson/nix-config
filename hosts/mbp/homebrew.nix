@@ -21,6 +21,8 @@
       "1password-cli"
       "crystalfetch"
       "docker-desktop"
+      "gimp"
+      "handy"
       "keybase"
       "macfuse"
       "mullvad-vpn" # not available for aarch64-darwin in nixpkgs

@@ -29,24 +29,29 @@
     homeDirectory = "/Users/cameronstevenson";
     system.primaryUser = config.username;
 
-    nixpkgs.config.allowUnfree = true;
+    # Pin this host to stable nixpkgs (other hosts stay on unstable).
+    nixpkgs.pkgs = import inputs.nixpkgs-stable {
+      system = "aarch64-darwin";
+      config.allowUnfree = true;
+    };
 
     home-manager = {
-      useGlobalPkgs = true;
+      useGlobalPkgs = false;
       useUserPackages = true;
       backupFileExtension = "backup";
       extraSpecialArgs = {
         inherit inputs;
-        opencode-config = /Users/cameronstevenson/dev/github/ckstevenson/opencode-config;
       };
 
       users.cameronstevenson = {
+        nixpkgs.config.allowUnfree = true;
         imports = [
           inputs.mac-app-util.homeManagerModules.default
           inputs.nix-colors.homeManagerModules.default
           inputs.nixvim.homeModules.nixvim
           inputs.sops-nix.homeManagerModules.sops
           inputs.zen-browser.homeModules.twilight
+          inputs.opencode-config.homeManagerModules.default
           ./home.nix
         ];
       };
@@ -72,6 +77,20 @@
       # Allow this user to use restricted settings like netrc-file
       # Required for authenticated NuGet package downloads in pure Nix builds
       trusted-users = [ "root" "cameronstevenson" ];
+
+      # Binary caches for inputs used in this config — avoids local builds
+      substituters = [
+        "https://cache.nixos.org"
+        "https://nix-community.cachix.org" # home-manager, nixvim, sops-nix, nix-index-database
+        "https://hyprland.cachix.org" # hyprland
+        "https://nix-darwin.cachix.org" # nix-darwin
+      ];
+      trusted-public-keys = [
+        "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCUSeBw="
+        "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
+        "nix-darwin.cachix.org-1:hmcsBDa3DgQTPFiuW/y3N/jeC3YKLhFJSFBV3gMq/1E="
+      ];
     };
 
     # Create /etc/zshrc that loads the nix-darwin environment.

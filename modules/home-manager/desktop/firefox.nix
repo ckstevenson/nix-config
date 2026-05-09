@@ -111,7 +111,7 @@
           # Always show bookmarks toolbar
           "browser.toolbars.bookmarks.visibility" = "always";
           # Force HTTPS connections only
-          "dom.security.https_only_mode" = true;
+          "dom.security.https_only_mode" = false;
           # Disable Firefox Account/Sync (using Floccus for bookmarks, Bitwarden for passwords)
           "identity.fxaccounts.enabled" = false;
           # Block known trackers
@@ -163,6 +163,30 @@
         };
       };
     };
+
+    # macOS LaunchServices fix:
+    # mac-app-util creates an AppleScript trampoline at
+    #   ~/Applications/Home Manager Trampolines/Firefox.app
+    # which calls `open <firefox-bundle>` WITHOUT forwarding the URL argument.
+    # When LaunchServices invokes it for `https://`, the URL is dropped, so
+    # `open https://...` (and alacritty hint clicks) silently fail to open
+    # the URL in Firefox.
+    #
+    # Fix: unregister the trampoline and force-register the real Nix Firefox
+    # bundle so LaunchServices routes URL opens directly to the working binary.
+    home.activation.fixFirefoxLaunchServices = lib.mkIf pkgs.stdenv.isDarwin (
+      lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+        LSREG=/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister
+        FIREFOX_BUNDLE="${config.programs.firefox.finalPackage}/Applications/Firefox.app"
+        TRAMPOLINE="$HOME/Applications/Home Manager Trampolines/Firefox.app"
+        if [ -e "$TRAMPOLINE" ]; then
+          "$LSREG" -u "$TRAMPOLINE" || true
+        fi
+        if [ -e "$FIREFOX_BUNDLE" ]; then
+          "$LSREG" -f "$FIREFOX_BUNDLE" || true
+        fi
+      ''
+    );
 
     # XDG MIME associations for Firefox (Linux only)
     xdg.mimeApps = lib.mkIf pkgs.stdenv.isLinux {

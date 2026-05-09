@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.11";
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -34,10 +35,10 @@
     };
 
     nix-darwin = {
-      url = "github:LnL7/nix-darwin";
-      #inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:nix-darwin/nix-darwin/nix-darwin-25.11";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
     };
-    #    opencode-flake.url = "github:aodhanhayter/opencode-flake";
+    opencode-config.url = "git+https://github.com/Kaleris-CVS/opencode-config?ref=feature/DOCVS-10862";
     mac-app-util.url = "github:hraban/mac-app-util";
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
 

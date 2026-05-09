@@ -1,4 +1,4 @@
-{ config, pkgs, opencode-config, ... }: {
+{ config, pkgs, ... }: {
   imports = [
     ../../modules/home-manager/cli
     ../../modules/home-manager/pkgs
@@ -11,7 +11,7 @@
     ./rbw-choose.nix
     ./git.nix
     ./jankyborders.nix
-    opencode-config
+    ./nuget-credprovider.nix
   ];
 
   # SOPS configuration for secrets management
@@ -40,7 +40,7 @@
       alacritty
       #mermaid-cli
       awscli2
-      azure-cli
+      (azure-cli.withExtensions [ azure-cli.extensions.azure-devops ])
       jetbrains.webstorm
       freerdp
       clipboard-jh
@@ -54,7 +54,7 @@
       gh
       github-copilot-cli
       mariadb.client
-      nodePackages.prettier
+      prettier
       nodejs
       opentofu
       packer
@@ -118,6 +118,10 @@
     # The state version is required and should stay at the version you
     # originally installed.
     stateVersion = "24.05";
+    # HM uses unstable nixpkgs for user packages (via home-manager input which follows nixpkgs/unstable).
+    # Darwin system packages use nixpkgs-stable. Release check compares HM module version (26.05)
+    # against system nixpkgs (25.11) but doesn't understand useGlobalPkgs = false, so disable it.
+    enableNixpkgsReleaseCheck = false;
   };
 
   colorScheme = {
