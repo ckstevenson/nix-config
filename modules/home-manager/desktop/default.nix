@@ -35,7 +35,6 @@
       playerctl
       pulseaudio
       pulsemixer
-      signal-desktop
       sxiv
     ];
 

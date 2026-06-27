@@ -36,5 +36,7 @@
         size = config.gtkFontSize;
       };
     };
+
+    gtk.gtk4.theme = config.gtk.theme;
   };
 }

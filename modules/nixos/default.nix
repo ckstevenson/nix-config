@@ -52,6 +52,18 @@
       Defaults !tty_tickets, timestamp_timeout=60
     '';
 
+    security.sudo.extraRules = [
+      {
+        users = [ "cameron" ];
+        commands = [
+          {
+            command = "/run/current-system/sw/bin/nixos-rebuild";
+            options = [ "NOPASSWD" ];
+          }
+        ];
+      }
+    ];
+
     users.users.cameron = {
       isNormalUser = true;
       shell = pkgs.zsh;

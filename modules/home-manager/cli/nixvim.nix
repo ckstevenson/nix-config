@@ -12,6 +12,7 @@ in
     colorschemes.nightfox.flavor = "carbonfox";
 
     nixpkgs.config.allowUnfree = true;
+    nixpkgs.source = pkgs.path;
 
     # Set terminal colors to match the nix-colors palette
     # This ensures :terminal in Neovim uses the same colors as your external terminal
