@@ -39,7 +39,6 @@
       anki-bin
       awscli2
       bluetuith
-      bitwarden-desktop
       bitwarden-menu
       clipboard-jh
       discord
