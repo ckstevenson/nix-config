@@ -171,21 +171,41 @@ ll="ls -l"            # Detailed listing
 
 **Current Homebrew Applications:**
 ```nix
+brews = [
+  "choose-gui"          # GUI fuzzy chooser (used by rbw-choose)
+];
+
 casks = [
   "1password"           # Password manager
   "1password-cli"       # 1Password CLI
+  "crystalfetch"        # macOS download tool
   "docker-desktop"      # Docker Desktop
-  "firefox"             # Firefox browser
+  "gimp"                # Image editor
+  "handy"               # Handy
   "keybase"             # Keybase
   "macfuse"             # FUSE for macOS
   "mullvad-vpn"         # Mullvad VPN client
   "nextcloud"           # Nextcloud sync client
-  "retroarch"           # Retro gaming
-  "signal"              # Signal messenger
+  "openvpn-connect"     # OpenVPN client
+  "retroarch"           # Retro gaming (nixpkgs version broken on aarch64)
+  "signal"              # Signal messenger (not in nixpkgs aarch64-darwin)
   "yubico-authenticator" # YubiKey authenticator
-  "zen"                 # Zen browser
 ];
 ```
+
+### Homebrew Tap Trust (brew 6.x)
+
+brew 6.0 introduced third-party tap trust enforcement. Third-party taps used by
+this config are declared in `home.file.".homebrew/trust.json"` (`home.nix`) so
+fresh installs don't require a manual `brew trust` step:
+
+```nix
+home.file.".homebrew/trust.json".text = builtins.toJSON {
+  trustedtaps = [ "osx-cross/arm" "osx-cross/avr" "qmk/qmk" ];
+};
+```
+
+Trust file location: `~/.homebrew/trust.json` (resolved from `$HOMEBREW_USER_CONFIG_HOME`).
 
 ## Secure Backup System
 
@@ -312,6 +332,7 @@ hosts/mbp/
 2. **Homebrew Path:** Ensure `/opt/homebrew/bin` is in PATH
 3. **SOPS Keys:** Verify age key exists at `~/.config/sops/age/keys.txt`
 4. **Window Rules:** Check `yabai -m rule --list` for current window rules
+5. **brew 6.x tap trust:** Third-party taps blocked with "Refusing to load formula from untrusted tap". Trust is declared declaratively in `home.nix`; on a fresh machine run `darwin-rebuild switch` once to write the trust file before `brew bundle` runs, or `brew trust <tap>` manually.
 
 ### Key Files
 - **System Config:** `hosts/mbp/configuration.nix:191` (hostname)

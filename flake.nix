@@ -38,7 +38,12 @@
       url = "github:nix-darwin/nix-darwin/nix-darwin-25.11";
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
-    opencode-config.url = "git+https://github.com/Kaleris-CVS/opencode-config?ref=feature/DOCVS-10862";
+
+    opencode-config = {
+      url = "git+https://github.com/Kaleris-CVS/opencode-config";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     mac-app-util.url = "github:hraban/mac-app-util";
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
 

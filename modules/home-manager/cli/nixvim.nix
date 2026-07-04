@@ -1,4 +1,4 @@
-{ pkgs, config, ... }:
+{ pkgs, config, inputs, ... }:
 let
   palette = config.colorScheme.palette;
 in
@@ -12,7 +12,10 @@ in
     colorschemes.nightfox.flavor = "carbonfox";
 
     nixpkgs.config.allowUnfree = true;
-    nixpkgs.source = pkgs.path;
+    # Use unstable nixpkgs so nixvim's pkgs version matches its own module version.
+    # mbp pins system nixpkgs to stable (25.11) via nixpkgs.pkgs override, but nixvim
+    # evaluates with unstable (26.05) — using stable pkgs.path causes makeVimPackageInfo mismatch.
+    nixpkgs.source = inputs.nixpkgs;
 
     # Set terminal colors to match the nix-colors palette
     # This ensures :terminal in Neovim uses the same colors as your external terminal
@@ -682,18 +685,18 @@ in
           };
         };
       };
-      copilot-vim.enable = true;
-      copilot-chat = {
-        enable = false;
-        settings = {
-          model = "claude-sonnet-4";
-          mappings = {
-            complete = {
-              insert = "<S-Tab>";
-            };
-          };
-        };
-      };
+      #copilot-vim.enable = true;
+      #copilot-chat = {
+      #  enable = false;
+      #  settings = {
+      #    model = "claude-sonnet-4";
+      #    mappings = {
+      #      complete = {
+      #        insert = "<S-Tab>";
+      #      };
+      #    };
+      #  };
+      #};
       #diagram.enable = true;
       #dotnet.enable = true;
       markview.enable = true;

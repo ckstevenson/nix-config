@@ -43,7 +43,6 @@
       clipboard-jh
       discord
       gh
-      github-copilot-cli
       goverlay
       vkbasalt
       jq
@@ -81,7 +80,6 @@
     sessionVariables = {
       TERMINAL = "alacritty";
       VIDEO = "mpv";
-      PATH = "$PATH:/opt/homebrew/bin";
       EDITOR = "nvim";
     };
 

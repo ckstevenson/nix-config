@@ -8,12 +8,9 @@
       upgrade = true;
     };
 
-    taps = [
-      "sumologic-labs/homebrew-tap" #brew tap sumologic-labs/homebrew-tap
-    ];
+    taps = [ ];
     brews = [
       "choose-gui"
-      "sumocli" #brew install sumologic-labs/tap/sumocli
     ];
     casks = [
       #"bambu-studio"

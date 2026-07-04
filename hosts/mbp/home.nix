@@ -52,7 +52,6 @@
       bitwarden-cli
       mpv
       gh
-      github-copilot-cli
       mariadb.client
       prettier
       nodejs
@@ -113,6 +112,17 @@
       tfi = "tofu init";
       tfp = "tofu plan";
       ll = "ls -l";
+    };
+
+    # Brew 6.0.x requires explicit tap trust. Declare trusted taps here so a
+    # fresh install doesn't need a manual `brew trust` step.
+    # Trust file location: $HOMEBREW_USER_CONFIG_HOME/trust.json (~/.homebrew/trust.json)
+    file.".homebrew/trust.json".text = builtins.toJSON {
+      trustedtaps = [
+        "osx-cross/arm"
+        "osx-cross/avr"
+        "qmk/qmk"
+      ];
     };
 
     # The state version is required and should stay at the version you

@@ -14,7 +14,6 @@
     clipboard-jh
     detect-secrets
     gh
-    github-copilot-cli
     jq
     mariadb.client
     mpv
