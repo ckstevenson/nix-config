@@ -203,7 +203,6 @@
           "$mainMod, F, exec, $terminal -e lf"
           "$mainMod SHIFT, o, togglefloating"
           "$mainMod, D, exec, bemenu-run"
-          "$mainMod SHIFT, T, togglesplit"
           "$mainMod, W, exec, firefox"
           "$mainMod, c, exec, chromium-browser"
           "$mainMod, a, exec, $terminal -e pulsemixer"

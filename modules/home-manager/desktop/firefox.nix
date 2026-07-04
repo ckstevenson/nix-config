@@ -10,6 +10,10 @@
   config = lib.mkIf ((osConfig.desktop.enable or false) || pkgs.stdenv.isDarwin) {
     programs.firefox = {
       enable = true;
+      # Keep legacy profile location. HM 26.05 (stateVersion-gated) moves this
+      # to $XDG_CONFIG_HOME/mozilla/firefox, which would orphan the existing
+      # ~/.mozilla/firefox profile (history, cookies, open tabs).
+      configPath = ".mozilla/firefox";
       profiles.cameron = {
         extensions.packages = with inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system}; [
           bitwarden
