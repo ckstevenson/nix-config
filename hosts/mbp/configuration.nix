@@ -46,12 +46,13 @@
       users.cameronstevenson = {
         nixpkgs.config.allowUnfree = true;
         imports = [
-          inputs.mac-app-util.homeManagerModules.default
-          inputs.nix-colors.homeManagerModules.default
-          inputs.nixvim.homeModules.nixvim
-          inputs.sops-nix.homeManagerModules.sops
-          inputs.zen-browser.homeModules.twilight
-          inputs.opencode-config.homeManagerModules.default
+          # Accept either `homeModules` or legacy `homeManagerModules` from inputs
+          (if builtins.hasAttr "homeModules" inputs.mac-app-util then inputs.mac-app-util.homeModules.default else inputs.mac-app-util.homeManagerModules.default)
+          (if builtins.hasAttr "homeModules" inputs.nix-colors then inputs.nix-colors.homeModules.default else inputs.nix-colors.homeManagerModules.default)
+          (if builtins.hasAttr "homeModules" inputs.nixvim then inputs.nixvim.homeModules.nixvim else inputs.nixvim.homeManagerModules.nixvim)
+          (if builtins.hasAttr "homeModules" inputs.sops-nix then inputs.sops-nix.homeModules.sops else inputs.sops-nix.homeManagerModules.sops)
+          (if builtins.hasAttr "homeModules" inputs.zen-browser then inputs.zen-browser.homeModules.twilight else inputs.zen-browser.homeManagerModules.twilight)
+          (if builtins.hasAttr "homeModules" inputs.opencode-config then inputs.opencode-config.homeModules.default else inputs.opencode-config.homeManagerModules.default)
           ./home.nix
         ];
       };

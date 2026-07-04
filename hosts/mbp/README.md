@@ -305,8 +305,8 @@ hosts/mbp/
 - `./alacritty.nix` - Terminal configuration
 
 ### External Inputs
-- `mac-app-util.homeManagerModules.default` - macOS app utilities
-- `nix-colors.homeManagerModules.default` - Color scheme support
+- `mac-app-util.homeModules.default` - macOS app utilities
+- `nix-colors.homeModules.default` - Color scheme support
 - `nixvim.homeModules.nixvim` - Neovim configuration
 
 ## Usage Patterns
