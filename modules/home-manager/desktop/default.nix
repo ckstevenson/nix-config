@@ -25,7 +25,7 @@
     };
 
     home.packages = with pkgs; [
-      bambu-studio
+      #bambu-studio
       chromium
       dconf
       gimp

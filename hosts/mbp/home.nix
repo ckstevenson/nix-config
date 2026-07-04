@@ -127,7 +127,7 @@
 
     # The state version is required and should stay at the version you
     # originally installed.
-    stateVersion = "24.05";
+    stateVersion = "26.05";
     # HM uses unstable nixpkgs for user packages (via home-manager input which follows nixpkgs/unstable).
     # Darwin system packages use nixpkgs-stable. Release check compares HM module version (26.05)
     # against system nixpkgs (25.11) but doesn't understand useGlobalPkgs = false, so disable it.

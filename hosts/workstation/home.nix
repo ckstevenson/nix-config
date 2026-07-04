@@ -46,9 +46,10 @@
       goverlay
       vkbasalt
       jq
-      lutris
-      mariadb.client
+      #lutris
       mpv
+      #mangohud
+      #mullvad-vpn
       prettier
       nodejs
       opentofu
