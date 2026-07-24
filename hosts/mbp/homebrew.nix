@@ -13,21 +13,24 @@
       "choose-gui"
     ];
     casks = [
-      #"bambu-studio"
-      "1password"
+      "openchamber" # GUI for opencode; no nixpkgs pkg, cask self-updates"1password"
       "1password-cli"
       "crystalfetch"
       "docker-desktop"
       "gimp"
       "handy"
+      "jellyfin-media-player"
       "keybase"
       "macfuse"
       "mullvad-vpn" # not available for aarch64-darwin in nixpkgs
       "nextcloud"
+      "openchamber" # GUI for opencode; no nixpkgs pkg, cask self-updates
       "openvpn-connect"
       "retroarch" # nixpkgs version is broken
       "signal" # not available for aarch64-darwin in nixpkgs
+      "steam" # macOS-native client; nixpkgs steam is Linux-only
       "yubico-authenticator"
+      #"bambu-studio"
     ];
   };
 }

@@ -19,12 +19,21 @@
       default = "/home/cameron";
       description = "The home directory of the user";
     };
+    # ollama.enable option moved to modules/nixos/ollama.nix to avoid
+    # duplicate declarations when that module is imported. See
+    # modules/nixos/ollama.nix for the option definition and implementation.
   };
 
   imports = [
     ./desktop.nix
     ./laptop.nix
     ./ssh.nix
+    # Note: ollama.nix defines its own `ollama.enable` option. Do not re-declare
+    # the option here to avoid duplicate-option errors when this module is
+    # imported alongside modules/nixos/ollama.nix. The ollama.nix module is
+    # included below to provide the implementation, but the option definition is
+    # declared only in modules/nixos/ollama.nix to keep the option single-source.
+    ./ollama.nix
   ];
 
   config = {
@@ -77,5 +86,7 @@
 
     services.tailscale.enable = true;
     nix.settings.experimental-features = [ "nix-command" "flakes" ];
+    # Default: don't enable ollama on all hosts. Enable per-host.
+    ollama.enable = lib.mkDefault false;
   };
 }

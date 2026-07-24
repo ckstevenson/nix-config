@@ -44,12 +44,16 @@
       jetbrains.webstorm
       freerdp
       clipboard-jh
+      github-copilot-cli
+      # github-desktop removed: pulls Linux-only libselinux/libsepol → fails on darwin
+      # github-desktop
       dbeaver-bin
       dotnet-sdk_8
       qmk
       jq
-      bitwarden-desktop
-      bitwarden-cli
+      # bitwarden desktop build removed — upstream build requires complex
+      # native toolchain and currently fails during linking on darwin.
+      # Leave removal until we have fixed derivation or cached binary.
       mpv
       gh
       mariadb.client
@@ -65,6 +69,10 @@
       slack
       spacectl
       sshfs
+      # sweethome3d temporarily disabled: resolves to attrset, not plain derivation
+      # see: https://github.com/NixOS/nixpkgs/issues/ (investigate later)
+      # sweethome3d
+      # librecad
       maccy
       terraform-docs
       sqlcmd
@@ -74,7 +82,8 @@
       wordnet
       yt-dlp
       utm
-      vscode
+      # vscode removed due to build issues; use vscodium instead
+      # vscode
       vscodium
       #vscode-utils
       # Development and pre-commit tools
@@ -84,6 +93,7 @@
       detect-secrets
       volatility3
       # Migrated from Homebrew
+      nixos-rebuild
       #_1password-gui
       #_1password-cli
     ];
@@ -128,10 +138,8 @@
     # The state version is required and should stay at the version you
     # originally installed.
     stateVersion = "26.05";
-    # HM uses unstable nixpkgs for user packages (via home-manager input which follows nixpkgs/unstable).
-    # Darwin system packages use nixpkgs-stable. Release check compares HM module version (26.05)
-    # against system nixpkgs (25.11) but doesn't understand useGlobalPkgs = false, so disable it.
-    enableNixpkgsReleaseCheck = false;
+    # Home Manager and system now both use unstable nixpkgs; enable release check.
+    # (stateVersion remains at 26.05)
   };
 
   colorScheme = {

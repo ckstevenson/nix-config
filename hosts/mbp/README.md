@@ -141,7 +141,7 @@ rclone                # Cloud storage sync
 ### Shell Configuration
 ```bash
 # Environment Variables
-BROWSER="zen"          # Default browser
+BROWSER="firefox"      # Default browser
 TERMINAL="alacritty"   # Default terminal
 EDITOR="nvim"          # Default editor
 VIDEO="mpv"            # Default video player
@@ -293,6 +293,113 @@ hosts/mbp/
 ├── git.nix             # Git settings
 └── rbw-choose.nix      # Password manager integration
 ```
+
+## Firefox URL Handler (opening links from terminal / other apps)
+
+### Symptom
+
+Clicking a link in Alacritty (or any `open https://...`) fails to open Firefox,
+or opens Firefox without the URL. This tends to **recur after Firefox version
+bumps** - the link "becomes unlinked" again.
+
+### Root cause
+
+Two macOS-specific problems compound:
+
+1. **Duplicate bundle identifiers.** Every nixpkgs `Firefox.app` uses the same
+   `CFBundleIdentifier` (`org.nixos.firefox`). Each rebuild that bumps Firefox
+   adds another `Firefox.app` to the Nix store, all sharing that id. Over time
+   LaunchServices knows many bundles with the same id across live and
+   garbage-collected store paths, and resolves `https`/`http` to a dead or
+   wrong one.
+2. **Arg-dropping trampoline.** `mac-app-util` generates an AppleScript
+   trampoline (`~/Applications/Home Manager Trampolines/Firefox.app`) that runs
+   `open '<hardcoded store path>'` with no `"$@"` forwarding, so the URL is
+   dropped and the hardcoded path goes stale after the next update. This is
+   upstream issue [hraban/mac-app-util#17](https://github.com/hraban/mac-app-util/issues/17)
+   (also surfaces as #38, "Open With" from Finder failing).
+
+"Just use the defaults" does not fix it: the default **is** the arg-dropping
+trampoline plus duplicate ids. A one-time LaunchServices rebuild only helps
+until the next Firefox bump.
+
+### Permanent solution (implemented in `firefox.nix`)
+
+A small, self-contained launcher app is built in Nix and installed to
+`~/Applications/Firefox Launcher.app`:
+
+- **Unique bundle id** `org.nixos.firefox-launcher` - never collides with the
+  `org.nixos.firefox` store bundles.
+- Its executable is a shell script that `exec`s the **current**
+  `config.programs.firefox.finalPackage` binary and **forwards `"$@"`**, so the
+  URL is passed through.
+- Because it always targets `finalPackage`, it is immune to Firefox version
+  bumps and store-path garbage collection.
+- A home-manager activation registers it with LaunchServices and pins it as the
+  default `http`/`https` handler via `duti -s org.nixos.firefox-launcher`.
+
+### One-time macOS dialog
+
+The first time the handler is set, macOS shows a non-suppressible security
+dialog: *"Do you want to change your default web browser to Firefox Launcher?"*
+Click **Use "Firefox Launcher"**. This cannot be automated safely
+(see [kerma/defaultbrowser#3](https://github.com/kerma/defaultbrowser/issues/3)).
+Because the launcher id is stable, you approve it **once** and it does not
+reappear on future Firefox updates. The activation is idempotent (`duti -d
+https` check) so rebuilds do not re-trigger the prompt.
+
+### Alternative considered
+
+Upstream's `github:hraban/mac-app-util/link-contents` branch also fixes #17 by
+symlinking `Contents/` instead of trampolining. It was rejected here because the
+branch is unmerged and ~10 commits behind `master`, which would pin the whole
+config to a stale fork.
+
+## Firefox Profile (data appears "missing" after updates)
+
+### Symptom
+
+Firefox opens with a blank profile - no bookmarks, extensions, history or
+logins - typically **after a Firefox version bump**. The data is not actually
+lost; Firefox is just opening the wrong profile.
+
+### Root cause
+
+Firefox 67+ uses a "dedicated profile per installation": it keys the chosen
+profile on a hash of the install path via `installs.ini`. Every Nix Firefox
+version bump produces a **new store path**, which Firefox sees as a brand-new
+installation. With no matching `installs.ini` entry (home-manager writes
+`profiles.ini` but not `installs.ini`), Firefox can ignore the `Default=1`
+profile and create a fresh empty `*.default` profile instead of the real one.
+
+On this machine the real profile is:
+
+```
+~/Library/Application Support/Firefox/Profiles/cameron   # ~1.2 GB, real data
+~/Library/Application Support/Firefox/Profiles/4k8v93j4.default   # stray, empty
+```
+
+Note: this is a macOS profile-selection problem, NOT a path problem. Do not try
+to move data to `~/.config`: home-manager's `.mozilla` -> `~/.config/mozilla`
+XDG migration is **Linux-only**. On macOS, Firefox reads
+`~/Library/Application Support/Firefox` and nothing else; forcing `.config`
+would hide the profile entirely. A leftover `~/.mozilla/firefox` on macOS is
+inert legacy split-brain and can be removed.
+
+### Permanent solution (implemented in `firefox.nix`)
+
+The launcher app execs Firefox with `-P <profileName>` (derived from the single
+home-manager-managed `programs.firefox.profiles` attribute, e.g. `cameron`).
+`-P` selects the profile by name from `profiles.ini` and bypasses the
+install-hash logic entirely, so a version bump can never divert you to a fresh
+empty profile. Combined with the URL-handler launcher above, every link click
+opens the correct profile.
+
+### Cleaning up the stray profile
+
+The empty `*.default` profile and the legacy `~/.mozilla/firefox` directory are
+safe to remove once you have confirmed the real profile loads. See
+`scripts/firefox-cleanup.sh`.
 
 ## Module Imports
 

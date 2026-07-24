@@ -30,3 +30,7 @@ pre-commit run --all-files                        # Run all quality checks
 - **Reusable modules**: `modules/nixos/` (system), `modules/home-manager/` (user)
 - **Secrets**: Managed via SOPS (never commit plaintext); edit with `sops secrets/secrets.yaml`
 - **Task management**: See `.taskmaster/CLAUDE.md` for Task Master AI workflow integration
+
+Plans and proposals
+
+- High-level plans and RFCs live in `docs/plans/` — see `docs/plans/README.md` for usage guidance.

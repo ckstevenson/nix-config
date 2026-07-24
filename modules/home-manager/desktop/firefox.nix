@@ -10,10 +10,18 @@
   config = lib.mkIf ((osConfig.desktop.enable or false) || pkgs.stdenv.isDarwin) {
     programs.firefox = {
       enable = true;
-      # Keep legacy profile location. HM 26.05 (stateVersion-gated) moves this
-      # to $XDG_CONFIG_HOME/mozilla/firefox, which would orphan the existing
-      # ~/.mozilla/firefox profile (history, cookies, open tabs).
-      configPath = ".mozilla/firefox";
+      # Profile storage location (platform-specific):
+      #   - macOS: ~/Library/Application Support/Firefox  (Apple default)
+      #   - Linux: ~/.config/mozilla/firefox on stateVersion >= 26.05, else
+      #            ~/.mozilla/firefox (home-manager's XDG migration is
+      #            LINUX-ONLY; macOS is never moved to ~/.config).
+      # Do NOT try to force ~/.config on macOS: Firefox on macOS only reads the
+      # Library path, so that would hide all profile data. Let the home-manager
+      # firefox module use its platform-aware default for configPath.
+      #
+      # A leftover ~/.mozilla/firefox on macOS is inert legacy split-brain from
+      # an older config that hardcoded ".mozilla/firefox"; Firefox ignores it on
+      # macOS. It can be safely removed (see scripts/firefox-cleanup.sh).
       profiles.cameron = {
         extensions.packages = with inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system}; [
           bitwarden
@@ -26,6 +34,8 @@
           #vim-vixen
           #youtube-shorts-block
         ];
+
+        id = 0;
 
         search = {
           force = true;
@@ -168,29 +178,97 @@
       };
     };
 
-    # macOS LaunchServices fix:
-    # mac-app-util creates an AppleScript trampoline at
-    #   ~/Applications/Home Manager Trampolines/Firefox.app
-    # which calls `open <firefox-bundle>` WITHOUT forwarding the URL argument.
-    # When LaunchServices invokes it for `https://`, the URL is dropped, so
-    # `open https://...` (and alacritty hint clicks) silently fail to open
-    # the URL in Firefox.
+    # macOS URL-handler fix (permanent, version-independent).
     #
-    # Fix: unregister the trampoline and force-register the real Nix Firefox
-    # bundle so LaunchServices routes URL opens directly to the working binary.
-    home.activation.fixFirefoxLaunchServices = lib.mkIf pkgs.stdenv.isDarwin (
-      lib.hm.dag.entryAfter [ "linkGeneration" ] ''
-        LSREG=/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister
-        FIREFOX_BUNDLE="${config.programs.firefox.finalPackage}/Applications/Firefox.app"
-        TRAMPOLINE="$HOME/Applications/Home Manager Trampolines/Firefox.app"
-        if [ -e "$TRAMPOLINE" ]; then
-          "$LSREG" -u "$TRAMPOLINE" || true
-        fi
-        if [ -e "$FIREFOX_BUNDLE" ]; then
-          "$LSREG" -f "$FIREFOX_BUNDLE" || true
-        fi
-      ''
-    );
+    # Problem (recurring on every Firefox version bump):
+    #   1. nixpkgs Firefox.app always uses CFBundleIdentifier "org.nixos.firefox".
+    #      Every rebuild that bumps Firefox adds ANOTHER Firefox.app to the Nix
+    #      store, all sharing that identifier. Over time LaunchServices (LS)
+    #      knows many bundles with the same id (12+ observed), across live and
+    #      garbage-collected store paths.
+    #   2. mac-app-util generates an AppleScript "trampoline" at
+    #        ~/Applications/Home Manager Trampolines/Firefox.app
+    #      that runs `open '<hardcoded store path>'` with NO "$@" forwarding.
+    #      So the URL is dropped, and the hardcoded path goes stale/GC'd after
+    #      the next Firefox update.
+    #   With duplicate identifiers + a stale, arg-dropping trampoline, LS resolves
+    #   https/http to a dead or wrong bundle and `open https://...` (alacritty
+    #   hint clicks) silently fails to open the URL.
+    #
+    # Why "just use defaults" does not work:
+    #   The default IS the arg-dropping trampoline plus duplicate bundle ids.
+    #   A one-time GC + LS rebuild only helps until the next Firefox bump.
+    #
+    # Permanent solution:
+    #   Ship our OWN launcher app with a UNIQUE bundle identifier
+    #   (org.nixos.firefox-launcher) whose executable is a shell script that
+    #   execs the CURRENT finalPackage Firefox binary and FORWARDS "$@". Because
+    #   the identifier is unique it never collides with the store bundles, and
+    #   because it always points at config.programs.firefox.finalPackage it is
+    #   immune to version bumps and store-path GC. We then pin it as the default
+    #   http/https handler by that stable identifier.
+    # Shared launcher artifacts for macOS URL-handler fix
+    # Declare launcher bundle files directly via home.file so Home Manager
+    # owns them and doesn't copy read-only Nix store artifacts into
+    # ~/Applications.
+
+    home.file."Applications/Firefox Launcher.app/Contents/Info.plist" = lib.mkIf pkgs.stdenv.isDarwin {
+      text = ''
+        <?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+        <plist version="1.0">
+        <dict>
+          <key>CFBundleExecutable</key><string>launcher</string>
+          <key>CFBundleIdentifier</key><string>org.nixos.firefox-launcher</string>
+          <key>CFBundleName</key><string>Firefox Launcher</string>
+          <key>CFBundlePackageType</key><string>APPL</string>
+          <key>CFBundleShortVersionString</key><string>1.0</string>
+          <key>LSMinimumSystemVersion</key><string>10.0</string>
+          <key>CFBundleURLTypes</key>
+          <array>
+            <dict>
+              <key>CFBundleURLName</key><string>Web URL</string>
+              <key>CFBundleURLSchemes</key>
+              <array><string>http</string><string>https</string></array>
+            </dict>
+          </array>
+        </dict>
+        </plist>
+      '';
+    };
+
+    home.file."Applications/Firefox Launcher.app/Contents/MacOS/launcher" = lib.mkIf pkgs.stdenv.isDarwin {
+      text = ''exec "${config.programs.firefox.finalPackage}/Applications/Firefox.app/Contents/MacOS/firefox" -P "${lib.head (lib.attrNames config.programs.firefox.profiles)}" "$@"'';
+      executable = true;
+    };
+
+    # Activation: one-time cleanup of any stale read-only launcher, then
+    # register the managed launcher and set default handlers. Keep this
+    # activation minimal and idempotent.
+    home.activation.fixFirefoxUrlHandler = lib.mkIf pkgs.stdenv.isDarwin (lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+      LSREG=/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister
+      LAUNCHER_DST="$HOME/Applications/Firefox Launcher.app"
+
+      # If an existing launcher exists with read-only store permissions the
+      # previous imperative copy left, try to remove it once so the
+      # declarative home.file can place the managed copy. Guarded so it
+      # only performs the cleanup when something is actually present.
+      if [ -e "$LAUNCHER_DST" ]; then
+        # Make writable where possible, then remove. Ignore failures.
+        chmod -R u+w "$LAUNCHER_DST" 2>/dev/null || true
+        rm -rf "$LAUNCHER_DST" 2>/dev/null || true
+      fi
+
+      # Register the launcher so LaunchServices can resolve its unique id.
+      "$LSREG" -f "$LAUNCHER_DST" || true
+
+      # Pin the launcher as the default http/https handler by its stable id.
+      current="$(${pkgs.duti}/bin/duti -d https 2>/dev/null)"
+      if [ "$current" != "org.nixos.firefox-launcher" ]; then
+        ${pkgs.duti}/bin/duti -s org.nixos.firefox-launcher http  || true
+        ${pkgs.duti}/bin/duti -s org.nixos.firefox-launcher https || true
+      fi
+    '');
 
     # XDG MIME associations for Firefox (Linux only)
     xdg.mimeApps = lib.mkIf pkgs.stdenv.isLinux {

@@ -5,17 +5,21 @@ in
 {
   programs.nixvim = {
     enable = true;
-    enableMan = true;
+    # Disable manpage generation — pandoc in current nixpkgs lacks Lua support
+    # which breaks the nixvim manpage derivations. Disabling this avoids
+    # building `nixvim-general-doc-manpage` and related failing derivations.
+    enableMan = false;
     viAlias = true;
     vimAlias = true;
     colorschemes.nightfox.enable = true;
     colorschemes.nightfox.flavor = "carbonfox";
 
-    nixpkgs.config.allowUnfree = true;
-    # Use unstable nixpkgs so nixvim's pkgs version matches its own module version.
-    # mbp pins system nixpkgs to stable (25.11) via nixpkgs.pkgs override, but nixvim
-    # evaluates with unstable (26.05) — using stable pkgs.path causes makeVimPackageInfo mismatch.
-    nixpkgs.source = inputs.nixpkgs;
+    # Ensure nixvim uses the root flake nixpkgs to avoid follow-warning when
+    # flakes follow the same nixpkgs. Explicitly set source to silence warning.
+    nixpkgs = {
+      source = inputs.nixpkgs;
+      config.allowUnfree = true;
+    };
 
     # Set terminal colors to match the nix-colors palette
     # This ensures :terminal in Neovim uses the same colors as your external terminal
