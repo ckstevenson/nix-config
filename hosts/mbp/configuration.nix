@@ -29,14 +29,21 @@
     homeDirectory = "/Users/cameronstevenson";
     system.primaryUser = config.username;
 
-    # Pin this host to stable nixpkgs (other hosts stay on unstable).
-    nixpkgs.pkgs = import inputs.nixpkgs-stable {
-      system = "aarch64-darwin";
-      config.allowUnfree = true;
-    };
+    # Use unstable nixpkgs for system packages so Home Manager and system
+    # share the same pkgs set. This avoids module / lib path mismatches
+    # (e.g. missing lib/services/lib.nix) caused by a stable/unstable split.
+    nixpkgs.config.allowUnfree = true;
+    # Allow building packages that don't declare darwin support. Some
+    # packages in this config are linux-only but can still be used via
+    # emulation or other layers; enable to avoid evaluation refusal.
+    nixpkgs.config.allowUnsupportedSystem = true;
+    # Permit known insecure but required packages (e.g. old Electron used by
+    # GitHub Desktop). Revisit and remove once upstream updated.
+    nixpkgs.config.permittedInsecurePackages = [ "electron-39.8.10" ];
 
     home-manager = {
-      useGlobalPkgs = false;
+      # Share global pkgs with system (unstable). Matches other hosts.
+      useGlobalPkgs = true;
       useUserPackages = true;
       backupFileExtension = "backup";
       extraSpecialArgs = {
@@ -44,7 +51,6 @@
       };
 
       users.cameronstevenson = {
-        nixpkgs.config.allowUnfree = true;
         imports = [
           # Accept either `homeModules` or legacy `homeManagerModules` from inputs
           (if builtins.hasAttr "homeModules" inputs.mac-app-util then inputs.mac-app-util.homeModules.default else inputs.mac-app-util.homeManagerModules.default)
@@ -88,10 +94,19 @@
       ];
       trusted-public-keys = [
         "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCUSeBw="
+        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
         "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
         "nix-darwin.cachix.org-1:hmcsBDa3DgQTPFiuW/y3N/jeC3YKLhFJSFBV3gMq/1E="
       ];
+    };
+
+    # Automatic Nix garbage collection: run weekly and delete items older than 30 days.
+    # This reclaims store space declaratively. Age-based retention means inactive
+    # systems older than 30d will be removed; this matches desired nix.gc approach.
+    nix.gc = {
+      automatic = true;
+      interval = { Weekday = 7; Hour = 3; Minute = 15; };
+      options = "--delete-older-than 30d";
     };
 
     # Create /etc/zshrc that loads the nix-darwin environment.
