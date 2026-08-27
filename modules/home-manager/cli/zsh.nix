@@ -106,6 +106,25 @@
         fi
       }
 
+      # Report repository name separately so Herdr does not display worktree basename.
+      _herdr_repo_metadata() {
+        [[ -z "$HERDR_WORKSPACE_ID" ]] && return
+
+        local common_dir repo_name
+        common_dir=$(git rev-parse --git-common-dir 2>/dev/null) || return
+        common_dir=''${common_dir:A}
+        repo_name=''${common_dir:t}
+
+        if [[ "$repo_name" == ".git" || "$repo_name" == ".bare" ]]; then
+          repo_name=''${common_dir:h:t}
+        fi
+
+        [[ -z "$repo_name" ]] && return
+        herdr workspace report-metadata "$HERDR_WORKSPACE_ID" \
+          --source zsh-repo-name --token "repo=$repo_name" >/dev/null 2>&1
+      }
+      precmd_functions+=( _herdr_repo_metadata )
+
       # Nix shell indicator
       _nix_shell_indicator() {
         [[ -n "$IN_NIX_SHELL" ]] && echo " %F{#${base0D}}❄%f"

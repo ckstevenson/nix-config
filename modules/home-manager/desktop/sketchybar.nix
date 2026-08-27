@@ -227,14 +227,12 @@ let
     # Bar appearance
     sketchybar --bar \
       height=32 \
-      blur_radius=30 \
       position=bottom \
       sticky=on \
       topmost=window \
       padding_left=10 \
       padding_right=10 \
       color=${colors.bg} \
-      shadow=on \
       display=all
 
     # Default item settings

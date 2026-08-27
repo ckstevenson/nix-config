@@ -57,7 +57,6 @@
           (if builtins.hasAttr "homeModules" inputs.nix-colors then inputs.nix-colors.homeModules.default else inputs.nix-colors.homeManagerModules.default)
           (if builtins.hasAttr "homeModules" inputs.nixvim then inputs.nixvim.homeModules.nixvim else inputs.nixvim.homeManagerModules.nixvim)
           (if builtins.hasAttr "homeModules" inputs.sops-nix then inputs.sops-nix.homeModules.sops else inputs.sops-nix.homeManagerModules.sops)
-          (if builtins.hasAttr "homeModules" inputs.zen-browser then inputs.zen-browser.homeModules.twilight else inputs.zen-browser.homeManagerModules.twilight)
           (if builtins.hasAttr "homeModules" inputs.opencode-config then inputs.opencode-config.homeModules.default else inputs.opencode-config.homeManagerModules.default)
           ./home.nix
         ];
@@ -198,6 +197,9 @@
         # launchanim = true;
         # orientation = "bottom";
       };
+
+      # Do not follow applications to their windows on another Space.
+      CustomUserPreferences."com.apple.dock"."workspaces-auto-swoosh" = false;
 
       # ** Keyboard
       # step sliders in UI are:

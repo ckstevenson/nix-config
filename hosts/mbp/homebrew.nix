@@ -15,9 +15,11 @@
     casks = [
       "openchamber" # GUI for opencode; no nixpkgs pkg, cask self-updates"1password"
       "1password-cli"
+      "balenaetcher"
       "crystalfetch"
       "docker-desktop"
-      "gimp"
+      #"gimp"
+      "github-copilot-app"
       "handy"
       "jellyfin-media-player"
       "keybase"

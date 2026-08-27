@@ -7,6 +7,7 @@
     ./zoxide.nix
     ./nixvim.nix
     ./direnv.nix
+    ./herdr.nix
   ];
 
   home = {

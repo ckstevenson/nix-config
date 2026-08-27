@@ -154,13 +154,11 @@ let
     # Bar appearance
     sketchybar --bar \
       height=32 \
-      blur_radius=30 \
       position=bottom \
       sticky=on \
       padding_left=10 \
       padding_right=10 \
-      color=${colors.bg} \
-      shadow=on
+      color=${colors.bg}
 
     # Default item settings
     sketchybar --default \

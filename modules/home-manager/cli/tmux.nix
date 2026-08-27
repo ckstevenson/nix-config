@@ -11,6 +11,7 @@
     terminal = "xterm-256color";
     historyLimit = 10000;
     plugins = with pkgs.tmuxPlugins; [
+      resurrect
       continuum
     ];
     extraConfig = with config.colorScheme.palette; ''

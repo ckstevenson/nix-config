@@ -4,7 +4,6 @@
     ../../modules/home-manager/pkgs
     ../../modules/home-manager/desktop/alacritty.nix
     ../../modules/home-manager/desktop/firefox.nix
-    ../../modules/home-manager/desktop/zen-browser.nix
     ../../modules/home-manager/desktop/sketchybar.nix
     ../../modules/home-manager/darwin-secure-backup.nix
     ../../modules/home-manager/pkgs/sqlpackage.nix
@@ -56,6 +55,7 @@
       # Leave removal until we have fixed derivation or cached binary.
       mpv
       gh
+      herdr
       mariadb.client
       prettier
       nodejs

@@ -51,7 +51,7 @@ focus_follows_mouse = "autoraise"; # Auto-raise on mouse focus
 - `cmd + shift + n` - Toggle Notes scratchpad or open notes
 - `cmd + d` - Application launcher (choose from all apps)
 - `cmd + p` - Password manager (rbw-choose)
-- `cmd + w` - Open Zen browser
+- `cmd + w` - Open Firefox
 
 **Window Management:**
 - `cmd + h/j/k/l` - Focus window (vim-style navigation)
@@ -141,7 +141,7 @@ rclone                # Cloud storage sync
 ### Shell Configuration
 ```bash
 # Environment Variables
-BROWSER="firefox"      # Default browser
+BROWSER="firefox"      # Advisory preference for programs that honor it
 TERMINAL="alacritty"   # Default terminal
 EDITOR="nvim"          # Default editor
 VIDEO="mpv"            # Default video player
@@ -153,6 +153,13 @@ gs="git status"       # Git shortcuts
 tf="tofu"             # OpenTofu shortcuts
 ll="ls -l"            # Detailed listing
 ```
+
+On Darwin, Nix Firefox is an application bundle, not a `bin/firefox` shell
+command. Use `open -a Firefox -- URL` or the managed app picker.
+`BROWSER=firefox` is advisory and does not control `/usr/bin/open`; macOS uses
+LaunchServices for URLs opened by other applications. The managed Firefox
+module registers the current bundle after each Home Manager generation. See
+`docs/firefox-url-launcher.md` for rebuild and update checks.
 
 ## Package Management Strategy
 
@@ -313,7 +320,7 @@ Two macOS-specific problems compound:
    garbage-collected store paths, and resolves `https`/`http` to a dead or
    wrong one.
 2. **Arg-dropping trampoline.** `mac-app-util` generates an AppleScript
-   trampoline (`~/Applications/Home Manager Trampolines/Firefox.app`) that runs
+   trampoline (`~/Applications/Home Manager Apps/Firefox.app`) that runs
    `open '<hardcoded store path>'` with no `"$@"` forwarding, so the URL is
    dropped and the hardcoded path goes stale after the next update. This is
    upstream issue [hraban/mac-app-util#17](https://github.com/hraban/mac-app-util/issues/17)
@@ -323,37 +330,37 @@ Two macOS-specific problems compound:
 trampoline plus duplicate ids. A one-time LaunchServices rebuild only helps
 until the next Firefox bump.
 
-### Permanent solution (implemented in `firefox.nix`)
+### Current solution
 
-A small, self-contained launcher app is built in Nix and installed to
-`~/Applications/Firefox Launcher.app`:
+Home Manager removes the mac-app-util Firefox wrapper after linking the current
+generation, then registers a stable declarative `Firefox.app` with
+bundle ID `org.nixos.firefox-launcher`. The launcher forwards URL arguments to
+the current managed Firefox binary and remains valid across store-path updates.
 
-- **Unique bundle id** `org.nixos.firefox-launcher` - never collides with the
-  `org.nixos.firefox` store bundles.
-- Its executable is a shell script that `exec`s the **current**
-  `config.programs.firefox.finalPackage` binary and **forwards `"$@"`**, so the
-  URL is passed through.
-- Because it always targets `finalPackage`, it is immune to Firefox version
-  bumps and store-path garbage collection.
-- A home-manager activation registers it with LaunchServices and pins it as the
-  default `http`/`https` handler via `duti -s org.nixos.firefox-launcher`.
+Alacritty URL hints separately discover URLs with a regex or OSC 8 hyperlink,
+then pass the selected URL to `/usr/bin/open`. Rendered regex must contain
+`\s`, not `\\s`; the latter truncates URLs at `s` characters. See
+`docs/firefox-url-launcher.md` for long Wiz-style fragment caveats.
 
-### One-time macOS dialog
+If a stale Homebrew cask remains, remove it once:
 
-The first time the handler is set, macOS shows a non-suppressible security
-dialog: *"Do you want to change your default web browser to Firefox Launcher?"*
-Click **Use "Firefox Launcher"**. This cannot be automated safely
-(see [kerma/defaultbrowser#3](https://github.com/kerma/defaultbrowser/issues/3)).
-Because the launcher id is stable, you approve it **once** and it does not
-reappear on future Firefox updates. The activation is idempotent (`duti -d
-https` check) so rebuilds do not re-trigger the prompt.
+```sh
+brew uninstall --cask firefox
+```
+
+Then start a new shell. `BROWSER=firefox` remains an advisory preference for
+programs that honor it; it does not control `/usr/bin/open` or links from other
+applications.
+
+If `open URL` still uses an older Firefox bundle, select Firefox in System
+Settings > Desktop & Dock > Default web browser. A reboot is not required;
+quit and reopen Firefox and the application sending the URL.
 
 ### Alternative considered
 
-Upstream's `github:hraban/mac-app-util/link-contents` branch also fixes #17 by
-symlinking `Contents/` instead of trampolining. It was rejected here because the
-branch is unmerged and ~10 commits behind `master`, which would pin the whole
-config to a stale fork.
+Upstream's `github:hraban/mac-app-util/link-contents` branch has reports of
+fixing #17 by symlinking `Contents/`, but it remains unmerged and its maintainer
+reported Launchpad, Spotlight, and icon regressions. It is not pinned here.
 
 ## Firefox Profile (data appears "missing" after updates)
 
@@ -388,12 +395,9 @@ inert legacy split-brain and can be removed.
 
 ### Permanent solution (implemented in `firefox.nix`)
 
-The launcher app execs Firefox with `-P <profileName>` (derived from the single
-home-manager-managed `programs.firefox.profiles` attribute, e.g. `cameron`).
-`-P` selects the profile by name from `profiles.ini` and bypasses the
-install-hash logic entirely, so a version bump can never divert you to a fresh
-empty profile. Combined with the URL-handler launcher above, every link click
-opens the correct profile.
+Firefox profile mapping remains stable through `profileVersion = 2` and
+`profiles.cameron.storeId`. The launcher does not force `-P`; Firefox receives
+normal URL arguments and selects its configured profile state.
 
 ### Cleaning up the stray profile
 

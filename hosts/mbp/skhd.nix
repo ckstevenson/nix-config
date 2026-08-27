@@ -1,10 +1,29 @@
-{ ... }: {
+{ pkgs, ... }:
+let
+  notesToggle = pkgs.writeShellScript "notes-toggle" ''
+    notes_window=$(${pkgs.yabai}/bin/yabai -m query --windows | ${pkgs.jq}/bin/jq -r 'map(select(.app == "alacritty" and .title == "Notes")) | .[0].id // empty')
+
+    if [ -z "$notes_window" ]; then
+      /etc/profiles/per-user/cameronstevenson/bin/alacritty -o window.dynamic_title=false --title Notes -e nvim /Users/cameronstevenson/Documents/Notes/
+    elif ${pkgs.yabai}/bin/yabai -m query --windows --window "$notes_window" | ${pkgs.jq}/bin/jq -e '."is-minimized"' >/dev/null; then
+      ${pkgs.yabai}/bin/yabai -m window --focus "$notes_window"
+    else
+      if ${pkgs.yabai}/bin/yabai -m query --windows --window "$notes_window" | ${pkgs.jq}/bin/jq -e '."has-focus"' >/dev/null; then
+        ${pkgs.yabai}/bin/yabai -m window "$notes_window" --minimize
+      else
+        ${pkgs.yabai}/bin/yabai -m window --focus "$notes_window"
+      fi
+    fi
+  '';
+in
+{
   services.skhd = {
     enable = true;
     skhdConfig = ''
             # Open Terminal
             cmd - return : /etc/profiles/per-user/cameronstevenson/bin/alacritty
-            cmd + shift - n : yabai -m window --toggle Notes || /etc/profiles/per-user/cameronstevenson/bin/alacritty --title Notes -e nvim /Users/cameronstevenson/Documents/Notes/
+            # Minimize/restore Notes; launch it only when not yet created.
+            cmd + shift - n : ${notesToggle}
             cmd - d : ls /Applications/ /Applications/Utilities/ /System/Applications/ /System/Applications/Utilities/ /Users/cameronstevenson/Applications/Home\ Manager\ Apps/  /System/Library/CoreServices/ | grep '\.app$' | sed 's/\.app$//g' | choose | xargs -I {} open -a "{}.app"
             cmd - p : rbw-choose
 
@@ -165,7 +184,7 @@
             shift + cmd - b : yabai -m space --balance
             shift + cmd - c : yabai -m space --create
             shift + cmd - x : yabai -m space --destroy
-            cmd - w : open /Users/cameronstevenson/Applications/Home\ Manager\ Trampolines/Firefox.app
+            cmd - w : open /Users/cameronstevenson/Applications/Firefox.app
             #cmd - d : open /System/Library/CoreServices/Spotlight.app
             cmd + shift - q : yabai -m window --close
 

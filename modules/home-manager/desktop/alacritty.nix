@@ -51,7 +51,9 @@
 
         hints.enabled = [
           {
-            regex = ''(mailto:|gemini:|gopher:|https:|http:|news:|file:|git:|ssh:|ftp:)[^\u0000-\u001F\u007F-\u009F<>"\\s{-}\\^⟨⟩`]+'';
+            # Nix indented strings pass backslashes through. json2x then
+            # writes TOML, so use one slash here for regex escapes.
+            regex = ''(ipfs:|ipns:|magnet:|mailto:|gemini://|gopher://|https://|http://|news:|file:|git://|ssh:|ftp://)[^\u0000-\u001F\u007F-\u009F<>"\s{-}\^⟨⟩`\\]+'';
             command =
               if pkgs.stdenv.isDarwin
               then { program = "open"; args = [ ]; }
