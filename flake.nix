@@ -34,40 +34,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nix-darwin = {
-      # Pinned to PR #1819 (p42software:manual-toc-depth) which fixes the
-      # darwin-manual-html build failure on unstable nixpkgs: nixos-render-docs
-      # removed --toc-depth/--chunk-toc-depth; the PR switches to --sidebar-depth.
-      # See https://github.com/nix-darwin/nix-darwin/pull/1819 and issue #1817.
-      # Revert to github:nix-darwin/nix-darwin once the PR is merged.
-      url = "github:p42software/nix-darwin/manual-toc-depth";
-      # Use unstable nixpkgs everywhere on macOS to avoid package/module skew
-      # that arises when system pkgs are pinned to stable while home-manager
-      # follows unstable. This makes mbp consistent with other hosts.
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    opencode-config = {
-      url = "git+https://github.com/Kaleris-CVS/opencode-config";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    mac-app-util.url = "github:hraban/mac-app-util";
-    nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
-
   };
 
-  outputs = { nixpkgs, nix-darwin, ... }@inputs: {
-    darwinConfigurations."mbp" = nix-darwin.lib.darwinSystem {
-      specialArgs = {
-        inherit inputs;
-      };
-      modules = [
-        ./hosts/mbp/configuration.nix
-        inputs.home-manager.darwinModules.home-manager
-        inputs.nix-homebrew.darwinModules.nix-homebrew
-      ];
-    };
+  outputs = { nixpkgs, ... }@inputs: {
     nixosConfigurations = {
       workstation = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit inputs; };
