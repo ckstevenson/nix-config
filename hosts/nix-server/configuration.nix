@@ -74,6 +74,7 @@
   # Enable ZFS support
   boot.kernelPackages = pkgs.linuxPackages;
   boot.supportedFilesystems = [ "zfs" ];
+  boot.zfs.forceImportRoot = false;
   boot.zfs.extraPools = [
     "apps"
     "tank"

@@ -1,6 +1,6 @@
 # Cameron's NixOS Configuration
 
-A comprehensive, modular NixOS and nix-darwin configuration. Documentation has been moved into `docs/` for better organisation — see docs/README.md for an index.
+A comprehensive, modular NixOS configuration. Documentation has been moved into `docs/` for better organisation — see docs/README.md for an index.
 
 Quick links
 

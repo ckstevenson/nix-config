@@ -73,10 +73,6 @@ echo "[nix-server]"
 eval_host_drv ".#nixosConfigurations.nix-server.config.system.build.toplevel.drvPath" \
     || all_hosts_ok=false
 
-echo "[mbp]"
-eval_host_drv ".#darwinConfigurations.mbp.config.system.build.toplevel.drvPath" \
-    || all_hosts_ok=false
-
 if [[ "${all_hosts_ok}" != "true" ]]; then
     echo "FAIL: one or more host evals failed"
     exit 1
@@ -140,7 +136,7 @@ probe_line_count=$(wc -l < "${PROBE_FILE}")
 LAST_LINE=$(tail -n 1 "${PROBE_FILE}")
 if [[ "${LAST_LINE}" == "}" ]]; then
     {
-        # macOS-compatible: use sed instead of head -n -1
+        # Keep final-line handling portable across Unix environments.
         sed -n "1,$((probe_line_count - 1))p" "${PROBE_FILE}"
         echo ""
         echo "${PROBE_LINE}"

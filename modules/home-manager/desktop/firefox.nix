@@ -28,6 +28,7 @@
       # macOS. It can be safely removed (see scripts/firefox-cleanup.sh).
       profiles.cameron = {
         storeId = "0111914c";
+        path = "diykdifo.default";
 
         extensions.packages = with inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system}; [
           bitwarden

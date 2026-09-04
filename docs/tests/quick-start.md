@@ -5,7 +5,6 @@ Essential commands for testing and deploying configurations.
 Prerequisites
 
 - Nix with flakes enabled
-- For macOS: nix-darwin
 - SOPS/age for secrets if needed
 
 Deploy (NixOS)
@@ -16,17 +15,10 @@ cd nix-config
 sudo nixos-rebuild switch --flake .#<hostname>
 ```
 
-Deploy (Darwin/macOS)
-
-```bash
-darwin-rebuild switch --flake .#mbp
-```
-
 Test without switching
 
 ```bash
 nixos-rebuild build --flake .#<hostname>
-darwin-rebuild build --flake .#mbp
 ```
 
 Common checks

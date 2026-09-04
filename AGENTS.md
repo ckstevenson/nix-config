@@ -4,11 +4,9 @@
 ```bash
 # Build configuration (test without applying)
 nixos-rebuild build --flake .#<hostname>           # NixOS: workstation, ideapad, nix-server
-darwin-rebuild build --flake .#mbp                 # macOS
 
 # Apply configuration
 sudo nixos-rebuild switch --flake .#<hostname>     # NixOS
-darwin-rebuild switch --flake .#mbp                # macOS
 
 # Validate flake and check syntax
 nix flake check --show-trace                       # Full validation with error details

@@ -13,10 +13,9 @@ fi
 
 # Check if pre-commit is available
 if ! command -v pre-commit &> /dev/null; then
-    echo "❌ Error: pre-commit is not available in PATH"
-    echo "Please ensure you've rebuilt your configuration with the updated packages:"
-    echo "  darwin-rebuild switch --flake .#mbp"
-    exit 1
+echo "❌ Error: pre-commit is not available in PATH"
+echo "Please install pre-commit or add it to your environment."
+exit 1
 fi
 
 # Install pre-commit hooks

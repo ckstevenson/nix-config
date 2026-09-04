@@ -79,11 +79,7 @@ pre-commit run nixpkgs-fmt --all-files
 2. **Make changes** following the guidelines above
 3. **Test locally**:
    ```bash
-   # For NixOS
    nixos-rebuild build --flake .#<hostname>
-
-   # For Darwin
-   darwin-rebuild build --flake .#mbp
    ```
 4. **Commit changes** (pre-commit hooks will run automatically)
 5. **Push and create pull request** if collaborating

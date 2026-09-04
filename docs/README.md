@@ -17,5 +17,3 @@ Quick links
 - Secrets: docs/secrets-management.md
 - Adding a host: docs/operations/adding-host.md
 - Development workflow: DEVELOPMENT.md
-- Firefox URL handling plan: docs/plans/firefox-url-handling.md
-- Firefox URL handling guide: docs/firefox-url-launcher.md
