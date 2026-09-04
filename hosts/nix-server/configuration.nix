@@ -205,6 +205,10 @@
     enable = true;
     listenAddress = "172.17.0.1";
     port = 8081;
+    extraOptions = [
+      "--docker_only=true"
+      "--disable_metrics=disk,diskIO"
+    ];
   };
 
   systemd.services = {
