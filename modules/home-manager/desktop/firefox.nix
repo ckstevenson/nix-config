@@ -7,7 +7,7 @@
     };
   };
 
-  config = lib.mkIf ((osConfig.desktop.enable or false) || pkgs.stdenv.isDarwin) {
+  config = lib.mkIf ((osConfig.desktop.enable or false) || pkgs.stdenv.hostPlatform.isDarwin) {
     programs.firefox = {
       enable = true;
       package = pkgs.firefox;
@@ -102,7 +102,7 @@
                   ];
                 }
               ];
-              icon = if pkgs.stdenv.isDarwin then "" else "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+              icon = if pkgs.stdenv.hostPlatform.isDarwin then "" else "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
               definedAliases = [ "@n" ];
             };
           };
@@ -186,7 +186,7 @@
 
     # mac-app-util's generated Firefox trampoline hardcodes a store path and
     # drops URL arguments. Use a stable, declarative app bundle instead.
-    home.file."Applications/Firefox.app/Contents/Info.plist" = lib.mkIf pkgs.stdenv.isDarwin {
+    home.file."Applications/Firefox.app/Contents/Info.plist" = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin {
       text = ''
         <?xml version="1.0" encoding="UTF-8"?>
         <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -211,7 +211,7 @@
       '';
     };
 
-    home.file."Applications/Firefox.app/Contents/MacOS/launcher" = lib.mkIf pkgs.stdenv.isDarwin {
+    home.file."Applications/Firefox.app/Contents/MacOS/launcher" = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin {
       text = ''
         #!${pkgs.bash}/bin/bash
         exec "${config.programs.firefox.finalPackage}/Applications/Firefox.app/Contents/MacOS/firefox" "$@"
@@ -219,7 +219,7 @@
       executable = true;
     };
 
-    home.activation.registerFirefoxBundle = lib.mkIf pkgs.stdenv.isDarwin (lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+    home.activation.registerFirefoxBundle = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin (lib.hm.dag.entryAfter [ "linkGeneration" ] ''
       LSREGISTER=/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister
       HOME_MANAGER_FIREFOX="$HOME/Applications/Home Manager Apps/Firefox.app"
       OLD_LAUNCHER="$HOME/Applications/Firefox Launcher.app"
@@ -266,7 +266,7 @@
     '');
 
     # XDG MIME associations for Firefox (Linux only)
-    xdg.mimeApps = lib.mkIf pkgs.stdenv.isLinux {
+    xdg.mimeApps = lib.mkIf pkgs.stdenv.hostPlatform.isLinux {
       associations.added = {
         "application/x-extension-shtml" = "firefox.desktop";
         "application/x-extension-xhtml" = "firefox.desktop";

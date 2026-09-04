@@ -25,6 +25,11 @@
 
   networking.hostName = "workstation";
 
+  services.tailscale = {
+    enable = true;
+    extraUpFlags = [ "--accept-dns=false" ];
+  };
+
   sshd.enable = true;
   desktop.enable = true;
   opencode.enable = true;

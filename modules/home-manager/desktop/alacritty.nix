@@ -3,17 +3,17 @@
   options = {
     alacrittyFontSize = lib.mkOption {
       type = lib.types.int;
-      default = if pkgs.stdenv.isDarwin then 16 else 14;
+      default = if pkgs.stdenv.hostPlatform.isDarwin then 16 else 14;
     };
   };
 
-  config = lib.mkIf ((osConfig.desktop.enable or false) || pkgs.stdenv.isDarwin) {
+  config = lib.mkIf ((osConfig.desktop.enable or false) || pkgs.stdenv.hostPlatform.isDarwin) {
     programs.alacritty = {
       enable = true;
       settings = {
         font = {
           size = config.alacrittyFontSize;
-        } // lib.optionalAttrs pkgs.stdenv.isDarwin {
+        } // lib.optionalAttrs pkgs.stdenv.hostPlatform.isDarwin {
           normal = {
             family = "DejaVuSansM Nerd Font";
             style = "Regular";
@@ -55,7 +55,7 @@
             # writes TOML, so use one slash here for regex escapes.
             regex = ''(ipfs:|ipns:|magnet:|mailto:|gemini://|gopher://|https://|http://|news:|file:|git://|ssh:|ftp://)[^\u0000-\u001F\u007F-\u009F<>"\s{-}\^⟨⟩`\\]+'';
             command =
-              if pkgs.stdenv.isDarwin
+              if pkgs.stdenv.hostPlatform.isDarwin
               then { program = "open"; args = [ ]; }
               else { program = "xdg-open"; args = [ ]; };
             hyperlinks = true;
