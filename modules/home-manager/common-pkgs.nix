@@ -25,7 +25,6 @@
     powershell
     pre-commit
     prettier
-    qmk
     rbw
     rclone
     redis

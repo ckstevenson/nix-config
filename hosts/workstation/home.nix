@@ -74,7 +74,6 @@
       piper
       postgresql
       powershell
-      qmk
       rbw
       rclone
       redis
