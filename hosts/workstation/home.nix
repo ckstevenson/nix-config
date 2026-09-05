@@ -5,6 +5,8 @@
     ../../modules/home-manager
   ];
 
+  gaming.enable = true;
+
   # Enable secure backup service with SOPS integration
   services.backupService.enable = false;
 
@@ -36,20 +38,6 @@
     defaultSopsFile = ../../secrets/backup/restic.yaml;
   };
 
-  # Enable MangoHud for FPS overlay
-  #programs.mangohud = {
-  #  enable = true;
-  #  enableSessionWide = true; # Enable for all applications
-  #  settings = {
-  #    fps = true;
-  #    frame_timing = true;
-  #    gpu_stats = true;
-  #    cpu_stats = true;
-  #    vulkan_driver = true;
-  #    gamemode = true;
-  #  };
-  #};
-
   home = {
     packages = with pkgs; [
       alacritty
@@ -60,27 +48,11 @@
       clipboard-jh
       discord
       gh
-      goverlay
-      vkbasalt
       jq
-      #lutris
       mpv
-      #mangohud
       #mullvad-vpn
-      prettier
-      nodejs
-      opentofu
-      packer
       piper
-      postgresql
-      powershell
       rbw
-      rclone
-      redis
-      slack
-      spacectl
-      speedtest-cli
-      watch
       wget
       wl-clipboard
       wordnet

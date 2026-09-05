@@ -26,6 +26,7 @@
 
   imports = [
     ./desktop.nix
+    ./gaming.nix
     ./laptop.nix
     ./ssh.nix
     # Note: ollama.nix defines its own `ollama.enable` option. Do not re-declare

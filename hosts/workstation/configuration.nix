@@ -32,6 +32,7 @@
 
   sshd.enable = true;
   desktop.enable = true;
+  gaming.enable = true;
   opencode.enable = true;
   # Enable local Ollama LLM server
   ollama.enable = true;

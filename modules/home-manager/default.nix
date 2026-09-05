@@ -12,6 +12,7 @@ in
     ./pkgs
     ./services
     ./desktop
+    ./gaming.nix
     nixColorsModule
     nixvimModule
     sopsModule
