@@ -1,5 +1,7 @@
 { config, inputs, lib, osConfig, pkgs, ... }:
-{
+let
+  linuxConfigHome = lib.removePrefix "${config.home.homeDirectory}/" config.xdg.configHome;
+in {
   options = {
     firefoxFontSize = lib.mkOption {
       type = lib.types.int;
