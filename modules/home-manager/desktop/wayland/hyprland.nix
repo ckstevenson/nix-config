@@ -147,6 +147,12 @@
               enabled = true;
             };
 
+            cursor = {
+              inactive_timeout = 2;
+              hide_on_key_press = true;
+              hide_on_touch = true;
+            };
+
             master = {
               mfact = 0.5;
             };

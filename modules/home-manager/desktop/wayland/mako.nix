@@ -7,6 +7,7 @@
         border-color = "#${base0E}";
         border-radius = 5;
         border-size = 2;
+        default-timeout = 3000;
         text-color = "#${base04}";
         layer = "overlay";
       };
