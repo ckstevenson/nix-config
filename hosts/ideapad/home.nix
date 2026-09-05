@@ -34,14 +34,28 @@
 
   nextcloudSyncService.enable = true;
 
+  # Enable secure backup service with SOPS integration
+  services.backupService.enable = true;
+
+  # Configure SOPS for secrets management
+  sops = {
+    age.keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
+    defaultSopsFile = ../../secrets/backup/restic.yaml;
+  };
+
+  # Configure opencode
+  programs.opencode = {
+    enable = true;
+  };
+
   imports = [
     ../../modules/home-manager
   ];
 
   home.packages = with pkgs; [
     _1password-gui
-    _1password
-    vmware-horizon-client
+    _1password-cli
+    # vmware-horizon-client # Removed from nixpkgs
   ];
 
   # The state version is required and should stay at the version you

@@ -1,5 +1,5 @@
 { pkgs, ... }:
-let 
+let
   rbw-bemenu = pkgs.writeShellApplication {
     name = "rbw-bemenu";
     runtimeInputs = with pkgs; [

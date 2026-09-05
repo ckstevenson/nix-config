@@ -8,6 +8,8 @@
 
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
+    useGlobalPkgs = true;
+    useUserPackages = true;
     users = {
       "cameron" = import ./home.nix;
     };
@@ -23,8 +25,9 @@
 
   laptop.enable = true;
   desktop.enable = true;
-  globalProtect.enable = true;
+  opencode.enable = true;
+
+  nixpkgs.config.allowUnfree = true;
 
   system.stateVersion = "23.11";
 }
-

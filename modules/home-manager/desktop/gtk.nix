@@ -19,11 +19,11 @@
     gtk = {
       enable = true;
       theme = {
-        package = pkgs.flat-remix-gtk;
-        name = "Flat-Remix-GTK-Violet-Darkest";
+        package = pkgs.gnome-themes-extra;
+        name = "Adwaita-dark";
       };
       cursorTheme = {
-        package = pkgs.gnome.adwaita-icon-theme;
+        package = pkgs.adwaita-icon-theme;
         name = "Adwaita";
       };
       iconTheme = {
@@ -36,5 +36,7 @@
         size = config.gtkFontSize;
       };
     };
+
+    gtk.gtk4.theme = config.gtk.theme;
   };
 }

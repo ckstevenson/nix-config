@@ -1,6 +1,12 @@
-{ lib, pkgs, ...}:{
+{ lib, pkgs, ... }: {
   options = {
     desktop.enable = lib.mkEnableOption "enables desktop applications";
+
+    opencode.enable = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Enable opencode with 1password integration";
+    };
 
     username = lib.mkOption {
       type = lib.types.str;
@@ -13,13 +19,21 @@
       default = "/home/cameron";
       description = "The home directory of the user";
     };
+    # ollama.enable option moved to modules/nixos/ollama.nix to avoid
+    # duplicate declarations when that module is imported. See
+    # modules/nixos/ollama.nix for the option definition and implementation.
   };
 
   imports = [
     ./desktop.nix
     ./laptop.nix
     ./ssh.nix
-    ./global-protect.nix
+    # Note: ollama.nix defines its own `ollama.enable` option. Do not re-declare
+    # the option here to avoid duplicate-option errors when this module is
+    # imported alongside modules/nixos/ollama.nix. The ollama.nix module is
+    # included below to provide the implementation, but the option definition is
+    # declared only in modules/nixos/ollama.nix to keep the option single-source.
+    ./ollama.nix
   ];
 
   config = {
@@ -47,19 +61,31 @@
       Defaults !tty_tickets, timestamp_timeout=60
     '';
 
+    security.sudo.extraRules = [
+      {
+        users = [ "cameron" ];
+        commands = [
+          {
+            command = "/run/current-system/sw/bin/nixos-rebuild";
+            options = [ "NOPASSWD" ];
+          }
+        ];
+      }
+    ];
+
     users.users.cameron = {
       isNormalUser = true;
       shell = pkgs.zsh;
       openssh.authorizedKeys.keys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJKfa7fTncZ7hItimo3B7QO9cM++leSDxRnMuoLMI00C cksteve@protonmail.com"
         "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDjDDJYkUuWrZJFcDhXpo7/qky3d6Y5XOGQS5YicRN1pQXd96uTzDSjap4smjOOlx6WJIGcQYZsVXA0bsOXIaBRKcp90e14YB1L3LvqItPYDvuA/7URgkmvJ1YNloAkXWS2JyYUPX+ZzNlDXcfoJ3wc8+7moZSCEZvSB2FnEEiKaBjlUzOEdP+NQBXT+Piwy6Uf2VxGnPCCuoCytAtVzEFqWS/f4jkl/cUuwCZbL+hYrepOHMk8h4645q3Fu6NGWjvGt5f+TYhFI9P9Wgu1LKa1zHhywGWpmWW3HF3lOnDd8vTQlFPm8nLi4rVuQ4T1Q9i+w520+nqE4JVb5pC5v0tm1h2SWG0svQ3wmEyRuW29o9RTyrTlY2M9CwDX7VzUqbn1jix8e44EUeoEm9FJ/uC5pp75kugCNfyDDwHcDdDF5VzU4exjQ6bDVdN3uVYxlpOpyLAV4/gQiy/eTwfJHltX6JiPhJaWRKatJ6s3OJkVDUqmbmyyTFxuFJOcD82S/8qmCzrBCVsRUcBhrvVbd9LFY/hdXHxope6ts9IUSZ66Wkuc2mdOtfxGCpKJlmWFXCZP8v4p5CT89UluQS0CerSEK/8ID6ybEJDRZkwYGv22iYkjcssH5+ZBYpGZwNdr6o1lbigWkHzJviCeBe0N0Ccs8COdvWJykURp/+vtyLnBIQ== cameron@workstation"
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG3wKTXVR+CJMX6I0rrJawmAznQnY91g7V0GolR+8wxQ cameron@ideapad"
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINIiDS14+TAcHzyQjl2t0csCwFQt13qrlKjZBbRsAoXM cameron@mbp"
       ];
     };
 
     services.tailscale.enable = true;
     nix.settings.experimental-features = [ "nix-command" "flakes" ];
+    # Default: don't enable ollama on all hosts. Enable per-host.
+    ollama.enable = lib.mkDefault false;
   };
 }
-

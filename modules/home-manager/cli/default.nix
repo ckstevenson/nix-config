@@ -1,11 +1,13 @@
-{ osConfig, pkgs, ... }: {
+{ config, osConfig, pkgs, inputs, lib, ... }: {
   imports = [
     ./lf.nix
     ./rbw.nix
+    ./tmux.nix
     ./zsh.nix
     ./zoxide.nix
     ./nixvim.nix
     ./direnv.nix
+    ./herdr.nix
   ];
 
   home = {

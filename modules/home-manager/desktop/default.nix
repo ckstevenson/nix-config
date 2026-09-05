@@ -7,7 +7,6 @@
     ./gtk.nix
     ./zathura.nix
     ./wayland
-    ./global-protect.nix
   ];
 
   config = lib.mkIf osConfig.desktop.enable {
@@ -26,7 +25,7 @@
     };
 
     home.packages = with pkgs; [
-      bambu-studio
+      #bambu-studio
       chromium
       dconf
       gimp
@@ -36,8 +35,6 @@
       playerctl
       pulseaudio
       pulsemixer
-      signal-desktop
-      slack
       sxiv
     ];
 

@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  imports = [ 
+  imports = [
     ./hardware-configuration.nix
     ../../modules/nixos
     inputs.home-manager.nixosModules.default
@@ -10,6 +10,8 @@
 
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
+    useGlobalPkgs = true;
+    useUserPackages = true;
     users = {
       "cameron" = import ./home.nix;
     };
@@ -23,10 +25,19 @@
 
   networking.hostName = "workstation";
 
+  services.tailscale = {
+    enable = true;
+    extraUpFlags = [ "--accept-dns=false" ];
+  };
+
   sshd.enable = true;
   desktop.enable = true;
-  globalProtect.enable = true;
+  opencode.enable = true;
+  # Enable local Ollama LLM server
+  ollama.enable = true;
 
-  system.stateVersion = "23.11";
+  nixpkgs.config.allowUnfree = true;
+
+  system.stateVersion = "26.05";
+  services.ratbagd.enable = true;
 }
-

@@ -2,6 +2,6 @@
 {
   imports = [
     ./rbw-bemenu.nix
-    ./backup.nix
+    ./openspec.nix
   ];
 }

@@ -2,14 +2,16 @@
 
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
+      # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ./home-assistant.nix
       ../../modules/nixos
-       inputs.sops-nix.nixosModules.sops
+      inputs.sops-nix.nixosModules.sops
     ];
 
   sshd.enable = true;
+  opencode.enable = false;
 
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
@@ -19,7 +21,7 @@
   };
 
   sops = {
-    defaultSopsFile = ../../secrets/secrets.yaml;
+    defaultSopsFile = ../../secrets/services/home-assistant.yaml;
     defaultSopsFormat = "yaml";
     age.keyFile = "/home/cameron/.config/sops/age/keys.txt";
     secrets."mosquitto/password" = {
@@ -31,7 +33,22 @@
   # Bootloader.
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
 
-  services.tailscale.enable = true;
+  boot.kernel.sysctl = {
+    "net.ipv4.ip_forward" = 1;
+    # If you need IPv6 forwarding (though you have IPv6 disabled):
+    # "net.ipv6.conf.all.forwarding" = 1;
+    #"net.ipv4.conf.all.rp_filter" = 0;
+    #"net.ipv4.conf.default.rp_filter" = 0;
+  };
+
+  services.tailscale = {
+    enable = true;
+    extraUpFlags = [
+      "--advertise-exit-node"
+      "--advertise-routes=10.10.10.0/24"
+      "--accept-dns=false"
+    ];
+  };
 
   # https://github.com/NixOS/nixpkgs/issues/180175
   networking = {
@@ -42,21 +59,22 @@
 
     networkmanager = {
       enable = true;
-      unmanaged = [ "tailscale0" ];
+      #unmanaged = [ "tailscale0" ];
     };
 
-    bridges = {
-      br0 = {
-        interfaces = [
-          "enp4s0f1"
-        ];
-      };
-    };
+    #bridges = {
+    #  br0 = {
+    #    interfaces = [
+    #      "enp4s0f1"
+    #    ];
+    #  };
+    #};
   };
 
   # Enable ZFS support
-  boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
+  boot.kernelPackages = pkgs.linuxPackages;
   boot.supportedFilesystems = [ "zfs" ];
+  boot.zfs.forceImportRoot = false;
   boot.zfs.extraPools = [
     "apps"
     "tank"
@@ -116,8 +134,8 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users = {
     groups = {
-      pictures = {};
-      media = {};
+      pictures = { };
+      media = { };
     };
     users = {
       cameron = {
@@ -146,7 +164,7 @@
         enable = true;
         setSocketVariable = true;
       };
-    storageDriver = "zfs";
+      storageDriver = "zfs";
     };
   };
 
@@ -156,14 +174,14 @@
   # for jellyfin
   # enable vaapi on OS-level
   nixpkgs.config.packageOverrides = pkgs: {
-    vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
+    intel-vaapi-driver = pkgs.intel-vaapi-driver.override { enableHybridCodec = true; };
   };
   hardware.graphics = {
     enable = true;
     extraPackages = with pkgs; [
       intel-media-driver
-      vaapiIntel
-      vaapiVdpau
+      intel-vaapi-driver
+      libva-vdpau-driver
       libvdpau-va-gl
       intel-compute-runtime # OpenCL filter support (hardware tonemapping and subtitle burn-in)
     ];
@@ -188,6 +206,10 @@
     enable = true;
     listenAddress = "172.17.0.1";
     port = 8081;
+    extraOptions = [
+      "--docker_only=true"
+      "--disable_metrics=disk,diskIO"
+    ];
   };
 
   systemd.services = {
@@ -195,32 +217,32 @@
       serviceConfig.Type = "oneshot";
       path = with pkgs; [ zfs restic ];
       script = ''
-        . /root/.config/restic/vars
+          . /root/.config/restic/vars
 
-        ## Destroy old snapshot, if any
-        [ "$(zfs list -t snapshot tank/pictures@backup)" ] && zfs destroy tank/pictures@backup
-        [ "$(zfs list -t snapshot apps/docker@backup)" ] && zfs destroy apps/docker@backup
-        [ "$(zfs list -t snapshot apps/images@backup)" ] && zfs destroy apps/images@backup
+          ## Destroy old snapshot, if any
+          [ "$(zfs list -t snapshot tank/pictures@backup)" ] && zfs destroy tank/pictures@backup
+          [ "$(zfs list -t snapshot apps/docker@backup)" ] && zfs destroy apps/docker@backup
+          [ "$(zfs list -t snapshot apps/images@backup)" ] && zfs destroy apps/images@backup
 
-        ## Create snapshot
-        zfs snapshot tank/pictures@backup
-        zfs snapshot apps/docker@backup
-        zfs snapshot apps/images@backup
+          ## Create snapshot
+          zfs snapshot tank/pictures@backup
+          zfs snapshot apps/docker@backup
+          zfs snapshot apps/images@backup
 
-        ## Backup read-only snapshot via its mount point
-        restic backup /mnt/pictures/.zfs/snapshot/backup/
-        restic backup /var/lib/docker/.zfs/snapshot/backup/
-      	restic backup /var/lib/mosquitto
-      	restic backup /var/lib/hass
-      	restic backup /etc/nixos
-        restic backup /srv/docker
+          ## Backup read-only snapshot via its mount point
+          restic backup /mnt/pictures/.zfs/snapshot/backup/
+          restic backup /var/lib/docker/.zfs/snapshot/backup/
+        	restic backup /var/lib/mosquitto
+        	restic backup /var/lib/hass
+        	restic backup /etc/nixos
+          restic backup /srv/docker
 
-        ## Destroy the snapshot
-        zfs destroy tank/pictures@backup
-        zfs destroy apps/images@backup
-        zfs destroy apps/docker@backup
+          ## Destroy the snapshot
+          zfs destroy tank/pictures@backup
+          zfs destroy apps/images@backup
+          zfs destroy apps/docker@backup
 
-        restic forget --keep-daily 7 --keep-weekly 4 --keep-monthly 3 --keep-yearly 1 --prune
+          restic forget --keep-daily 7 --keep-weekly 4 --keep-monthly 3 --keep-yearly 1 --prune
       '';
     };
     nextcloud-preview = {

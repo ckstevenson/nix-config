@@ -9,6 +9,7 @@
           #intel-vaapi-driver # LIBVA_DRIVER_NAME=i965 (older but works better for Firefox/Chromium)
           libvdpau-va-gl
         ];
+        enable32Bit = true;
       };
 
       cpu.intel.updateMicrocode = true;
@@ -17,14 +18,14 @@
     # Styling
     fonts = {
       packages = with pkgs; [
-        nerdfonts
+        nerd-fonts.dejavu-sans-mono
       ];
 
       fontconfig = {
         defaultFonts = {
-          monospace = ["DejaVuSansM Nerd Font Mono"];
-          sansSerif = ["DejaVuSansM Nerd Font"];
-          serif = ["DejaVuSansM Nerd Font"];
+          monospace = [ "DejaVuSansM Nerd Font Mono" ];
+          sansSerif = [ "DejaVuSansM Nerd Font" ];
+          serif = [ "DejaVuSansM Nerd Font" ];
         };
 
         subpixel = {
@@ -60,6 +61,12 @@
     };
 
     programs.hyprland.enable = true;
+
+    programs.steam = {
+      enable = true;
+      remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
+      dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
+      localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
+    };
   };
 }
-

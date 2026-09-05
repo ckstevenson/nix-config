@@ -1,8 +1,0 @@
-{...}:
-{
-  programs = {
-    direnv = {
-      enable = true;
-    };
-  };
-}

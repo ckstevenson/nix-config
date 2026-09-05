@@ -1,17 +1,25 @@
 { inputs, ... }:
+let
+  # upstream flakes migrated output name from `homeManagerModules` -> `homeModules`.
+  # Accept either name to stay compatible across different input revisions.
+  nixColorsModule = if builtins.hasAttr "homeModules" inputs.nix-colors then inputs.nix-colors.homeModules.default else inputs.nix-colors.homeManagerModules.default;
+  nixvimModule = if builtins.hasAttr "homeModules" inputs.nixvim then inputs.nixvim.homeModules.nixvim else inputs.nixvim.homeManagerModules.nixvim;
+  sopsModule = if builtins.hasAttr "homeModules" inputs.sops-nix then inputs.sops-nix.homeModules.sops else inputs.sops-nix.homeManagerModules.sops;
+in
 {
   imports = [
     ./cli
     ./pkgs
     ./services
     ./desktop
-    inputs.nix-colors.homeManagerModules.default
-    inputs.nixvim.homeManagerModules.nixvim
+    nixColorsModule
+    nixvimModule
+    sopsModule
   ];
 
   colorScheme = {
-    slug = "oxocarbon-fixed";
-    name = "Oxocarbon Fixed";
+    slug = "carbonfox-fixed";
+    name = "Carbonfox Fixed";
     author = "Cameron Stevenson";
     palette = {
       base00 = "#161616";
