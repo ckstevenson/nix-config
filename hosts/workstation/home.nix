@@ -7,7 +7,7 @@
 
   gaming.enable = true;
 
-  # Enable secure backup service with SOPS integration
+  # Keep automatic backups disabled on workstation.
   services.backupService.enable = false;
 
   # Configure opencode

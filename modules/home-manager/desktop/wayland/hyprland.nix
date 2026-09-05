@@ -208,7 +208,6 @@
   hl.exec_cmd("waybar")
   hl.exec_cmd("lxqt-policykit-agent")
   hl.exec_cmd("${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1")
-  hl.exec_cmd("rbw unlock")
 end'')
             ];
           };
