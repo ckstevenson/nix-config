@@ -9,7 +9,8 @@
       "mobile_app"
       "mqtt"
       "onvif"
-      "tankerkoenig"
+      "sharkiq"
+      "tailscale"
       "tasmota"
       "unifi"
       "zha"
@@ -17,19 +18,19 @@
 
     # https://github.com/greghesp/ha-bambulab
     # nix-prefetch-git --url https://github.com/greghesp/ha-bambulab --rev ${VERSION_NUMBER}
-    customComponents = [
-      (pkgs.buildHomeAssistantComponent rec {
-        owner = "greghesp";
-        domain = "bambu_lab";
-        version = "2.0.21";
-        src = pkgs.fetchFromGitHub {
-          owner = "greghesp";
-          repo = "ha-bambulab";
-          rev = "v${version}";
-          sha256 = "sha256-lg5NWMcHHYX/iTkMD+v5cY4mN/SVSnmMeXG6TXtfIag=";
-        };
-      })
-    ];
+    #customComponents = [
+    #  (pkgs.buildHomeAssistantComponent rec {
+    #    owner = "greghesp";
+    #    domain = "bambu_lab";
+    #    version = "2.0.21";
+    #    src = pkgs.fetchFromGitHub {
+    #      owner = "greghesp";
+    #      repo = "ha-bambulab";
+    #      rev = "v${version}";
+    #      sha256 = "sha256-lg5NWMcHHYX/iTkMD+v5cY4mN/SVSnmMeXG6TXtfIag=";
+    #    };
+    #  })
+    #];
 
     customLovelaceModules = with pkgs.home-assistant-custom-lovelace-modules; [
       mini-graph-card
@@ -52,9 +53,6 @@
       # https://www.home-assistant.io/integrations/default_config/
       default_config = { };
       homeassistant = {
-        name = "Home";
-        latitude = 54.757370;
-        longitude = 9.378730;
         unit_system = "metric";
         time_zone = "Europe/Berlin";
       };
@@ -222,36 +220,6 @@
                   "light.ikea_of_sweden_tradfri_bulb_e27_ws_globe_1055lm_light_3"
                   "light.ikea_of_sweden_tradfri_bulb_e27_ws_globe_1055lm_light_4"
                 ];
-              };
-            }
-          ];
-        }
-        {
-          id = "gasoline_alert";
-          alias = "Gasoline Alert";
-          trigger = [
-            {
-              platform = "numeric_state";
-              entity_id = [
-                "sensor.orlen_lilienthalstrasse_4_super"
-                "sensor.shell_ochsenweg_18_super"
-                "sensor.classic_liebigstr_10_super"
-                "sensor.orlen_marienallee_60_super"
-                "sensor.wiking_am_sophienhof_2_super"
-                "sensor.aral_husumer_strasse_30_super"
-                "sensor.team_am_friedenshugel_39_super"
-                "sensor.shell_friesische_str_191_super"
-              ];
-              below = 1.60;
-            }
-          ];
-          condition = [ ];
-          action = [
-            {
-              service = "script.notify_all";
-              data = {
-                title = "Cheap Gasoline";
-                message = "Gasoline is {{ trigger.to_state.state }} at {{trigger.to_state.attributes.friendly_name}}";
               };
             }
           ];
