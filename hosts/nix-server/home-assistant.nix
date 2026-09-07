@@ -57,10 +57,12 @@
         time_zone = "Europe/Berlin";
       };
 
+      # HA migrates this block to .storage/http and ignores YAML afterward.
+      # Keep it as declarative seed config; update migrated values in HA UI/storage.
       http = {
         use_x_forwarded_for = true;
         trusted_proxies = [
-          "172.31.0.0/16"
+          "172.31.0.0/24"
         ];
       };
 
