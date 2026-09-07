@@ -17,20 +17,19 @@
     ];
 
     # https://github.com/greghesp/ha-bambulab
-    # nix-prefetch-git --url https://github.com/greghesp/ha-bambulab --rev ${VERSION_NUMBER}
-    #customComponents = [
-    #  (pkgs.buildHomeAssistantComponent rec {
-    #    owner = "greghesp";
-    #    domain = "bambu_lab";
-    #    version = "2.0.21";
-    #    src = pkgs.fetchFromGitHub {
-    #      owner = "greghesp";
-    #      repo = "ha-bambulab";
-    #      rev = "v${version}";
-    #      sha256 = "sha256-lg5NWMcHHYX/iTkMD+v5cY4mN/SVSnmMeXG6TXtfIag=";
-    #    };
-    #  })
-    #];
+    customComponents = [
+      (pkgs.buildHomeAssistantComponent rec {
+        owner = "greghesp";
+        domain = "bambu_lab";
+        version = "2.2.25";
+        src = pkgs.fetchFromGitHub {
+          owner = "greghesp";
+          repo = "ha-bambulab";
+          rev = "v${version}";
+          hash = "sha256-BOBSDcCsByQlY81Swkf0RYKOFmhi4s1iGLqtyVjU6mc=";
+        };
+      })
+    ];
 
     customLovelaceModules = with pkgs.home-assistant-custom-lovelace-modules; [
       mini-graph-card
@@ -55,15 +54,6 @@
       homeassistant = {
         unit_system = "metric";
         time_zone = "Europe/Berlin";
-      };
-
-      # HA migrates this block to .storage/http and ignores YAML afterward.
-      # Keep it as declarative seed config; update migrated values in HA UI/storage.
-      http = {
-        use_x_forwarded_for = true;
-        trusted_proxies = [
-          "172.31.0.0/24"
-        ];
       };
 
       prometheus = { };
