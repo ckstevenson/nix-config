@@ -62,7 +62,7 @@
       http = {
         use_x_forwarded_for = true;
         trusted_proxies = [
-          "172.31.0.0/24"
+          "172.31.0.0/16"
         ];
       };
 
