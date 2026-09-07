@@ -389,7 +389,7 @@
   };
 
   services.esphome = {
-    enable = true;
+    enable = false;
     address = "0.0.0.0";
   };
 
