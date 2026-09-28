@@ -1,13 +1,17 @@
 { config, inputs, lib, osConfig, pkgs, ... }:
 {
   options = {
+    desktop.firefox.enable = lib.mkEnableOption "Firefox" // {
+      default = osConfig.desktop.enable or false;
+    };
+
     firefoxFontSize = lib.mkOption {
       type = lib.types.int;
       default = 16;
     };
   };
 
-  config = lib.mkIf ((osConfig.desktop.enable or false) || pkgs.stdenv.hostPlatform.isDarwin) {
+  config = lib.mkIf config.desktop.firefox.enable {
     programs.firefox = {
       enable = true;
       package = pkgs.firefox;
@@ -25,7 +29,7 @@
       #
       # A leftover ~/.mozilla/firefox on macOS is inert legacy split-brain from
       # an older config that hardcoded ".mozilla/firefox"; Firefox ignores it on
-      # macOS. It can be safely removed (see scripts/firefox-cleanup.sh).
+      # macOS. It can be safely removed after review.
       profiles.cameron = {
         storeId = "0111914c";
         extensions.packages = with inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system}; [
@@ -182,87 +186,6 @@
         };
       };
     };
-
-    # mac-app-util's generated Firefox trampoline hardcodes a store path and
-    # drops URL arguments. Use a stable, declarative app bundle instead.
-    home.file."Applications/Firefox.app/Contents/Info.plist" = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin {
-      text = ''
-        <?xml version="1.0" encoding="UTF-8"?>
-        <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-        <plist version="1.0">
-        <dict>
-          <key>CFBundleExecutable</key><string>launcher</string>
-          <key>CFBundleIdentifier</key><string>org.nixos.firefox-launcher</string>
-          <key>CFBundleName</key><string>Firefox</string>
-          <key>CFBundlePackageType</key><string>APPL</string>
-          <key>CFBundleShortVersionString</key><string>1.0</string>
-          <key>LSMinimumSystemVersion</key><string>10.15</string>
-          <key>CFBundleURLTypes</key>
-          <array>
-            <dict>
-              <key>CFBundleURLName</key><string>Web URL</string>
-              <key>CFBundleURLSchemes</key>
-              <array><string>http</string><string>https</string></array>
-            </dict>
-          </array>
-        </dict>
-        </plist>
-      '';
-    };
-
-    home.file."Applications/Firefox.app/Contents/MacOS/launcher" = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin {
-      text = ''
-        #!${pkgs.bash}/bin/bash
-        exec "${config.programs.firefox.finalPackage}/Applications/Firefox.app/Contents/MacOS/firefox" "$@"
-      '';
-      executable = true;
-    };
-
-    home.activation.registerFirefoxBundle = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin (lib.hm.dag.entryAfter [ "linkGeneration" ] ''
-      LSREGISTER=/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister
-      HOME_MANAGER_FIREFOX="$HOME/Applications/Home Manager Apps/Firefox.app"
-      OLD_LAUNCHER="$HOME/Applications/Firefox Launcher.app"
-      LAUNCHER="$HOME/Applications/Firefox.app"
-
-      if [ -e "$HOME_MANAGER_FIREFOX" ]; then
-        "$LSREGISTER" -u "$HOME_MANAGER_FIREFOX" || true
-        rm -rf "$HOME_MANAGER_FIREFOX" || true
-      fi
-
-      if [ -e "$OLD_LAUNCHER" ]; then
-        "$LSREGISTER" -u "$OLD_LAUNCHER" || true
-        rm -rf "$OLD_LAUNCHER" || true
-      fi
-
-      if [ -e "$LAUNCHER" ]; then
-        "$LSREGISTER" -f "$LAUNCHER" || true
-
-        handler_is_firefox() {
-          /usr/bin/defaults read com.apple.LaunchServices/com.apple.launchservices.secure LSHandlers 2>/dev/null |
-            /usr/bin/awk -v scheme="$1" '
-              BEGIN { found = 1 }
-              /^[[:space:]]*\{$/ {
-                found_scheme = 0
-                found_handler = 0
-              }
-              $0 ~ "LSHandlerURLScheme = " scheme ";" { found_scheme = 1 }
-              /org.nixos.firefox-launcher/ { found_handler = 1 }
-              /^[[:space:]]*\},$/ {
-                if (found_scheme && found_handler) { found = 0 }
-              }
-              END { exit found }
-            '
-        }
-
-        for scheme in http https; do
-          if ! handler_is_firefox "$scheme"; then
-            if ! ${pkgs.duti}/bin/duti -s org.nixos.firefox-launcher "$scheme" >/dev/null 2>&1; then
-              printf '%s\n' "Firefox URL handler: select Firefox in System Settings > Apps > Default web browser" >&2
-            fi
-          fi
-        done
-      fi
-    '');
 
     # XDG MIME associations for Firefox (Linux only)
     xdg.mimeApps = lib.mkIf pkgs.stdenv.hostPlatform.isLinux {

@@ -1,13 +1,17 @@
 { config, lib, osConfig, pkgs, ... }:
 {
   options = {
+    desktop.alacritty.enable = lib.mkEnableOption "Alacritty" // {
+      default = osConfig.desktop.enable or false;
+    };
+
     alacrittyFontSize = lib.mkOption {
       type = lib.types.int;
       default = if pkgs.stdenv.hostPlatform.isDarwin then 16 else 14;
     };
   };
 
-  config = lib.mkIf ((osConfig.desktop.enable or false) || pkgs.stdenv.hostPlatform.isDarwin) {
+  config = lib.mkIf config.desktop.alacritty.enable {
     programs.alacritty = {
       enable = true;
       settings = {
