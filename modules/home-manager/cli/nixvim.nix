@@ -422,11 +422,11 @@ in
             expand = "function(args) require('luasnip').lsp_expand(args.body) end";
           };
           sources = [
+            { name = "copilot"; }
             { name = "nvim_lsp"; }
             { name = "luasnip"; }
             { name = "path"; }
             { name = "buffer"; }
-            #{ name = "copilot"; }
           ];
           mapping = {
             "<C-b>" = "cmp.mapping.scroll_docs(-4)";
@@ -689,18 +689,14 @@ in
           };
         };
       };
-      #copilot-vim.enable = true;
-      #copilot-chat = {
-      #  enable = false;
-      #  settings = {
-      #    model = "claude-sonnet-4";
-      #    mappings = {
-      #      complete = {
-      #        insert = "<S-Tab>";
-      #      };
-      #    };
-      #  };
-      #};
+      copilot-cmp.enable = true;
+      copilot-lua = {
+        enable = true;
+        settings = {
+          panel.enabled = false;
+          suggestion.enabled = false;
+        };
+      };
       #diagram.enable = true;
       #dotnet.enable = true;
       markview.enable = true;
