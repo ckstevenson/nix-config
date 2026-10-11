@@ -16,4 +16,5 @@ Quick links
 - Quick start & deployment: docs/tests/quick-start.md
 - Secrets: docs/secrets-management.md
 - Adding a host: docs/operations/adding-host.md
+- Skyrim Together Reborn: docs/operations/skyrim-together.md
 - Development workflow: DEVELOPMENT.md

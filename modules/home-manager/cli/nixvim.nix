@@ -14,7 +14,7 @@ in
     clipboard.providers =
       if pkgs.stdenv.isLinux then {
         wl-copy.enable = true;
-      } else {};
+      } else { };
 
     colorschemes.nightfox.enable = true;
     colorschemes.nightfox.flavor = "carbonfox";

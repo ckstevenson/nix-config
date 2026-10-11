@@ -53,6 +53,7 @@
       #mullvad-vpn
       piper
       rbw
+      spotify
       wget
       wl-clipboard
       wordnet

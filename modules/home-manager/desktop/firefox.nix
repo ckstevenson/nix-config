@@ -1,7 +1,5 @@
 { config, inputs, lib, osConfig, pkgs, ... }:
-let
-  linuxConfigHome = lib.removePrefix "${config.home.homeDirectory}/" config.xdg.configHome;
-in {
+{
   options = {
     desktop.firefox.enable = lib.mkEnableOption "Firefox" // {
       default = osConfig.desktop.enable or false;
@@ -17,21 +15,10 @@ in {
     programs.firefox = {
       enable = true;
       package = pkgs.firefox;
+      configPath = "${config.xdg.configHome}/mozilla/firefox";
       # Keep Firefox's modern profile-to-install mapping stable across
       # nixpkgs store-path changes and fresh machines.
       profileVersion = 2;
-      # Profile storage location (platform-specific):
-      #   - macOS: ~/Library/Application Support/Firefox  (Apple default)
-      #   - Linux: ~/.config/mozilla/firefox on stateVersion >= 26.05, else
-      #            ~/.mozilla/firefox (home-manager's XDG migration is
-      #            LINUX-ONLY; macOS is never moved to ~/.config).
-      # Do NOT try to force ~/.config on macOS: Firefox on macOS only reads the
-      # Library path, so that would hide all profile data. Let the home-manager
-      # firefox module use its platform-aware default for configPath.
-      #
-      # A leftover ~/.mozilla/firefox on macOS is inert legacy split-brain from
-      # an older config that hardcoded ".mozilla/firefox"; Firefox ignores it on
-      # macOS. It can be safely removed after review.
       profiles.cameron = {
         storeId = "0111914c";
         extensions.packages = with inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system}; [
