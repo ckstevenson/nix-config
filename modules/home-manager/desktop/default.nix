@@ -32,6 +32,7 @@
     home.packages = with pkgs; [
       #bambu-studio
       chromium
+      google-chrome
       dconf
       gimp
       libreoffice

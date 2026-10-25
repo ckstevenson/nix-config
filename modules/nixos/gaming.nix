@@ -4,6 +4,7 @@
     enable = lib.mkEnableOption "gaming support";
 
     skyrimTogether.enable = lib.mkEnableOption "Skyrim Together host networking";
+    sunshine.enable = lib.mkEnableOption "Sunshine game streaming host";
   };
 
   config = lib.mkIf config.gaming.enable {
@@ -20,15 +21,17 @@
 
     programs.gamemode.enable = true;
 
-    services.sunshine = {
-      enable = true;
-      autoStart = true;
-      capSysAdmin = true;
-      openFirewall = true;
 
-      settings = {
-        capture = "wlr";
-      };
-    };
+    services.sunshine = lib.mkMerge [
+      {
+        autoStart = lib.mkDefault config.gaming.sunshine.enable;
+      }
+      (lib.mkIf config.gaming.sunshine.enable {
+        enable = true;
+        capSysAdmin = true;
+        openFirewall = true;
+        settings.capture = "wlr";
+      })
+    ];
   };
 }
