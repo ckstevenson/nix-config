@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, inputs, ... }:
 {
   options.gaming.enable = lib.mkEnableOption "gaming applications and tools";
 
@@ -21,6 +21,7 @@
       }))
       lutris
       mangohud
+      inputs.nexus.packages.${pkgs.stdenv.hostPlatform.system}.default
       protonup-qt
       (retroarch.withCores (
         libretro: with libretro; [
