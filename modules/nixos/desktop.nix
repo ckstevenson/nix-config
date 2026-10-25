@@ -36,13 +36,13 @@
 
     security.polkit.enable = true;
 
+    services.gnome.gnome-keyring.enable = true;
+    services.gnome.gcr-ssh-agent.enable = false;
+
     xdg = {
       portal = {
         wlr.enable = true;
         enable = true;
-        extraPortals = with pkgs; [
-          xdg-desktop-portal-hyprland
-        ];
         config.hyprland.default = [ "hyprland" ];
       };
     };

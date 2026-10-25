@@ -28,6 +28,7 @@
     };
 
     nix-colors.url = "github:misterio77/nix-colors";
+    nexus.url = "github:OmarDardery/xodus-nexus/feat/nix-flake";
 
     sops-nix = {
       url = "github:Mic92/sops-nix";

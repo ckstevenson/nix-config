@@ -1,4 +1,4 @@
-{ inputs, pkgs, ... }:
+{ inputs, ... }:
 {
   imports = [
     ./hardware-configuration.nix
@@ -28,16 +28,6 @@
   services.tailscale = {
     enable = true;
     extraUpFlags = [ "--accept-dns=false" ];
-  };
-
-  services.greetd = {
-    enable = true;
-    settings = {
-      default_session = {
-        command = "${pkgs.dbus}/bin/dbus-run-session ${pkgs.hyprland}/bin/Hyprland";
-        user = "cameron";
-      };
-    };
   };
 
   sshd.enable = true;
