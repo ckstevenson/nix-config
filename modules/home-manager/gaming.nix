@@ -8,14 +8,14 @@
       gamescope
       (limo.overrideAttrs (old: {
         postPatch = (old.postPatch or "") + ''
-                              substituteInPlace src/core/progressnode.h \
-                                --replace-fail '#include <vector>' '#include <vector>
-                    #include <cstdint>'
-                    substituteInPlace src/core/progressnode.cpp \
-                      --replace-fail '#include <numeric>' '#include <numeric>
+          substituteInPlace src/core/progressnode.h \
+            --replace-fail '#include <vector>' '#include <vector>
           #include <cstdint>'
-                    substituteInPlace src/core/versionchangelog.cpp \
-                      --replace-fail '#include <algorithm>' '#include <algorithm>
+          substituteInPlace src/core/progressnode.cpp \
+            --replace-fail '#include <numeric>' '#include <numeric>
+          #include <cstdint>'
+          substituteInPlace src/core/versionchangelog.cpp \
+            --replace-fail '#include <algorithm>' '#include <algorithm>
           #include <iomanip>'
         '';
       }))
