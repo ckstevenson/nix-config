@@ -1,4 +1,14 @@
 { config, pkgs, lib, inputs, ... }:
+let
+  nexus = pkgs.callPackage "${inputs.nexus.outPath}/nix/package.nix" {
+    buildFHSEnv = args: pkgs.buildFHSEnv (args // {
+      multiArch = true;
+      multiPkgs = fhsPkgs: (args.multiPkgs fhsPkgs) ++ [ fhsPkgs.gnutls ];
+    });
+    nexusRuntime = inputs.nexus.packages.${pkgs.stdenv.hostPlatform.system}.nexus-runtime;
+    src = inputs.nexus.outPath;
+  };
+in
 {
   options.gaming.enable = lib.mkEnableOption "gaming applications and tools";
 
@@ -21,7 +31,7 @@
       }))
       lutris
       mangohud
-      inputs.nexus.packages.${pkgs.stdenv.hostPlatform.system}.default
+      nexus
       protonup-qt
       (retroarch.withCores (
         libretro: with libretro; [

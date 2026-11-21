@@ -30,6 +30,7 @@
     extraUpFlags = [ "--accept-dns=false" ];
   };
 
+  services.mullvad-vpn.enable = true;
   sshd.enable = true;
   desktop.enable = true;
   gaming.enable = true;

@@ -50,8 +50,9 @@
       gh
       jq
       mpv
-      #mullvad-vpn
+      mullvad-vpn
       piper
+      python3
       rbw
       spotify
       wget
