@@ -32,7 +32,6 @@ in
   config = lib.mkIf config.gaming.enable {
     home.packages = with pkgs; [
       goverlay
-      gamescope
       (limo.overrideAttrs (old: {
         postPatch = (old.postPatch or "") + ''
           substituteInPlace src/core/progressnode.h \

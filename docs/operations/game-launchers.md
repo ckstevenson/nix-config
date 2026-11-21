@@ -54,13 +54,8 @@ the Nix configuration.
 
 - **MangoHud**: enable an FPS and frame-time overlay with `mangohud <game>`.
 - **Goverlay**: graphical MangoHud configuration.
-- **Gamescope**: optional game compositor; use it from Steam launch options or
-  from a terminal when a game benefits from a fixed resolution.
 - **Proton-GE**: available in Steam's compatibility tools as `GE-Proton`; select
   it per game under Properties > Compatibility.
-- **Steam Gamescope Session**: this workstation has no display manager/session
-  chooser. Launch `steam-gamescope` from a terminal when you want the
-  console-style Steam interface.
 - **LACT**: launch `lact` to monitor and configure supported AMD GPU clocks,
   power limits, fan behavior, and profiles. Apply changes conservatively.
 - **GameMode**: Steam and Lutris games can request it with `gamemoderun %command%`.

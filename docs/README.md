@@ -18,6 +18,7 @@ Quick links
 - Adding a host: docs/operations/adding-host.md
 - Emulation: docs/operations/emulation.md
 - Antivirus: docs/operations/antivirus.md
+- Desktop bar: docs/operations/desktop-bar.md
 - Game launchers: docs/operations/game-launchers.md
 - Skyrim Together Reborn: docs/operations/skyrim-together.md
 - Development workflow: DEVELOPMENT.md

@@ -9,7 +9,7 @@ state.
 The repository manages the following pieces:
 
 - `modules/home-manager/gaming.nix` installs Limo, Lutris, ProtonUp-Qt,
-  Gamescope, MangoHud, and related gaming tools.
+  MangoHud, and related gaming tools.
 - `modules/home-manager/gaming.nix` contains a narrow Limo build workaround for
   missing C++ standard-library includes in the current nixpkgs package.
 - `modules/nixos/gaming.nix` defines `gaming.skyrimTogether.enable` and opens

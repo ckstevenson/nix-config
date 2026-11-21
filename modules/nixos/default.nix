@@ -1,4 +1,4 @@
-{ lib, pkgs, ... }: {
+{ config, lib, pkgs, ... }: {
   options = {
     desktop.enable = lib.mkEnableOption "enables desktop applications";
 
@@ -87,6 +87,7 @@
     };
 
     services.tailscale.enable = true;
+    services.tailscale.extraSetFlags = [ "--operator=${config.username}" ];
     nix.settings.experimental-features = [ "nix-command" "flakes" ];
     # Default: don't enable ollama on all hosts. Enable per-host.
     ollama.enable = lib.mkDefault false;

@@ -35,13 +35,8 @@
           };
         };
       };
-      gamescope = {
-        enable = true;
-        capSysNice = true;
-      };
       steam = {
         extraCompatPackages = [ pkgs.proton-ge-bin ];
-        gamescopeSession.enable = true;
       };
     };
 
