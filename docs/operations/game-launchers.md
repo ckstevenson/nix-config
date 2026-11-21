@@ -22,6 +22,7 @@ You can also launch any program from a terminal with its command name.
 | **Xodus Nexus** (`xodus-nexus`) | Launch and manage the Xodus/Nexus game library. |
 | **Limo** (`limo`) | Manage Mod Organizer 2-style game mod lists where supported. |
 | **ProtonUp-Qt** (`protonup-qt`) | Install and manage custom Proton and Wine-GE versions used by Steam or Lutris. |
+| **Steam ROM Manager** (`steam-rom-manager`) | Generate Steam shortcuts for emulator games and import them into Steam. |
 
 ## Standalone console launchers
 
@@ -55,5 +56,18 @@ the Nix configuration.
 - **Goverlay**: graphical MangoHud configuration.
 - **Gamescope**: optional game compositor; use it from Steam launch options or
   from a terminal when a game benefits from a fixed resolution.
+- **Proton-GE**: available in Steam's compatibility tools as `GE-Proton`; select
+  it per game under Properties > Compatibility.
+- **Steam Gamescope Session**: select `gamescope-session` from the login/session
+  menu when you want a console-style Steam interface.
+- **LACT**: launch `lact` to monitor and configure supported AMD GPU clocks,
+  power limits, fan behavior, and profiles. Apply changes conservatively.
+- **GameMode**: Steam and Lutris games can request it with `gamemoderun %command%`.
+  The system configuration applies the workstation's gaming priorities.
+- **zram and ntsync**: zram provides compressed emergency swap, while the
+  loaded `ntsync` kernel module improves synchronization for supported Proton/Wine
+  versions. No manual interaction is required.
+- **Nix maintenance**: the system runs weekly garbage collection and enables
+  store optimisation automatically.
 - **vkBasalt**: optional Vulkan post-processing, enabled per application with
   its environment variables.

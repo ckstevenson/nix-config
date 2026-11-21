@@ -17,6 +17,7 @@ Quick links
 - Secrets: docs/secrets-management.md
 - Adding a host: docs/operations/adding-host.md
 - Emulation: docs/operations/emulation.md
+- Antivirus: docs/operations/antivirus.md
 - Game launchers: docs/operations/game-launchers.md
 - Skyrim Together Reborn: docs/operations/skyrim-together.md
 - Development workflow: DEVELOPMENT.md

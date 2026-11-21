@@ -28,6 +28,8 @@
     ./desktop.nix
     ./gaming.nix
     ./laptop.nix
+    ./clamav.nix
+    ./performance.nix
     ./ssh.nix
     # Note: ollama.nix defines its own `ollama.enable` option. Do not re-declare
     # the option here to avoid duplicate-option errors when this module is

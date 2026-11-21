@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 {
   options.gaming = {
     enable = lib.mkEnableOption "gaming support";
@@ -19,8 +19,34 @@
       localNetworkGameTransfers.openFirewall = true;
     };
 
-    programs.gamemode.enable = true;
+    programs = {
+      gamemode = {
+        enable = true;
+        enableRenice = true;
+        settings = {
+          general = {
+            renice = 10;
+            softrealtime = "auto";
+            inhibit_screensaver = 1;
+          };
+          gpu = {
+            apply_gpu_optimisations = "accept-responsibility";
+            amd_performance_level = "high";
+          };
+        };
+      };
+      gamescope = {
+        enable = true;
+        capSysNice = true;
+      };
+      steam = {
+        extraCompatPackages = [ pkgs.proton-ge-bin ];
+        gamescopeSession.enable = true;
+      };
+    };
 
+    hardware.amdgpu.overdrive.enable = true;
+    services.lact.enable = true;
 
     services.sunshine = lib.mkMerge [
       {

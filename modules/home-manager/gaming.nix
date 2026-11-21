@@ -50,6 +50,7 @@ in
       mangohud
       nexus
       protonup-qt
+      steam-rom-manager
       (retroarch.withCores (
         libretro: with libretro; [
           beetle-psx-hw
