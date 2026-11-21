@@ -58,8 +58,9 @@ the Nix configuration.
   from a terminal when a game benefits from a fixed resolution.
 - **Proton-GE**: available in Steam's compatibility tools as `GE-Proton`; select
   it per game under Properties > Compatibility.
-- **Steam Gamescope Session**: select `gamescope-session` from the login/session
-  menu when you want a console-style Steam interface.
+- **Steam Gamescope Session**: this workstation has no display manager/session
+  chooser. Launch `steam-gamescope` from a terminal when you want the
+  console-style Steam interface.
 - **LACT**: launch `lact` to monitor and configure supported AMD GPU clocks,
   power limits, fan behavior, and profiles. Apply changes conservatively.
 - **GameMode**: Steam and Lutris games can request it with `gamemoderun %command%`.
