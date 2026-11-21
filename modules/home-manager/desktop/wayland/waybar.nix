@@ -117,20 +117,21 @@ in
           position = "bottom";
           modules-left = [ "hyprland/workspaces" ];
           modules-center = [ "clock" ];
-          modules-right = [
-            "tray"
-            "custom/mullvad"
-            "custom/tailscale"
-            "idle_inhibitor"
-            "battery"
-            "backlight"
-            "pulseaudio"
-            "cpu"
-            "memory"
-            "network"
-            "disk"
-            "custom/power"
-          ];
+          modules-right =
+            [ "tray" ]
+            ++ lib.optionals osConfig.services.mullvad-vpn.enable [ "custom/mullvad" ]
+            ++ lib.optionals osConfig.services.tailscale.enable [ "custom/tailscale" ]
+            ++ [
+              "idle_inhibitor"
+              "battery"
+              "backlight"
+              "pulseaudio"
+              "cpu"
+              "memory"
+              "network"
+              "disk"
+              "custom/power"
+            ];
 
           "tray" = {
             "icon-size" = 18;
