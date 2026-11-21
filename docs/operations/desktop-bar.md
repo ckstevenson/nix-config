@@ -8,7 +8,7 @@ controls are clickable; hover over an icon for its current state.
 | Mullvad | Connect or disconnect | Reconnect | Open the Mullvad GUI |
 | Tailscale | Bring the tunnel up or down | — | — |
 | Idle inhibitor | Keep the screen awake or restore idle handling | — | — |
-| Audio | Open `pwvucontrol` | Mute or unmute the default sink | — |
+| Audio | Open `pulsemixer` in Alacritty | Mute or unmute the default sink | — |
 | Power | Open the power menu | — | — |
 
 The system tray shows applications that expose tray icons, such as Steam or

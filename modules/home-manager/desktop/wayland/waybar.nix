@@ -218,7 +218,7 @@ in
               ];
             };
             "scroll-step" = 1;
-            "on-click" = "${pkgs.pwvucontrol}/bin/pwvucontrol";
+            "on-click" = "${pkgs.alacritty}/bin/alacritty -e pulsemixer";
             "on-click-right" = "${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
           };
           "disk" = {
@@ -251,7 +251,7 @@ in
       };
     };
 
-    home.packages = [ pkgs.pwvucontrol pkgs.wlogout ];
+    home.packages = [ pkgs.wlogout ];
 
     home.file.".config/wlogout/layout".text = ''
       {
