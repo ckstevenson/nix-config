@@ -57,5 +57,5 @@ in
   home.file.".config/opencode/herdr-tui-session.js".source = herdrTuiSession;
 
   programs.opencode.settings.plugin = lib.mkAfter [ "./herdr-agent-state.js" ];
-  programs.opencode.tui.plugin = lib.mkAfter [ "./herdr-tui-session.js" ];
+  programs.opencode.cli.plugin = lib.mkAfter [ "./herdr-tui-session.js" ];
 }
